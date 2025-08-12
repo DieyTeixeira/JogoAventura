@@ -15,18 +15,34 @@ gameContainer.appendChild(messageBox);
 // Lista de segmentos do caminho (x, y, largura, altura)
 // Caminho ligando os pontos, retângulos amarelos semi-transparentes
 const pathSegments = [
-    { x: 155, y: 95, width: 160, height: 25 }, //h
-    { x: 290, y: 95, width: 25, height: 140 }, //v
-    { x: 235, y: 215, width: 80, height: 25 },
-    { x: 400, y: 80, width: 25, height: 95 },
-    { x: 290, y: 150, width: 130, height: 25 },
-    { x: 350, y: 150, width: 25, height: 265 },
-    { x: 250, y: 390, width: 120, height: 25 },
+    { x: 507, y: 315, width: 25, height: 420 },
+    { x: 196, y: 710, width: 25, height: 140 },
+    { x: 285, y: 840, width: 25, height: 90 },
+    { x: 374, y: 591, width: 25, height: 93 },
+    { x: 374, y: 840, width: 25, height: 90 },
+    { x: 641, y: 865, width: 25, height: 65 },
+    { x: 685, y: 394, width: 25, height: 65 },
+
+    { x: 282, y: 434, width: 235, height: 25 },
+    { x: 374, y: 670, width: 150, height: 25 },
+    { x: 196, y: 840, width: 200, height: 25 },
+    { x: 375, y: 915, width: 290, height: 25 },
 ];
 
 // Lista de pontos (x, y, tipo e mensagem)
 const points = [
-    { x: 100, y: 100, type: 'green', message: '🎉 Você encontrou o tesouro!' },
+    { x: 506, y: 280, type: 'red', message: '⚠️ Não há nada aqui!' },
+    { x: 239, y: 438, type: 'red', message: '⚠️ Não há nada aqui!' },
+    { x: 684, y: 359, type: 'green', message: '🎉 Você encontrou o tesouro!' },
+    { x: 862, y: 319, type: 'red', message: '⚠️ Não há nada aqui!' },
+    { x: 373, y: 556, type: 'red', message: '⚠️ Não há nada aqui!' },
+    { x: 195, y: 675, type: 'red', message: '⚠️ Não há nada aqui!' },
+    { x: 729, y: 635, type: 'red', message: '⚠️ Não há nada aqui!' },
+    { x: 951, y: 596, type: 'green', message: '🎉 Você encontrou o tesouro!' },
+    { x: 640, y: 833, type: 'red', message: '⚠️ Não há nada aqui!' },
+    { x: 986, y: 833, type: 'green', message: '🎉 Você encontrou o tesouro!' },
+    { x: 284, y: 951, type: 'red', message: '⚠️ Não há nada aqui!' },
+    { x: 818, y: 991, type: 'red', message: '⚠️ Não há nada aqui!' },
 ];
 
 // Criar segmentos no mapa

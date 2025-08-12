@@ -52,7 +52,7 @@ body {
     position: absolute;
     width: 60px;   /* tamanho do baú, ajuste se quiser */
     height: 60px;
-    background-image: url('bau-fechado.png');
+    background-image: url('bau.png');
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer; /* opcional, para indicar interatividade */
