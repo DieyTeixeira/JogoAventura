@@ -81,11 +81,11 @@ function buildMap() {
             if(val === 2 || val === 3) {
                 const chest = document.createElement('div');
                 chest.className = 'chest ' + (val === 2 ? 'green' : 'red');
-                const chestSize = tileSize * 1.2;
+                const chestSize = tileSize * 1.4;
                 chest.style.width = chestSize + 'px';
                 chest.style.height = chestSize + 'px';
                 chest.style.left = offsetX + c * tileSize + (tileSize - chestSize) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - chestSize) / 2 + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - chestSize) / 2 + (tileSize * 0.2) + 'px';
                 gameElement.appendChild(chest);
             }
         }
@@ -159,3 +159,31 @@ document.addEventListener('keydown', e => {
 // Reconstrói mapa ao carregar e ao redimensionar a janela
 window.addEventListener('resize', buildMap);
 buildMap();
+
+// Função para movimentar via joystick
+function movePlayer(dir) {
+    let newRow = player.row;
+    let newCol = player.col;
+
+    if(dir === 'up') newRow--;
+    else if(dir === 'down') newRow++;
+    else if(dir === 'left') newCol--;
+    else if(dir === 'right') newCol++;
+
+    if(isWalkable(newRow, newCol)) {
+        player.row = newRow;
+        player.col = newCol;
+        updateCharacterPosition();
+    }
+}
+
+// Eventos dos botões de direção
+document.querySelectorAll('.joy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const dir = btn.getAttribute('data-dir');
+        movePlayer(dir);
+    });
+});
+
+// Botão de ação
+document.querySelector('.action-btn').addEventListener('click', checkInteraction);

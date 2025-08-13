@@ -63,7 +63,8 @@ body {
 .chest {
     position: absolute;
     background-size: contain;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; 
+    z-index: 10;
 }
 
 .chest.green {
@@ -82,4 +83,51 @@ body {
     background: #333;
     color: white;
     display: none;
+}
+
+.joystick-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.joystick-arrows {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.joystick-row {
+    display: flex;
+    gap: 5px;
+}
+
+.joy-btn,
+.action-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background: #444;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 0 #222;
+}
+
+.joy-btn:active,
+.action-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 #222;
+}
+
+.action-btn {
+    height: 60px;
+    width: 60px;
+    font-size: 18px;
+    border-radius: 12px;
 }
