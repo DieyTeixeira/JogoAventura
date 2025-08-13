@@ -6,21 +6,21 @@ const gridSize = 17;
 // Mapa 15x15 (0= vazio, 1= caminho, 2= baú com tesouro, 3= baú vazio)
 const mapData = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,1,1,2,0,0,0,0,0,1,1,1,2,0],
-    [0,2,1,0,1,0,0,0,0,0,2,1,1,0,0,0,0],
-    [0,0,1,0,1,1,1,1,1,0,0,0,1,1,1,0,0],
+    [0,0,0,0,1,1,3,0,0,0,0,1,1,1,1,3,0],
+    [0,2,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0],
+    [0,0,1,0,1,1,1,1,1,0,0,1,1,1,1,0,0],
     [0,0,1,0,1,0,0,0,1,0,0,0,0,0,1,0,0],
     [0,0,1,1,1,1,1,0,1,0,1,1,1,1,1,0,0],
-    [0,0,0,0,0,0,1,0,1,1,1,0,0,0,0,0,0],
-    [0,0,0,0,1,1,1,0,1,0,0,0,0,1,2,0,0],
-    [0,0,2,0,1,0,1,0,1,0,0,0,0,1,0,0,0],
+    [0,0,1,0,0,0,1,0,1,1,1,0,0,0,0,0,0],
+    [0,0,1,0,1,1,1,0,1,0,0,0,0,1,2,0,0],
+    [0,0,1,0,1,0,1,0,1,0,0,0,0,1,0,0,0],
     [0,0,1,0,1,0,1,1,1,1,1,1,1,1,0,0,0],
     [0,0,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0],
-    [0,0,0,0,1,0,0,2,1,1,1,1,1,1,1,2,0],
-    [0,0,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0],
-    [0,0,0,1,0,1,1,1,1,1,1,1,1,0,0,0,0],
+    [0,0,0,0,1,0,0,3,1,1,1,1,1,1,1,0,0],
+    [0,0,0,1,1,1,0,0,0,1,0,0,0,0,1,0,0],
+    [0,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0],
     [0,2,1,1,0,1,0,0,0,0,1,0,1,1,1,0,0],
-    [0,0,0,1,1,1,0,0,2,1,1,0,0,0,2,0,0],
+    [0,0,0,1,1,1,1,1,1,1,1,0,0,0,3,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
@@ -42,7 +42,7 @@ gameContainer.appendChild(messageBox);
 
 // Função para criar os elementos do mapa
 function buildMap() {
-    
+
     const gameElement = document.getElementById('game');
     const joystickContainer = document.querySelector('.joystick-container');
 
@@ -127,17 +127,24 @@ function updateCharacterPosition() {
 }
 
 function isWalkable(row, col) {
-    return mapData[row]?.[col] === 1 || mapData[row]?.[col] === 2 || mapData[row]?.[col] === 3;
+    return mapData[row]?.[col] === 1;
 }
 
 function checkInteraction() {
     const row = player.row;
     const col = player.col;
-    const val = mapData[row][col];
 
-    if(val === 2) {
+    // Verifica casas adjacentes
+    const adjTiles = [
+        mapData[row-1]?.[col], // cima
+        mapData[row+1]?.[col], // baixo
+        mapData[row]?.[col-1], // esquerda
+        mapData[row]?.[col+1]  // direita
+    ];
+
+    if (adjTiles.includes(3)) {
         showMessage('🎉 Tesouro encontrado!');
-    } else if(val === 3) {
+    } else if (adjTiles.includes(2)) {
         showMessage('⚠️ Está vazio!');
     } else {
         showMessage('🤷‍♂️ Aqui não tem nada!');
