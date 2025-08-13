@@ -28,7 +28,7 @@ body {
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
-    background-image: url('meu-mapa-vazio.png');
+    background-image: url('meu-mapa.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
@@ -93,7 +93,7 @@ body {
 
 .joystick-row {
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 
 .joy-btn,
