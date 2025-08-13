@@ -10,35 +10,24 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    min-height: 100vh;
     margin: 0;
+    padding: 0;
 }
 
 .game-container {
     position: relative;
-    width: 90vw;   /* 70% da largura da viewport */
-    height: 90vh;  /* 70% da altura da viewport */
-    max-width: 1200px;  /* máximo pra evitar ficar muito grande */
-    max-height: 1200px;
-    min-width: 300px;   /* limite mínimo para evitar container muito pequeno */
-    min-height: 300px;
+    width: 90vw;
+    max-width: 1200px;
     background-color: rgb(148, 148, 148);
-    /*box-shadow: 0 0 10px rgba(0,0,0,0.5); /* só para dar um destaque visual */
-    overflow: visible;  /* deixa o fundo maior “vazar” um pouco */
-
-    display: flex;           /* para centralizar o #game dentro */
-    justify-content: center; /* horizontalmente */
-    align-items: center;     /* verticalmente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #game {
-    position: relative;
     width: 100%;
     height: auto;
-    max-width: 120%;    /* nunca ultrapassa largura do container */
-    max-height: 120%;   /* nunca ultrapassa altura do container */
     aspect-ratio: 1 / 1; /* força a proporção 1:1 quadrada */
-    
     background-image: url('meu-mapa.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
