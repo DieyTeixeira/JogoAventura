@@ -86,13 +86,6 @@ body {
     display: none;
 }
 
-@media (max-width: 600px) {
-    .joystick-container {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-
 .joystick-container {
     display: flex;
     justify-content: center;
