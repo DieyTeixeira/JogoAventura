@@ -88,7 +88,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
 }
 
 .joystick-row {
@@ -98,8 +98,8 @@ body {
 
 .joy-btn,
 .action-btn {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     font-size: 18px;
     font-weight: bold;
     border: none;
