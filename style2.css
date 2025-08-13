@@ -15,14 +15,14 @@ body {
 
 .game-container {
     position: relative;
-    width: 70vw;   /* 70% da largura da viewport */
-    height: 70vh;  /* 70% da altura da viewport */
-    max-width: 1000px;  /* máximo pra evitar ficar muito grande */
-    max-height: 1000px;
+    width: 90vw;   /* 70% da largura da viewport */
+    height: 90vh;  /* 70% da altura da viewport */
+    max-width: 1200px;  /* máximo pra evitar ficar muito grande */
+    max-height: 1200px;
     min-width: 300px;   /* limite mínimo para evitar container muito pequeno */
     min-height: 300px;
     background-color: rgb(148, 148, 148);
-    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* só para dar um destaque visual */
+    /*box-shadow: 0 0 10px rgba(0,0,0,0.5); /* só para dar um destaque visual */
     overflow: visible;  /* deixa o fundo maior “vazar” um pouco */
 
     display: flex;           /* para centralizar o #game dentro */
@@ -34,12 +34,12 @@ body {
     position: relative;
     width: 100%;
     height: auto;
-    max-width: 100%;    /* nunca ultrapassa largura do container */
-    max-height: 100%;   /* nunca ultrapassa altura do container */
+    max-width: 120%;    /* nunca ultrapassa largura do container */
+    max-height: 120%;   /* nunca ultrapassa altura do container */
     aspect-ratio: 1 / 1; /* força a proporção 1:1 quadrada */
     
-    background-image: url('meu-mapa-vazio.png');
-    background-size: 120% 120%;
+    background-image: url('meu-mapa.png');
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
 }
@@ -62,7 +62,8 @@ body {
 
 .chest {
     position: absolute;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .chest.green {
