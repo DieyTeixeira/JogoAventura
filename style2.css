@@ -8,10 +8,10 @@ body {
     background-color: rgb(148, 148, 148);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    margin: 0;
 }
 
 .game-container {
@@ -86,12 +86,20 @@ body {
     display: none;
 }
 
+@media (max-width: 600px) {
+    .joystick-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
 .joystick-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
     margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 .joystick-arrows {
