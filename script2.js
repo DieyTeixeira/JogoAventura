@@ -42,26 +42,39 @@ gameContainer.appendChild(messageBox);
 
 // Função para criar os elementos do mapa
 function buildMap() {
-    gameContainer.innerHTML = ''; // limpa tudo antes
-
-    // Obtem o tamanho real do #game no layout
+    
     const gameElement = document.getElementById('game');
+    const joystickContainer = document.querySelector('.joystick-container');
+
+    // Altura e largura disponíveis do viewport
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // Altura do joystick + margem
+    const joystickHeight = joystickContainer.offsetHeight + 15;
+
+    // Largura máxima do container
     const containerWidth = gameElement.parentElement.clientWidth;
-    const containerHeight = gameElement.parentElement.clientHeight;
 
-    // Escolhe o menor para manter o quadrado, mas agora baseado no container, não no próprio game
-    const mapSize = Math.min(containerWidth, containerHeight);
+    // Tamanho do mapa será o menor entre largura do container e altura disponível
+    const maxMapSize = Math.min(containerWidth, vh - joystickHeight - 20); // 20px extra de folga
 
-    // Ajusta o tamanho do #game para o tamanho quadrado correto
-    gameElement.style.width = mapSize + 'px';
-    gameElement.style.height = mapSize + 'px';
+    // Define largura e altura do #game
+    gameElement.style.width = maxMapSize + 'px';
+    gameElement.style.height = maxMapSize + 'px';
 
-    // Calcula o tileSize já com redução de 10%
-    tileSize = (mapSize / gridSize) * 0.8;
+    const mapWidth = gameElement.clientWidth;
+    const mapHeight = gameElement.clientHeight;
 
-    // Calcula deslocamento para centralizar o mapa reduzido
-    offsetX = (mapSize - (tileSize * gridSize)) / 2;
-    offsetY = (mapSize - (tileSize * gridSize)) / 2;
+    // Tile size baseado no menor tamanho do mapa
+    tileSize = (Math.min(mapWidth, mapHeight) / gridSize) * 0.8;
+
+    // Offset para centralizar o grid
+    offsetX = (mapWidth - tileSize * gridSize) / 2;
+    offsetY = (mapHeight - tileSize * gridSize) / 2;
+
+    // Limpa elementos anteriores
+    gameElement.innerHTML = '';
 
     // Cria os tiles e baús conforme antes
     for(let r = 0; r < gridSize; r++) {
