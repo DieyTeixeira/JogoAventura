@@ -103,12 +103,23 @@ function buildMap() {
 
             if(val === 2 || val === 3 || val === 4 || val === 5) {
                 const chest = document.createElement('div');
-                chest.className = 'chest ' + (val === 2 ? 'green' : 'red');
-                const chestSize = tileSize * 1.5;
-                chest.style.width = chestSize + 'px';
-                chest.style.height = chestSize + 'px';
-                chest.style.left = offsetX + c * tileSize + (tileSize - chestSize) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - chestSize) / 2 - (tileSize * 0.1) + 'px';
+                chest.className = 'chest closed';
+                chest.dataset.row = r;
+                chest.dataset.col = c;
+
+                // Tamanho diferente para closed
+                const closedSize = tileSize * 1.5;  // tamanho do baú fechado
+                const openedSize = tileSize * 2;    // tamanho do baú aberto (quando interagido)
+
+                chest.style.width = closedSize + 'px';
+                chest.style.height = closedSize + 'px';
+                chest.style.left = offsetX + c * tileSize + (tileSize - closedSize) / 2 + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - closedSize) / 2 - (tileSize * 0.1) + 'px';
+                
+                // Salva os tamanhos no dataset para usar depois
+                chest.dataset.closedSize = closedSize;
+                chest.dataset.openedSize = openedSize;
+                
                 gameElement.appendChild(chest);
             }
         }
@@ -129,7 +140,7 @@ function updateCharacterPosition() {
     character.style.height = charHeight + 'px';
 
     // Posicionar personagem alinhado pela base do tile
-    const left = offsetX + player.col * tileSize + tileSize - charWidth + (tileSize * 0.5);
+    const left = offsetX + player.col * tileSize + tileSize - charWidth + (tileSize * 0.6);
     const top = offsetY + player.row * tileSize + tileSize - charHeight + (tileSize * 0.1);
 
     character.style.left = left + 'px';
@@ -173,6 +184,17 @@ function showMessage(chestNumber) {
 
     closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };
 
+    // Encontra o baú na posição do player ou adjacente
+    const chestElements = document.querySelectorAll('.chest');
+    let interactedChest = null;
+    chestElements.forEach(chest => {
+        const row = parseInt(chest.dataset.row);
+        const col = parseInt(chest.dataset.col);
+        if((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1) { 
+            interactedChest = chest;
+        }
+    });
+
     setTimeout(()=>{
         lottieAnimation.stop();
         lottieContainer.style.display='none';
@@ -186,6 +208,24 @@ function showMessage(chestNumber) {
             modalImage.src = info.img;
             modalImage.style.display='block';
         }
+
+        // Marca o baú como aberto **independentemente do tipo**
+        if(interactedChest) {
+            interactedChest.classList.remove('closed');
+            interactedChest.classList.add('opened');
+
+            // Ajusta tamanho para baú aberto
+            const newSize = interactedChest.dataset.openedSize;
+            interactedChest.style.width = newSize + 'px';
+            interactedChest.style.height = newSize + 'px';
+
+            // Reposiciona para centralizar
+            const row = parseInt(interactedChest.dataset.row);
+            const col = parseInt(interactedChest.dataset.col);
+            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + 'px';
+            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.1) + 'px';
+        }
+
     }, 2000);
 }
 
