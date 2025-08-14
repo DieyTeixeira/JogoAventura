@@ -108,7 +108,7 @@ function buildMap() {
                 chest.style.width = chestSize + 'px';
                 chest.style.height = chestSize + 'px';
                 chest.style.left = offsetX + c * tileSize + (tileSize - chestSize) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - chestSize) / 2 + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - chestSize) / 2 - (tileSize * 0.1) + 'px';
                 gameElement.appendChild(chest);
             }
         }
