@@ -14,13 +14,13 @@ const mapData = [
     [0,0,1,0,0,0,1,0,1,1,1,0,0,0,0,0,0],
     [0,0,1,0,0,0,1,0,1,0,0,0,1,1,1,0,0],
     [0,0,1,0,1,1,1,1,1,0,0,0,1,0,1,0,0],
-    [0,0,1,0,1,0,0,0,1,1,1,1,1,0,1,5,0],
+    [0,0,1,0,1,0,0,0,1,1,1,1,1,0,1,3,0],
     [0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0],
     [0,0,0,0,0,1,0,2,1,1,1,1,1,1,1,0,0],
     [0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0],
-    [0,0,4,1,0,1,1,1,1,1,1,1,1,0,1,0,0],
-    [0,0,0,1,0,1,0,0,0,1,0,0,1,1,1,0,0],
-    [0,0,0,1,1,1,1,1,1,1,0,0,2,0,0,0,0],
+    [0,0,3,1,1,1,1,1,1,1,1,1,1,0,1,0,0],
+    [0,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0,0],
+    [0,0,0,0,1,1,1,1,1,0,0,2,1,1,1,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
@@ -104,7 +104,7 @@ function buildMap() {
             if(val === 2 || val === 3 || val === 4 || val === 5) {
                 const chest = document.createElement('div');
                 chest.className = 'chest ' + (val === 2 ? 'green' : 'red');
-                const chestSize = tileSize * 1.4;
+                const chestSize = tileSize * 1.5;
                 chest.style.width = chestSize + 'px';
                 chest.style.height = chestSize + 'px';
                 chest.style.left = offsetX + c * tileSize + (tileSize - chestSize) / 2 + 'px';
@@ -122,8 +122,8 @@ function buildMap() {
 }
 
 function updateCharacterPosition() {
-    const charHeight = tileSize * 3; // personagem 2x altura do tile
-    const charWidth = tileSize * 1.8; // largura proporcional
+    const charHeight = tileSize * 3.2; // personagem 2x altura do tile
+    const charWidth = tileSize * 2; // largura proporcional
 
     character.style.width = charWidth + 'px';
     character.style.height = charHeight + 'px';
