@@ -223,7 +223,7 @@ function showMessage(chestNumber) {
             const row = parseInt(interactedChest.dataset.row);
             const col = parseInt(interactedChest.dataset.col);
             interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
-            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.3) + 'px';
+            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.4) + 'px';
         }
 
     }, 2000);
