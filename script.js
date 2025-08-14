@@ -163,10 +163,20 @@ function checkInteraction() {
         mapData[row]?.[col+1]  // direita
     ];
 
-    // Procura o primeiro baú encontrado
-    const chestNumber = adjTiles.find(tile => tile !== undefined && tile >= 2);
+    let interactedChestNumber = null;
+    let interactedChestElement = null;
 
-    if (chestNumber !== undefined) showMessage(chestNumber);
+    adjPositions.forEach(pos => {
+        const chest = document.querySelector(`.chest[data-row='${pos.r}'][data-col='${pos.c}']`);
+        if(chest && chest.classList.contains('closed')) { 
+            interactedChestNumber = mapData[pos.r][pos.c];
+            interactedChestElement = chest;
+        }
+    });
+
+    if(interactedChestNumber !== null) {
+        showMessage(interactedChestNumber, interactedChestElement);
+    }
 }
 
 function showMessage(chestNumber) {
@@ -210,7 +220,7 @@ function showMessage(chestNumber) {
         }
 
         // Marca o baú como aberto **independentemente do tipo**
-        if(interactedChest) {
+        if (interactedChest) {
             interactedChest.classList.remove('closed');
             interactedChest.classList.add('opened');
 
