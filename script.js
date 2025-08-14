@@ -163,20 +163,10 @@ function checkInteraction() {
         mapData[row]?.[col+1]  // direita
     ];
 
-    let interactedChestNumber = null;
-    let interactedChestElement = null;
+    // Procura o primeiro baú encontrado
+    const chestNumber = adjTiles.find(tile => tile !== undefined && tile >= 2);
 
-    adjPositions.forEach(pos => {
-        const chest = document.querySelector(`.chest[data-row='${pos.r}'][data-col='${pos.c}']`);
-        if(chest && chest.classList.contains('closed')) { 
-            interactedChestNumber = mapData[pos.r][pos.c];
-            interactedChestElement = chest;
-        }
-    });
-
-    if(interactedChestNumber !== null) {
-        showMessage(interactedChestNumber, interactedChestElement);
-    }
+    if (chestNumber !== undefined) showMessage(chestNumber);
 }
 
 function showMessage(chestNumber) {
@@ -193,6 +183,17 @@ function showMessage(chestNumber) {
     modal.style.display = 'flex';
 
     closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };
+
+    // Encontra o baú na posição do player ou adjacente
+    const chestElements = document.querySelectorAll('.chest');
+    let interactedChest = null;
+    chestElements.forEach(chest => {
+        const row = parseInt(chest.dataset.row);
+        const col = parseInt(chest.dataset.col);
+        if((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1) { 
+            interactedChest = chest;
+        }
+    });
 
     setTimeout(()=>{
         lottieAnimation.stop();
