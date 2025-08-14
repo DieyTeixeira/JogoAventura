@@ -109,7 +109,7 @@ function buildMap() {
 
                 // Tamanho diferente para closed
                 const closedSize = tileSize * 1.5;  // tamanho do baú fechado
-                const openedSize = tileSize * 2;    // tamanho do baú aberto (quando interagido)
+                const openedSize = tileSize * 1.8;    // tamanho do baú aberto (quando interagido)
 
                 chest.style.width = closedSize + 'px';
                 chest.style.height = closedSize + 'px';
@@ -222,8 +222,8 @@ function showMessage(chestNumber) {
             // Reposiciona para centralizar
             const row = parseInt(interactedChest.dataset.row);
             const col = parseInt(interactedChest.dataset.col);
-            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + 'px';
-            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.1) + 'px';
+            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
+            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.3) + 'px';
         }
 
     }, 2000);
