@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo do Explorador</title>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
 </head>
 <body>
     <div class="game-container">
@@ -30,6 +31,17 @@
         <button class="action-btn">Ação</button>
     </div>
 
-    <script src="script2.js"></script>
+    <!-- Modal -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <div id="lottieContainer" style="width:150px; height:150px; margin:auto; display:none;"></div>
+            <div id="modalText"></div>
+            <img id="modalImage" src="" alt="" style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>

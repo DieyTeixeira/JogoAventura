@@ -1,108 +1,269 @@
 const gameContainer = document.getElementById('game');
 
-// Criar personagem
-/*const character = document.createElement('div');
-character.classList.add('character');
-character.style.left = "50px";
-character.style.top = "50px";
-gameContainer.appendChild(character);*/
+// Configurações da grade
+const gridSize = 17;
 
-// Criar elemento de mensagem
+// Mapa 15x15 (0= vazio, 1= caminho, 2= baú com tesouro, 3= baú vazio)
+const mapData = [
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,1,1,2,0,0,0,0,0,0,2,0,0,0,0],
+    [0,0,0,1,0,0,0,0,1,1,1,1,1,0,0,0,0],
+    [0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,0,0],
+    [0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0],
+    [0,3,1,1,1,1,1,0,1,0,1,1,1,1,1,0,0],
+    [0,0,1,0,0,0,1,0,1,1,1,0,0,0,0,0,0],
+    [0,0,1,0,0,0,1,0,1,0,0,0,1,1,1,0,0],
+    [0,0,1,0,1,1,1,1,1,0,0,0,1,0,1,0,0],
+    [0,0,1,0,1,0,0,0,1,1,1,1,1,0,1,5,0],
+    [0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0],
+    [0,0,0,0,0,1,0,2,1,1,1,1,1,1,1,0,0],
+    [0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0],
+    [0,0,4,1,0,1,1,1,1,1,1,1,1,0,1,0,0],
+    [0,0,0,1,0,1,0,0,0,1,0,0,1,1,1,0,0],
+    [0,0,0,1,1,1,1,1,1,1,0,0,2,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+];
+
+// Variáveis globais que vamos precisar
+let tileSize;
+let offsetX;
+let offsetY;
+let player = { row: 5, col: 8 };
+
+// Criar personagem
+const character = document.createElement('div');
+character.classList.add('character');
+gameContainer.appendChild(character);
+
+// Lottie
+const lottieAnimation = lottie.loadAnimation({
+    container: document.getElementById('lottieContainer'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: false,
+    path: 'https://lottie.host/af03f169-377f-48d4-b129-071dc8e67c48/5yv253NX5W.json'
+    /*path: 'spray.gif'*/
+});
+
+// Criar caixa de mensagem
 const messageBox = document.createElement('div');
 messageBox.classList.add('message');
 gameContainer.appendChild(messageBox);
 
-// Lista de segmentos do caminho (x, y, largura, altura)
-// Caminho ligando os pontos, retângulos amarelos semi-transparentes
-const pathSegments = [
-    { x: 507, y: 315, width: 25, height: 420 },
-    { x: 196, y: 710, width: 25, height: 140 },
-    { x: 285, y: 840, width: 25, height: 90 },
-    { x: 374, y: 591, width: 25, height: 93 },
-    { x: 374, y: 840, width: 25, height: 90 },
-    { x: 641, y: 865, width: 25, height: 65 },
-    { x: 685, y: 394, width: 25, height: 65 },
+// Função para criar os elementos do mapa
+function buildMap() {
 
-    { x: 282, y: 434, width: 235, height: 25 },
-    { x: 374, y: 670, width: 150, height: 25 },
-    { x: 196, y: 840, width: 200, height: 25 },
-    { x: 375, y: 915, width: 290, height: 25 },
-];
+    const gameElement = document.getElementById('game');
+    const joystickContainer = document.querySelector('.joystick-container');
 
-// Lista de pontos (x, y, tipo e mensagem)
-const points = [
-    { x: 506, y: 280, type: 'red', message: '⚠️ Não há nada aqui!' },
-    { x: 239, y: 438, type: 'red', message: '⚠️ Não há nada aqui!' },
-    { x: 684, y: 359, type: 'green', message: '🎉 Você encontrou o tesouro!' },
-    { x: 862, y: 319, type: 'red', message: '⚠️ Não há nada aqui!' },
-    { x: 373, y: 556, type: 'red', message: '⚠️ Não há nada aqui!' },
-    { x: 195, y: 675, type: 'red', message: '⚠️ Não há nada aqui!' },
-    { x: 729, y: 635, type: 'red', message: '⚠️ Não há nada aqui!' },
-    { x: 951, y: 596, type: 'green', message: '🎉 Você encontrou o tesouro!' },
-    { x: 640, y: 833, type: 'red', message: '⚠️ Não há nada aqui!' },
-    { x: 986, y: 833, type: 'green', message: '🎉 Você encontrou o tesouro!' },
-    { x: 284, y: 951, type: 'red', message: '⚠️ Não há nada aqui!' },
-    { x: 818, y: 991, type: 'red', message: '⚠️ Não há nada aqui!' },
-];
+    // Altura e largura disponíveis do viewport
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-// Criar segmentos no mapa
-pathSegments.forEach(seg => {
-    const pathEl = document.createElement('div');
-    pathEl.classList.add('path');
-    pathEl.style.left = seg.x + 'px';
-    pathEl.style.top = seg.y + 'px';
-    pathEl.style.width = seg.width + 'px';
-    pathEl.style.height = seg.height + 'px';
-    gameContainer.appendChild(pathEl);
-});
+    // Altura do joystick + margem
+    const joystickHeight = joystickContainer.offsetHeight + 15;
 
-// Criar pontos visíveis
-points.forEach(point => {
-    const pointElement = document.createElement('div');
-    pointElement.classList.add('point');
-    pointElement.style.left = `${point.x - 16}px`;  // 16 para centralizar (32/2)
-    pointElement.style.top = `${point.y - 16}px`;
-    gameContainer.appendChild(pointElement);
-});
+    // Largura máxima do container
+    const containerWidth = gameElement.parentElement.clientWidth;
 
-// Posição inicial do personagem
-let position = { x: 50, y: 50 };
+    // Tamanho do mapa será o menor entre largura do container e altura disponível
+    const maxMapSize = Math.min(containerWidth, vh - joystickHeight - 20); // 20px extra de folga
 
-// Movimentação
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowUp') position.y = Math.max(0, position.y - 10);
-    if (event.key === 'ArrowDown') position.y = Math.min(600 - 48, position.y + 10);
-    if (event.key === 'ArrowLeft') position.x = Math.max(0, position.x - 10);
-    if (event.key === 'ArrowRight') position.x = Math.min(800 - 48, position.x + 10);
+    // Define largura e altura do #game
+    gameElement.style.width = maxMapSize + 'px';
+    gameElement.style.height = maxMapSize + 'px';
 
-    character.style.left = `${position.x}px`;
-    character.style.top = `${position.y}px`;
+    const mapWidth = gameElement.clientWidth;
+    const mapHeight = gameElement.clientHeight;
 
-    if (event.code === 'Space') {
-        checkInteraction();
+    // Tile size baseado no menor tamanho do mapa
+    tileSize = (Math.min(mapWidth, mapHeight) / gridSize) * 0.8;
+
+    // Offset para centralizar o grid
+    offsetX = (mapWidth - tileSize * gridSize) / 2;
+    offsetY = (mapHeight - tileSize * gridSize) / 2;
+
+    // Limpa elementos anteriores
+    gameElement.innerHTML = '';
+
+    // Cria os tiles e baús conforme antes
+    for(let r = 0; r < gridSize; r++) {
+        for(let c = 0; c < gridSize; c++) {
+            const val = mapData[r][c];
+
+            if(val === 1) {
+                const path = document.createElement('div');
+                path.className = 'path';
+                path.style.width = tileSize + 'px';
+                path.style.height = tileSize + 'px';
+                path.style.left = offsetX + c * tileSize + 'px';
+                path.style.top = offsetY + r * tileSize + 'px';
+                gameElement.appendChild(path);
+            }
+
+            if(val === 2 || val === 3 || val === 4 || val === 5) {
+                const chest = document.createElement('div');
+                chest.className = 'chest ' + (val === 2 ? 'green' : 'red');
+                const chestSize = tileSize * 1.4;
+                chest.style.width = chestSize + 'px';
+                chest.style.height = chestSize + 'px';
+                chest.style.left = offsetX + c * tileSize + (tileSize - chestSize) / 2 + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - chestSize) / 2 + (tileSize * 0.2) + 'px';
+                gameElement.appendChild(chest);
+            }
+        }
     }
-});
 
-// Função para verificar interação
-function checkInteraction() {
-    const foundPoint = points.find(point => {
-        const dx = Math.abs(position.x - point.x);
-        const dy = Math.abs(position.y - point.y);
-        return dx < 20 && dy < 20;
-    });
+    // Adiciona personagem e mensagem
+    gameElement.appendChild(character);
+    gameElement.appendChild(messageBox);
 
-    if (foundPoint) {
-        showMessage(foundPoint.message);
-    } else {
-        showMessage("🤷‍♂️ Aqui não tem nada!");
-    }
+    updateCharacterPosition();
 }
 
-// Mostrar mensagem
-function showMessage(text) {
-    messageBox.textContent = text;
-    messageBox.style.display = "block";
-    setTimeout(() => {
-        messageBox.style.display = "none";
+function updateCharacterPosition() {
+    const charHeight = tileSize * 2.5; // personagem 2x altura do tile
+    const charWidth = tileSize * 1.5; // largura proporcional
+
+    character.style.width = charWidth + 'px';
+    character.style.height = charHeight + 'px';
+
+    // Posicionar personagem alinhado pela base do tile
+    const left = offsetX + player.col * tileSize + tileSize - charWidth + (tileSize * 0.3);
+    const top = offsetY + player.row * tileSize + tileSize - charHeight - (tileSize * 0.3);
+
+    character.style.left = left + 'px';
+    character.style.top = top + 'px';
+}
+
+function isWalkable(row, col) {
+    return mapData[row]?.[col] === 1;
+}
+
+function checkInteraction() {
+    const row = player.row;
+    const col = player.col;
+
+    // Verifica casas adjacentes
+    const adjTiles = [
+        mapData[row-1]?.[col], // cima
+        mapData[row+1]?.[col], // baixo
+        mapData[row]?.[col-1], // esquerda
+        mapData[row]?.[col+1]  // direita
+    ];
+
+    // Procura o primeiro baú encontrado
+    const chestNumber = adjTiles.find(tile => tile !== undefined && tile >= 2);
+
+    if (chestNumber !== undefined) showMessage(chestNumber);
+}
+
+function showMessage(chestNumber) {
+    const modal = document.getElementById('gameModal');
+    const modalText = document.getElementById('modalText');
+    const modalImage = document.getElementById('modalImage');
+    const closeModal = document.getElementById('closeModal');
+    const lottieContainer = document.getElementById('lottieContainer');
+
+    modalText.innerHTML = '';
+    modalImage.style.display = 'none';
+    lottieContainer.style.display = 'block';
+    lottieAnimation.play();
+    modal.style.display = 'flex';
+
+    closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };
+
+    setTimeout(()=>{
+        lottieAnimation.stop();
+        lottieContainer.style.display='none';
+
+        if(chestNumber===2){
+            modalText.innerHTML = `⚠️ Este baú está vazio! Mas não desista!`;
+            setTimeout(()=>{ modal.style.display='none'; },2000);
+        } else {
+            const info = getMonumentInfo(chestNumber);
+            modalText.innerHTML = `<h2>${info.nome}</h2><p>${info.desc}</p>`;
+            modalImage.src = info.img;
+            modalImage.style.display='block';
+        }
     }, 2000);
 }
+
+// Função com dados dos monumentos
+function getMonumentInfo(num) {
+    switch(num) {
+        case 2:
+            return {
+                desc: 'Este baú está vazio! Mas não desista, continue sua busca!'
+            };
+        case 3:
+            return {
+                nome: 'Taj Mahal',
+                desc: 'O Taj Mahal é um mausoléu localizado na Índia, conhecido por sua beleza arquitetônica.',
+                img: 'taj-mahal.jpg'
+            };
+        case 4:
+            return {
+                nome: 'Coliseu',
+                desc: 'O Coliseu, em Roma, é um dos maiores anfiteatros já construídos na história.',
+                img: 'coliseu.jpg'
+            };
+        case 5:
+            return {
+                nome: 'Cristo Redentor',
+                desc: 'Localizado no Rio de Janeiro, é um dos símbolos mais reconhecidos do Brasil.',
+                img: 'cristo-redentor.jpg'
+            };
+    }
+}
+
+// Movimento do personagem
+document.addEventListener('keydown', e => {
+    let newRow = player.row;
+    let newCol = player.col;
+
+    if(e.key === 'ArrowUp') newRow--;
+    else if(e.key === 'ArrowDown') newRow++;
+    else if(e.key === 'ArrowLeft') newCol--;
+    else if(e.key === 'ArrowRight') newCol++;
+
+    if(isWalkable(newRow, newCol)) {
+        player.row = newRow;
+        player.col = newCol;
+        updateCharacterPosition();
+    }
+
+    if(e.code === 'Space') checkInteraction();
+});
+
+// Reconstrói mapa ao carregar e ao redimensionar a janela
+window.addEventListener('resize', buildMap);
+buildMap();
+
+// Função para movimentar via joystick
+function movePlayer(dir) {
+    let newRow = player.row;
+    let newCol = player.col;
+
+    if(dir === 'up') newRow--;
+    else if(dir === 'down') newRow++;
+    else if(dir === 'left') newCol--;
+    else if(dir === 'right') newCol++;
+
+    if(isWalkable(newRow, newCol)) {
+        player.row = newRow;
+        player.col = newCol;
+        updateCharacterPosition();
+    }
+}
+
+// Eventos dos botões de direção
+document.querySelectorAll('.joy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const dir = btn.getAttribute('data-dir');
+        movePlayer(dir);
+    });
+});
+
+// Botão de ação
+document.querySelector('.action-btn').addEventListener('click', checkInteraction);
