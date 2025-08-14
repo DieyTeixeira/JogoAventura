@@ -46,7 +46,7 @@ body {
 /* Personagem */
 .character {
     position: absolute;
-    background-image: url('avatar-frente.png');
+    background-image: url('avatar.png');
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 10; /* fica por cima dos caminhos */
