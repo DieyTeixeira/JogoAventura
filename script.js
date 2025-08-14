@@ -130,7 +130,7 @@ function updateCharacterPosition() {
 
     // Posicionar personagem alinhado pela base do tile
     const left = offsetX + player.col * tileSize + tileSize - charWidth + (tileSize * 0.3);
-    const top = offsetY + player.row * tileSize + tileSize - charHeight - (tileSize * 0.3);
+    const top = offsetY + player.row * tileSize + tileSize - charHeight;
 
     character.style.left = left + 'px';
     character.style.top = top + 'px';
