@@ -108,7 +108,7 @@ function buildMap() {
                 chest.style.width = chestSize + 'px';
                 chest.style.height = chestSize + 'px';
                 chest.style.left = offsetX + c * tileSize + (tileSize - chestSize) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - chestSize) / 2 + (tileSize * 0.2) + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - chestSize) / 2 + 'px';
                 gameElement.appendChild(chest);
             }
         }
@@ -122,8 +122,8 @@ function buildMap() {
 }
 
 function updateCharacterPosition() {
-    const charHeight = tileSize * 2.5; // personagem 2x altura do tile
-    const charWidth = tileSize * 1.5; // largura proporcional
+    const charHeight = tileSize * 3; // personagem 2x altura do tile
+    const charWidth = tileSize * 1.8; // largura proporcional
 
     character.style.width = charWidth + 'px';
     character.style.height = charHeight + 'px';
