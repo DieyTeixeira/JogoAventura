@@ -194,17 +194,6 @@ function showMessage(chestNumber) {
 
     closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };
 
-    // Encontra o baú na posição do player ou adjacente
-    const chestElements = document.querySelectorAll('.chest');
-    let interactedChest = null;
-    chestElements.forEach(chest => {
-        const row = parseInt(chest.dataset.row);
-        const col = parseInt(chest.dataset.col);
-        if((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1) { 
-            interactedChest = chest;
-        }
-    });
-
     setTimeout(()=>{
         lottieAnimation.stop();
         lottieContainer.style.display='none';
