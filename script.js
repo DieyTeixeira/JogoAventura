@@ -154,19 +154,21 @@ function isWalkable(row, col) {
 }
 
 function checkInteraction() {
+    const row = player.row;
+    const col = player.col;
+
+    // Verifica casas adjacentes
     const adjTiles = [
-        mapData[playerPosition.row - 1]?.[playerPosition.col], // cima
-        mapData[playerPosition.row + 1]?.[playerPosition.col], // baixo
-        mapData[playerPosition.row]?.[playerPosition.col - 1], // esquerda
-        mapData[playerPosition.row]?.[playerPosition.col + 1]  // direita
+        mapData[row-1]?.[col], // cima
+        mapData[row+1]?.[col], // baixo
+        mapData[row]?.[col-1], // esquerda
+        mapData[row]?.[col+1]  // direita
     ];
 
-    // Só permite interação com baús fechados (pares 2,4,6,8)
+    // Procura o primeiro baú encontrado
     const chestNumber = adjTiles.find(tile => tile !== undefined && tile >= 2 && tile <= 8 && tile % 2 === 0);
 
-    if (chestNumber !== undefined) {
-        showMessage(chestNumber);
-    }
+    if (chestNumber !== undefined) showMessage(chestNumber);
 }
 
 function showMessage(chestNumber) {
@@ -237,6 +239,12 @@ function showMessage(chestNumber) {
 function getMonumentInfo(num) {
     switch(num) {
         case 4:
+            return {
+                nome: 'Tesouro 1',
+                desc: 'Descrição do tesouro 1.',
+                img: 'tesouro1.jpg'
+            };
+        case 5:
             return {
                 nome: 'Tesouro 1',
                 desc: 'Descrição do tesouro 1.',
