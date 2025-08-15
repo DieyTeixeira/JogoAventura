@@ -171,6 +171,7 @@ function buildMap() {
                 // Salva os tamanhos no dataset para usar depois
                 chest.dataset.closedSize = closedSize;
                 chest.dataset.openedSize = openedSize;
+                chest.dataset.openedItemSize = openedItemSize;
                 
                 gameElement.appendChild(chest);
             }
@@ -271,21 +272,24 @@ function showMessage(chestNumber) {
             switch (chestNumber) {
                 case 2:
                     openClass = 'opened'; // baú vazio aberto
+                    newSize = interactedChest.dataset.openedSize;
                     break;
                 case 4:
                     openClass = 'openedtrem';
+                    newSize = interactedChest.dataset.openedItemSize;
                     break;
                 case 6:
                     openClass = 'openedflechas';
+                    newSize = interactedChest.dataset.openedItemSize;
                     break;
                 case 8:
                     openClass = 'openedcasa';
+                    newSize = interactedChest.dataset.openedItemSize;
                     break;
             }
             interactedChest.classList.add(openClass);
 
             // Ajusta tamanho para baú aberto
-            const newSize = interactedChest.dataset.openedSize;
             interactedChest.style.width = newSize + 'px';
             interactedChest.style.height = newSize + 'px';
 
