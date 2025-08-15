@@ -274,6 +274,9 @@ function showMessage(chestNumber) {
                 case 4:
                     openClass = 'openedtrem';
                     break;
+                case 5:
+                    openClass = 'openedtrem';
+                    break;
                 case 6:
                     openClass = 'openedflechas';
                     break;
