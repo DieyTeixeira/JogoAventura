@@ -154,21 +154,19 @@ function isWalkable(row, col) {
 }
 
 function checkInteraction() {
-    const row = player.row;
-    const col = player.col;
-
-    // Verifica casas adjacentes
     const adjTiles = [
-        mapData[row-1]?.[col], // cima
-        mapData[row+1]?.[col], // baixo
-        mapData[row]?.[col-1], // esquerda
-        mapData[row]?.[col+1]  // direita
+        mapData[playerPosition.row - 1]?.[playerPosition.col], // cima
+        mapData[playerPosition.row + 1]?.[playerPosition.col], // baixo
+        mapData[playerPosition.row]?.[playerPosition.col - 1], // esquerda
+        mapData[playerPosition.row]?.[playerPosition.col + 1]  // direita
     ];
 
-    // Procura o primeiro baú encontrado
-    const chestNumber = adjTiles.find(tile => tile !== undefined && tile >= 2 && tile <= 9);
+    // Só permite interação com baús fechados (pares 2,4,6,8)
+    const chestNumber = adjTiles.find(tile => tile !== undefined && tile >= 2 && tile <= 8 && tile % 2 === 0);
 
-    if (chestNumber !== undefined) showMessage(chestNumber);
+    if (chestNumber !== undefined) {
+        showMessage(chestNumber);
+    }
 }
 
 function showMessage(chestNumber) {
