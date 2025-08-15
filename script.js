@@ -272,13 +272,13 @@ function showMessage(chestNumber) {
                     openClass = 'opened'; // baú vazio aberto
                     break;
                 case 4:
-                    openClass = 'openedtesouro1';
+                    openClass = 'openedtrem';
                     break;
                 case 6:
-                    openClass = 'openedtesouro2';
+                    openClass = 'openedflechas';
                     break;
                 case 8:
-                    openClass = 'openedtesouro3';
+                    openClass = 'openedcasa';
                     break;
             }
             interactedChest.classList.add(openClass);
