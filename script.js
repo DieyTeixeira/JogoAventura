@@ -109,6 +109,7 @@ function buildMap() {
 
                 const closedSize = tileSize * 1.5;  // tamanho do baú fechado
                 const openedSize = tileSize * 1.8;  // tamanho do baú aberto
+                const openedItemSize = tileSize * 2.2;  // tamanho do baú aberto com item
 
                 switch (val) {
                     case 2:
@@ -133,15 +134,15 @@ function buildMap() {
                         break;
                     case 5:
                         chestClass = 'openedtrem'; // baú com trem
-                        size = openedSize;
+                        size = openedItemSize;
                         break;
                     case 7:
                         chestClass = 'openedflechas'; // baú com flechas
-                        size = openedSize;
+                        size = openedItemSize;
                         break;
                     case 9:
                         chestClass = 'openedcasa'; // baú com casa
-                        size = openedSize;
+                        size = openedItemSize;
                         break;
                     default:
                         chestClass = 'closed';
