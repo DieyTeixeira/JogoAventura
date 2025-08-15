@@ -265,7 +265,23 @@ function showMessage(chestNumber) {
         // Marca o baú como aberto **independentemente do tipo**
         if (interactedChest && chestNumber % 2 === 0) {
             interactedChest.classList.remove('closed');
-            interactedChest.classList.add('opened');
+            
+            let openClass;
+            switch (chestNumber) {
+                case 2:
+                    openClass = 'opened'; // baú vazio aberto
+                    break;
+                case 4:
+                    openClass = 'openedtesouro1';
+                    break;
+                case 6:
+                    openClass = 'openedtesouro2';
+                    break;
+                case 8:
+                    openClass = 'openedtesouro3';
+                    break;
+            }
+            interactedChest.classList.add(openClass);
 
             // Ajusta tamanho para baú aberto
             const newSize = interactedChest.dataset.openedSize;
@@ -288,12 +304,6 @@ function showMessage(chestNumber) {
 function getMonumentInfo(num) {
     switch(num) {
         case 4:
-            return {
-                nome: '',
-                desc: '',
-                img: ''
-            };
-        case 5:
             return {
                 nome: 'Tesouro 1',
                 desc: 'Descrição do tesouro 1.',
