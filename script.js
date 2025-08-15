@@ -101,20 +101,22 @@ function buildMap() {
                 gameElement.appendChild(path);
             }
 
-            if(val === 2 || val === 3 || val === 4 || val === 5) {
+            if(val >= 2 && val <= 9) {
                 const chest = document.createElement('div');
-                chest.className = 'chest closed';
+                const isOpen = (val % 2 !== 0); // ímpares são abertos
+                chest.className = 'chest ' + (isOpen ? 'opened' : 'closed');
                 chest.dataset.row = r;
                 chest.dataset.col = c;
 
                 // Tamanho diferente para closed
                 const closedSize = tileSize * 1.5;  // tamanho do baú fechado
                 const openedSize = tileSize * 1.8;    // tamanho do baú aberto (quando interagido)
+                const size = isOpen ? openedSize : closedSize;
 
-                chest.style.width = closedSize + 'px';
-                chest.style.height = closedSize + 'px';
-                chest.style.left = offsetX + c * tileSize + (tileSize - closedSize) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - closedSize) / 2 - (tileSize * 0.1) + 'px';
+                chest.style.width = size + 'px';
+                chest.style.height = size + 'px';
+                chest.style.left = offsetX + c * tileSize + (tileSize - size) / 2 + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.1) + 'px';
                 
                 // Salva os tamanhos no dataset para usar depois
                 chest.dataset.closedSize = closedSize;
@@ -164,7 +166,7 @@ function checkInteraction() {
     ];
 
     // Procura o primeiro baú encontrado
-    const chestNumber = adjTiles.find(tile => tile !== undefined && tile >= 2);
+    const chestNumber = adjTiles.find(tile => tile !== undefined && tile >= 2 && tile <= 9);
 
     if (chestNumber !== undefined) showMessage(chestNumber);
 }
@@ -187,11 +189,13 @@ function showMessage(chestNumber) {
     // Encontra o baú na posição do player ou adjacente
     const chestElements = document.querySelectorAll('.chest');
     let interactedChest = null;
+    let chestPos = null;
     chestElements.forEach(chest => {
         const row = parseInt(chest.dataset.row);
         const col = parseInt(chest.dataset.col);
         if((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1) { 
             interactedChest = chest;
+            chestPos = { row, col };
         }
     });
 
@@ -199,8 +203,8 @@ function showMessage(chestNumber) {
         lottieAnimation.stop();
         lottieContainer.style.display='none';
 
-        if(chestNumber===2){
-            modalText.innerHTML = `⚠️ Este baú está vazio! Mas não desista!`;
+        if(chestNumber === 2 || chestNumber === 3){
+            modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;
             setTimeout(()=>{ modal.style.display='none'; },2000);
         } else {
             const info = getMonumentInfo(chestNumber);
@@ -210,7 +214,7 @@ function showMessage(chestNumber) {
         }
 
         // Marca o baú como aberto **independentemente do tipo**
-        if (interactedChest) {
+        if (interactedChest && chestNumber % 2 === 0) {
             interactedChest.classList.remove('closed');
             interactedChest.classList.add('opened');
 
@@ -224,6 +228,8 @@ function showMessage(chestNumber) {
             const col = parseInt(interactedChest.dataset.col);
             interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
             interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.4) + 'px';
+        
+            mapData[chestPos.row][chestPos.col] = chestNumber + 1;
         }
 
     }, 2000);
@@ -232,27 +238,23 @@ function showMessage(chestNumber) {
 // Função com dados dos monumentos
 function getMonumentInfo(num) {
     switch(num) {
-        case 2:
-            return {
-                desc: 'Este baú está vazio! Mas não desista, continue sua busca!'
-            };
-        case 3:
-            return {
-                nome: 'Taj Mahal',
-                desc: 'O Taj Mahal é um mausoléu localizado na Índia, conhecido por sua beleza arquitetônica.',
-                img: 'taj-mahal.jpg'
-            };
-        case 4:
-            return {
-                nome: 'Coliseu',
-                desc: 'O Coliseu, em Roma, é um dos maiores anfiteatros já construídos na história.',
-                img: 'coliseu.jpg'
-            };
         case 5:
             return {
-                nome: 'Cristo Redentor',
-                desc: 'Localizado no Rio de Janeiro, é um dos símbolos mais reconhecidos do Brasil.',
-                img: 'cristo-redentor.jpg'
+                nome: 'Tesouro 1',
+                desc: 'Descrição do tesouro 1.',
+                img: 'tesouro1.jpg'
+            };
+        case 7:
+            return {
+                nome: 'Tesouro 2',
+                desc: 'Descrição do tesouro 2.',
+                img: 'tesouro2.jpg'
+            };
+        case 9:
+            return {
+                nome: 'Tesouro 3',
+                desc: 'Descrição do tesouro 3.',
+                img: 'tesouro3.jpg'
             };
     }
 }
