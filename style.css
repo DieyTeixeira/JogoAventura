@@ -146,6 +146,7 @@ body {
     border-radius: 10px;
     width: 70%;  /* ocupa toda a largura do modal */
     height: 70%; /* ocupa toda a altura do modal */
+    aspect-ratio: 1 / 1; 
     display: flex; 
     justify-content: center;       /* centraliza vertical */
     align-items: center;           /* centraliza horizontal */
