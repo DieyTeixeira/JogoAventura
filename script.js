@@ -103,7 +103,56 @@ function buildMap() {
 
             if(val >= 2 && val <= 9) {
                 const chest = document.createElement('div');
-                const isOpen = (val % 2 !== 0); // ímpares são abertos
+
+                let chestClass;
+                let size;
+
+                const closedSize = tileSize * 1.5;  // tamanho do baú fechado
+                const openedSize = tileSize * 1.8;  // tamanho do baú aberto
+
+                switch (val) {
+                    case 2:
+                        chestClass = 'closed'; // baús fechados
+                        size = closedSize;
+                        break;
+                    case 4:
+                        chestClass = 'closed'; // baús fechados
+                        size = closedSize;
+                        break;
+                    case 6:
+                        chestClass = 'closed'; // baús fechados
+                        size = closedSize;
+                        break;
+                    case 8:
+                        chestClass = 'closed'; // baús fechados
+                        size = closedSize;
+                        break;
+                    case 3:
+                        chestClass = 'opened'; // baú aberto normal
+                        size = openedSize;
+                        break;
+                    case 5:
+                        chestClass = 'openedtrem'; // baú com trem
+                        size = openedSize;
+                        break;
+                    case 7:
+                        chestClass = 'openedflechas'; // baú com flechas
+                        size = openedSize;
+                        break;
+                    case 9:
+                        chestClass = 'openedcasa'; // baú com casa
+                        size = openedSize;
+                        break;
+                    default:
+                        chestClass = 'closed';
+                        size = closedSize;
+                }
+
+                chest.className = 'chest ' + chestClass;
+                chest.dataset.row = r;
+                chest.dataset.col = c;
+
+                /*const isOpen = (val % 2 !== 0); // ímpares são abertos
                 chest.className = 'chest ' + (isOpen ? 'opened' : 'closed');
                 chest.dataset.row = r;
                 chest.dataset.col = c;
@@ -111,7 +160,7 @@ function buildMap() {
                 // Tamanho diferente para closed
                 const closedSize = tileSize * 1.5;  // tamanho do baú fechado
                 const openedSize = tileSize * 1.8;    // tamanho do baú aberto (quando interagido)
-                const size = isOpen ? openedSize : closedSize;
+                const size = isOpen ? openedSize : closedSize;*/
 
                 chest.style.width = size + 'px';
                 chest.style.height = size + 'px';
@@ -240,9 +289,9 @@ function getMonumentInfo(num) {
     switch(num) {
         case 4:
             return {
-                nome: 'Tesouro 1',
-                desc: 'Descrição do tesouro 1.',
-                img: 'tesouro1.jpg'
+                nome: '',
+                desc: '',
+                img: ''
             };
         case 5:
             return {
