@@ -238,19 +238,19 @@ function showMessage(chestNumber) {
 // Função com dados dos monumentos
 function getMonumentInfo(num) {
     switch(num) {
-        case 5:
+        case 4:
             return {
                 nome: 'Tesouro 1',
                 desc: 'Descrição do tesouro 1.',
                 img: 'tesouro1.jpg'
             };
-        case 7:
+        case 6:
             return {
                 nome: 'Tesouro 2',
                 desc: 'Descrição do tesouro 2.',
                 img: 'tesouro2.jpg'
             };
-        case 9:
+        case 8:
             return {
                 nome: 'Tesouro 3',
                 desc: 'Descrição do tesouro 3.',
