@@ -59,44 +59,19 @@ body {
     z-index: 10;
 }
 
-.chest.closed {
-    background-image: url('bau-fechado.png');
-}
+.chest.closed { background-image: url('bau-fechado.png'); }
+.chest.opened { background-image: url('bau-aberto.png'); }
+.chest.openedtrem { background-image: url('bau-aberto-trem.png'); }
+.chest.openedflechas { background-image: url('bau-aberto-flechas.png'); }
+.chest.openedcasa { background-image: url('bau-aberto-casa-artes.png'); }
 
-.chest.opened {
-    background-image: url('bau-aberto.png');
-}
-
-.chest.openedtrem {
-    background-image: url('bau-aberto-trem.png');
-}
-
-.chest.openedflechas {
-    background-image: url('bau-aberto-flechas.png');
-}
-
-.chest.openedcasa {
-    background-image: url('bau-aberto-casa-artes.png');
-}
-
-.chest.viewtrem {
-    background-image: url('bau-trem.png');
-}
-
-.chest.viewflechas {
-    background-image: url('bau-flechas.png');
-}
-
-.chest.viewcasa {
-    background-image: url('bau-casa-artes.png');
-}
-
-.chest.viewvazio {
-    background-image: url('bau-vazio-teias.png');
-}
+.chest.viewtrem { background-image: url('bau-trem.png'); }
+.chest.viewflechas { background-image: url('bau-flechas.png'); }
+.chest.viewcasa { background-image: url('bau-casa-artes.png'); }
+.chest.viewvazio { background-image: url('bau-vazio-teias.png'); }
 
 .joystick-container {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     gap: 50px;
@@ -163,7 +138,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     width: 70vmin;   /* ocupa toda a largura do modal */
-    aspect-ratio: 1 / 1.5; 
+    aspect-ratio: 1 / 1.2; 
     display: flex; 
     justify-content: center;       /* centraliza vertical */
     align-items: center;           /* centraliza horizontal */
@@ -187,4 +162,11 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
+}
+
+/* Mostrar controles somente no mobile */
+@media (max-width: 600px), (hover: none) and (pointer: coarse) {
+    .joystick-container {
+        display: flex;
+    }
 }

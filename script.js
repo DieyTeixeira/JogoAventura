@@ -109,7 +109,7 @@ function buildMap() {
 
                 const closedSize = tileSize * 1.5;  // tamanho do baú fechado
                 const openedSize = tileSize * 1.8;  // tamanho do baú aberto
-                const openedItemSize = tileSize * 2.2;  // tamanho do baú aberto com item
+                const openedItemSize = tileSize * 2.3;  // tamanho do baú aberto com item
 
                 switch (val) {
                     case 2:
@@ -273,18 +273,26 @@ function showMessage(chestNumber) {
                 case 2:
                     openClass = 'opened'; // baú vazio aberto
                     newSize = interactedChest.dataset.openedSize;
+                    deslocX = tileSize * 0.1;
+                    deslocY = tileSize * 0.4;
                     break;
                 case 4:
                     openClass = 'openedtrem';
                     newSize = interactedChest.dataset.openedItemSize;
+                    deslocX = tileSize * 0.1;
+                    deslocY = tileSize * 0.6;
                     break;
                 case 6:
                     openClass = 'openedflechas';
                     newSize = interactedChest.dataset.openedItemSize;
+                    deslocX = tileSize * 0.1;
+                    deslocY = tileSize * 0.6;
                     break;
                 case 8:
                     openClass = 'openedcasa';
                     newSize = interactedChest.dataset.openedItemSize;
+                    deslocX = tileSize * 0.1;
+                    deslocY = tileSize * 0.6;
                     break;
             }
             interactedChest.classList.add(openClass);
@@ -296,8 +304,8 @@ function showMessage(chestNumber) {
             // Reposiciona para centralizar
             const row = parseInt(interactedChest.dataset.row);
             const col = parseInt(interactedChest.dataset.col);
-            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
-            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.4) + 'px';
+            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + deslocX + 'px';
+            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - deslocY + 'px';
         
             mapData[chestPos.row][chestPos.col] = chestNumber + 1;
         }
