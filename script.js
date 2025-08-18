@@ -364,7 +364,6 @@ function showMessage(chestNumber) {
                 `;
 
                 // O fechamento agora só dispara o modal final depois que o usuário clicar
-                const originalClose = closeModal.onclick;
                 closeModal.onclick = () => {
                     closeChestModal();
 
@@ -426,8 +425,6 @@ function showMessage(chestNumber) {
                             restartGame();
                         };
                     }
-
-                    if (originalClose) originalClose();
                 };
 
             }, 2000); // tempo para mostrar imagem antes do texto
