@@ -288,7 +288,7 @@ function showMessage(chestNumber) {
     lottieAnimation.play();
     modal.style.display = 'flex';
 
-    closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };
+    /*closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };*/
 
     // Encontra o baú na posição do player ou adjacente
     const chestElements = document.querySelectorAll('.chest');
@@ -302,6 +302,15 @@ function showMessage(chestNumber) {
             chestPos = { row, col };
         }
     });
+
+    // Função para fechar o modal do baú
+    const closeChestModal = () => {
+        lottieAnimation.stop();
+        modal.style.display = 'none';
+    };
+
+    // Função original de fechar, será sobrescrita se for o terceiro baú
+    closeModal.onclick = closeChestModal;
 
     setTimeout(()=>{
         lottieAnimation.stop();
@@ -384,13 +393,14 @@ function showMessage(chestNumber) {
         }
 
         // Se for baú com item, incrementa contador
-        /*if (chestNumber === 4 || chestNumber === 6 || chestNumber === 8) {
+        if (chestNumber === 4 || chestNumber === 6 || chestNumber === 8) {
             chestsOpenedWithItem++;
 
             // Se já abriu 3, mostra modal final
             if (chestsOpenedWithItem === 3) {
                 const originalClose = closeModal.onclick; // guarda função original
                 closeModal.onclick = () => {
+                    closeChestModal();
                     modalText.innerHTML = `
                         <div style="text-align:center; padding:20px;">
                             <h2>🎉 Parabéns!</h2>
@@ -411,7 +421,7 @@ function showMessage(chestNumber) {
                     if (originalClose) originalClose();
                 };
             }
-        }*/
+        }
 
     }, 2000);
 }
