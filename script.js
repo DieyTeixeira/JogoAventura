@@ -353,6 +353,12 @@ function showMessage(chestNumber) {
                         interactedChest.classList.remove('closed');
                         let openClass, newSize, deslocX, deslocY;
                         switch (chestNumber) {
+                            case 2:
+                                openClass = 'opened';
+                                newSize = interactedChest.dataset.openedSize;
+                                deslocX = tileSize * 0.1;
+                                deslocY = tileSize * 0.4;
+                                break;
                             case 4:
                                 openClass = 'openedtrem';
                                 newSize = interactedChest.dataset.openedItemSize;
