@@ -288,83 +288,145 @@ function showMessage(chestNumber) {
     lottieAnimation.play();
     modal.style.display = 'flex';
 
-    // Baú adjacente
+    /*closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };*/
+
+    // Encontra o baú na posição do player ou adjacente
     const chestElements = document.querySelectorAll('.chest');
     let interactedChest = null;
     let chestPos = null;
     chestElements.forEach(chest => {
         const row = parseInt(chest.dataset.row);
         const col = parseInt(chest.dataset.col);
-        if (Math.abs(row - player.row) + Math.abs(col - player.col) === 1) {
+        if((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1) { 
             interactedChest = chest;
             chestPos = { row, col };
         }
     });
 
+    // Função para fechar o modal do baú
     const closeChestModal = () => {
         lottieAnimation.stop();
         modal.style.display = 'none';
     };
 
+    // Função original de fechar, será sobrescrita se for o terceiro baú
     closeModal.onclick = closeChestModal;
 
-    lottieAnimation.stop();
-    lottieContainer.style.display = 'none';
+    setTimeout(()=>{
+        lottieAnimation.stop();
+        lottieContainer.style.display='none';
 
-    if (chestNumber === 2 || chestNumber === 3) {
-        modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;
-        modalText.classList.add('fade-in', 'show');
-    } else {
-        // Baú com item
-        const infoImg = getMonumentImage(chestNumber);
-        modalImage.src = infoImg.img;
-        modalImage.style.display = 'block';
-        modalImage.classList.add('fade-in');
-        setTimeout(() => modalImage.classList.add('show'), 10); // dispara animação
+        if(chestNumber === 2 || chestNumber === 3){
+            modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;
+            setTimeout(()=>{ modal.style.display='none'; },2000);
+        } else {
+            // Primeiro mostra a imagem
+            const infoImg = getMonumentImage(chestNumber);
+            modalImage.src = infoImg.img;
+            modalImage.style.display='block';
+            modalImage.style.width = '80%';      // largura ajustada
+            modalImage.style.height = 'auto';    // mantém proporção
+            modalImage.style.margin = '0 auto';  // centraliza horizontalmente
+            modalText.innerHTML = '';
 
-        const info = getMonumentInfo(chestNumber);
-        modalText.innerHTML = `
-            <div class="fade-in">
-                <img src="${info.img}" alt="${info.nome}" style="width:80%; display:block; margin:0 auto 10px;">
-                <h2 style="font-size:2em;">${info.nome}</h2>
-                <p>${info.desc}</p>
-                <p style="margin-top:1em; font-size:1.2em;">${info.text}</p>
-            </div>
-        `;
-        modalText.classList.add('fade-in');
-        setTimeout(() => modalText.classList.add('show'), 10);
-    }
+            // Depois de 2 segundos mostra a descrição
+            setTimeout(()=>{
+                modalImage.style.display = 'none';
 
-    // Marca baú como aberto
-    if (interactedChest && chestNumber % 2 === 0) {
-        openChest(interactedChest, chestNumber);
-        mapData[chestPos.row][chestPos.col] = chestNumber + 1;
-    }
-
-    if ([4,6,8].includes(chestNumber)) {
-        chestsOpenedWithItem++;
-        if (chestsOpenedWithItem === 3) {
-            const originalClose = closeModal.onclick;
-            closeModal.onclick = () => {
-                closeChestModal();
+                const info = getMonumentInfo(chestNumber);
                 modalText.innerHTML = `
-                    <div style="text-align:center; padding:20px;">
-                        <h2>🎉 Parabéns!</h2>
-                        <p>Você encontrou todos os 3 tesouros escondidos!</p>
-                        <button id="restartBtn" style="margin-top:20px; padding:10px 20px; font-size:1.2em; cursor:pointer;">
-                            Reiniciar Jogo
-                        </button>
+                    <div class="fade-in">
+                        <img src="${info.img}" alt="${info.nome}" 
+                            style="width: 80%; display:block; margin:0 auto 10px;">
+                        <h2 style="font-size: 2em;">${info.nome}</h2>
+                        <p>${info.desc}</p>
+                        <p style="margin-top: 1em; font-size: 1.2em;">${info.text}</p>
                     </div>
                 `;
-                modal.style.display = 'flex';
-                document.getElementById('restartBtn').onclick = () => {
-                    modal.style.display = 'none';
-                    restartGame();
-                };
+            }, 2000);
+        }
+
+        // Marca o baú como aberto **independentemente do tipo**
+        if (interactedChest && chestNumber % 2 === 0) {
+            interactedChest.classList.remove('closed');
+            
+            let openClass;
+            switch (chestNumber) {
+                case 2:
+                    openClass = 'opened'; // baú vazio aberto
+                    newSize = interactedChest.dataset.openedSize;
+                    deslocX = tileSize * 0.1;
+                    deslocY = tileSize * 0.4;
+                    break;
+                case 4:
+                    openClass = 'openedtrem';
+                    newSize = interactedChest.dataset.openedItemSize;
+                    deslocX = tileSize * 0.2;
+                    deslocY = tileSize * 0.6;
+                    break;
+                case 6:
+                    openClass = 'openedflechas';
+                    newSize = interactedChest.dataset.openedItemSize;
+                    deslocX = tileSize * 0.2;
+                    deslocY = tileSize * 0.6;
+                    break;
+                case 8:
+                    openClass = 'openedcasa';
+                    newSize = interactedChest.dataset.openedItemSize;
+                    deslocX = tileSize * 0.2;
+                    deslocY = tileSize * 0.6;
+                    break;
+            }
+            interactedChest.classList.add(openClass);
+
+            // Ajusta tamanho para baú aberto
+            interactedChest.style.width = newSize + 'px';
+            interactedChest.style.height = newSize + 'px';
+
+            // Reposiciona para centralizar
+            const row = parseInt(interactedChest.dataset.row);
+            const col = parseInt(interactedChest.dataset.col);
+            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + deslocX + 'px';
+            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - deslocY + 'px';
+        
+            mapData[chestPos.row][chestPos.col] = chestNumber + 1;
+        }
+
+        // Se for baú com item, incrementa contador
+        if (chestNumber === 4 || chestNumber === 6 || chestNumber === 8) {
+            chestsOpenedWithItem++;
+
+            const originalClose = closeModal.onclick;
+
+            /// Sobrescrever onclick do modal
+            closeModal.onclick = () => {
+                closeChestModal(); // fecha o baú atual
+
+                // Se abriu todos os 3 baús, mostra modal final
+                if (chestsOpenedWithItem === 3) {
+                    modalText.innerHTML = `
+                        <div style="text-align:center; padding:20px;">
+                            <h2>🎉 Parabéns!</h2>
+                            <p>Você encontrou todos os 3 tesouros escondidos!</p>
+                            <button id="restartBtn" style="margin-top:20px; padding:10px 20px; font-size:1.2em; cursor:pointer;">
+                                Reiniciar Jogo
+                            </button>
+                        </div>
+                    `;
+                    modal.style.display = 'flex';
+
+                    document.getElementById('restartBtn').onclick = () => {
+                        modal.style.display = 'none';
+                        restartGame();
+                    };
+                }
+
+                // Restaura função original caso haja outros usos
                 if (originalClose) originalClose();
             };
         }
-    }
+
+    }, 2000);
 }
 
 function getMonumentImage(num) {
