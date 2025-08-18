@@ -313,30 +313,28 @@ function showMessage(chestNumber) {
         lottieAnimation.stop();
         lottieContainer.style.display = 'none';
 
+        if (!interactedChest) return;
+
         if (chestNumber === 2 || chestNumber === 3) {
             // Baú vazio
             modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;
 
             // Marca o baú como aberto
-            if (interactedChest) {
-                interactedChest.classList.remove('closed');
-                interactedChest.classList.add('opened'); // ou 'openedEmpty' se quiser diferenciar
-                const newSize = interactedChest.dataset.openedSize;
-                const row = parseInt(interactedChest.dataset.row);
-                const col = parseInt(interactedChest.dataset.col);
-                interactedChest.style.width = newSize + 'px';
-                interactedChest.style.height = newSize + 'px';
-                interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
-                interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.4) + 'px';
+            interactedChest.classList.remove('closed');
+            interactedChest.classList.add('opened'); // ou 'openedEmpty' se quiser diferenciar
+            const newSize = interactedChest.dataset.openedSize;
+            const row = parseInt(interactedChest.dataset.row);
+            const col = parseInt(interactedChest.dataset.col);
+            interactedChest.style.width = newSize + 'px';
+            interactedChest.style.height = newSize + 'px';
+            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
+            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.4) + 'px';
                 
-                // Atualiza o mapa para não interagir novamente
-                mapData[chestPos.row][chestPos.col] = chestNumber + 1;
-            }
+            // Atualiza o mapa para não interagir novamente
+            mapData[chestPos.row][chestPos.col] = chestNumber + 1;    
 
             // Fecha automaticamente após 2s
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 2000);
+            setTimeout(closeChestModal, 2000);
 
         } else {
             // Baú com item
@@ -368,41 +366,37 @@ function showMessage(chestNumber) {
                     closeChestModal();
 
                     // Marca o baú como aberto
-                    if (interactedChest) {
-                        interactedChest.classList.remove('closed');
-
-                        let openClass, newSize, deslocX, deslocY;
-                        switch (chestNumber) {
-                            case 4:
-                                openClass = 'openedtrem';
-                                newSize = interactedChest.dataset.openedItemSize;
-                                deslocX = tileSize * 0.2;
-                                deslocY = tileSize * 0.6;
-                                break;
-                            case 6:
-                                openClass = 'openedflechas';
-                                newSize = interactedChest.dataset.openedItemSize;
-                                deslocX = tileSize * 0.2;
-                                deslocY = tileSize * 0.6;
-                                break;
-                            case 8:
-                                openClass = 'openedcasa';
-                                newSize = interactedChest.dataset.openedItemSize;
-                                deslocX = tileSize * 0.2;
-                                deslocY = tileSize * 0.6;
-                                break;
-                        }
-                        interactedChest.classList.add(openClass);
-
-                        // Ajusta tamanho e posição
-                        interactedChest.style.width = newSize + 'px';
-                        interactedChest.style.height = newSize + 'px';
-                        const row = parseInt(interactedChest.dataset.row);
-                        const col = parseInt(interactedChest.dataset.col);
-                        interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + deslocX + 'px';
-                        interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - deslocY + 'px';
-                        mapData[chestPos.row][chestPos.col] = chestNumber + 1;
+                     interactedChest.classList.remove('closed');
+                    let openClass, newSize, deslocX, deslocY;
+                    switch (chestNumber) {
+                        case 4:
+                            openClass = 'openedtrem';
+                            newSize = interactedChest.dataset.openedItemSize;
+                            deslocX = tileSize * 0.2;
+                            deslocY = tileSize * 0.6;
+                            break;
+                        case 6:
+                            openClass = 'openedflechas';
+                            newSize = interactedChest.dataset.openedItemSize;
+                            deslocX = tileSize * 0.2;
+                            deslocY = tileSize * 0.6;
+                            break;
+                        case 8:
+                            openClass = 'openedcasa';
+                            newSize = interactedChest.dataset.openedItemSize;
+                            deslocX = tileSize * 0.2;
+                            deslocY = tileSize * 0.6;
+                            break;
                     }
+
+                    interactedChest.classList.add(openClass);
+                    interactedChest.style.width = newSize + 'px';
+                    interactedChest.style.height = newSize + 'px';
+                    const row = parseInt(interactedChest.dataset.row);
+                    const col = parseInt(interactedChest.dataset.col);
+                    interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + deslocX + 'px';
+                    interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - deslocY + 'px';
+                    mapData[chestPos.row][chestPos.col] = chestNumber + 1;
 
                     // Incrementa contador de baús com item
                     chestsOpenedWithItem++;
