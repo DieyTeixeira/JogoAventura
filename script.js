@@ -50,6 +50,15 @@ const messageBox = document.createElement('div');
 messageBox.classList.add('message');
 gameContainer.appendChild(messageBox);
 
+// Pré-carregar imagens dos baús
+const monumentImages = ['bau-trem.png', 'bau-flechas.png', 'bau-casa-artes.png', 
+                        'image-trem.png', 'image-flechas.png', 'image-casa-artes.png'];
+
+monumentImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+});
+
 function randomizeChests() {
     // Pega todas as posições onde tem baú "2"
     let chestPositions = [];
