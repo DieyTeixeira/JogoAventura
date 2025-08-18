@@ -72,7 +72,7 @@ messageBox.classList.add('message');
 gameContainer.appendChild(messageBox);
 
 // Pré-carregar imagens dos baús
-const monumentImages = ['bau-trem.png', 'bau-flechas.png', 'bau-casa-artes.png', 
+const monumentImages = ['bau-trem.png', 'bau-flechas.png', 'bau-casa-artes.png', 'bau-vazio-teias', 
                         'image-trem.png', 'image-flechas.png', 'image-casa-artes.png'];
 
 monumentImages.forEach(src => {
