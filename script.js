@@ -389,7 +389,10 @@ function showMessage(chestNumber) {
 
             // Se já abriu 3, mostra modal final
             if (chestsOpenedWithItem === 3) {
-                setTimeout(() => {
+                const originalClose = closeModal.onclick; // guarda função original
+                closeModal.onclick = () => {
+                    lottieAnimation.stop();
+                    modal.style.display = 'none';
                     modalText.innerHTML = `
                         <div style="text-align:center; padding:20px;">
                             <h2>🎉 Parabéns!</h2>
@@ -406,7 +409,9 @@ function showMessage(chestNumber) {
                         modal.style.display = 'none';
                         restartGame();
                     };
-                }, 2500); // espera terminar o baú antes de mostrar final
+
+                    if (originalClose) originalClose();
+                };
             }
         }
 
