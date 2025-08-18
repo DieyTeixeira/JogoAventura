@@ -345,10 +345,10 @@ function showMessage(chestNumber) {
             // Atualiza o mapa para não interagir novamente
             mapData[chestPos.row][chestPos.col] = chestNumber + 1;    
 
-            // Fecha automaticamente após 2s
-            setTimeout(() => {
+            // Fecha apenas quando o usuário clicar no X
+            closeModal.onclick = () => {
                 modal.style.display = 'none';
-            }, 2000);
+            };
 
         } else {
             // Baú com item
