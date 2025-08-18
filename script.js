@@ -72,7 +72,10 @@ messageBox.classList.add('message');
 gameContainer.appendChild(messageBox);
 
 // Pré-carregar imagens dos baús
-const monumentImages = ['bau-trem.png', 'bau-flechas.png', 'bau-casa-artes.png', 'bau-vazio-teias', 
+const monumentImages = ['meu-mapa.png', 'avatar.png', 'avatar-vitoria.png',
+                        'bau-aberto.png', 'bau-fechado.png',
+                        'bau-aberto-trem.png', 'bau-aberto-flechas.png', 'bau-aberto-casa-artes.png',
+                        'bau-trem.png', 'bau-flechas.png', 'bau-casa-artes.png', 'bau-vazio-teias.png',
                         'image-trem.png', 'image-flechas.png', 'image-casa-artes.png'];
 
 monumentImages.forEach(src => {
@@ -419,10 +422,10 @@ function showMessage(chestNumber) {
                     if (chestsOpenedWithItem === 3) {
                         modalText.innerHTML = `
                             <div style="text-align:center; padding:20px;">
+                                <h2>Parabéns!</h2>    
                                 <img src="avatar-vitoria.png" 
                                     alt="Imagem de celebração" 
                                     style="width:120px; height:auto; display:block; margin:0 auto 15px;">
-                                <h2>Parabéns!</h2>
                                 <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.2em;">
                                     Você encontrou os 3 artefatos escondidos!
                                 </p>
