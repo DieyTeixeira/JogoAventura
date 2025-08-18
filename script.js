@@ -315,6 +315,30 @@ function showMessage(chestNumber) {
 
         if (!interactedChest) return;
 
+        if (chestNumber === 2 || chestNumber === 3) {
+            // Baú vazio
+            /*modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;*/
+            const infoImg = getMonumentImage(chestNumber);
+            modalImage.src = infoImg.img;
+
+            // Marca o baú como aberto
+            interactedChest.classList.remove('closed');
+            interactedChest.classList.add('opened'); // ou 'openedEmpty' se quiser diferenciar
+            const newSize = interactedChest.dataset.openedSize;
+            const row = parseInt(interactedChest.dataset.row);
+            const col = parseInt(interactedChest.dataset.col);
+            interactedChest.style.width = newSize + 'px';
+            interactedChest.style.height = newSize + 'px';
+            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
+            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.4) + 'px';
+                
+            // Atualiza o mapa para não interagir novamente
+            mapData[chestPos.row][chestPos.col] = chestNumber + 1;    
+
+            // Fecha automaticamente após 2s
+            setTimeout(closeChestModal, 2000);
+
+        } else {
             // Baú com item
             const infoImg = getMonumentImage(chestNumber);
             const info = getMonumentInfo(chestNumber);
@@ -347,12 +371,6 @@ function showMessage(chestNumber) {
                      interactedChest.classList.remove('closed');
                     let openClass, newSize, deslocX, deslocY;
                     switch (chestNumber) {
-                        case 2:
-                            openClass = 'opened';
-                            newSize = interactedChest.dataset.openedSize;
-                            deslocX = tileSize * 0.1;
-                            deslocY = tileSize * 0.4;
-                            break;
                         case 4:
                             openClass = 'openedtrem';
                             newSize = interactedChest.dataset.openedItemSize;
@@ -406,6 +424,7 @@ function showMessage(chestNumber) {
                 };
 
             }, 2000); // tempo para mostrar imagem antes do texto
+        }
 
     }, 2000); // tempo do Lottie
 }
