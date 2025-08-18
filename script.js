@@ -360,6 +360,13 @@ function showMessage(chestNumber) {
             interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - deslocY + 'px';
         
             mapData[chestPos.row][chestPos.col] = chestNumber + 1;
+
+            if (checkAllChestsOpened()) {
+                setTimeout(() => {
+                    document.getElementById('gameModal').style.display = 'none';
+                    showEndModal();
+                }, 2000); // espera fechar o último modal
+            }
         }
 
     }, 2000);
@@ -427,6 +434,57 @@ document.addEventListener('keydown', e => {
 
     if(e.code === 'Space') checkInteraction();
 });
+
+function checkAllChestsOpened() {
+    return document.querySelectorAll('.chest.closed').length === 0;
+}
+
+function showEndModal() {
+    const endModal = document.createElement('div');
+    endModal.id = 'endModal';
+    endModal.className = 'modal';
+    endModal.style.display = 'flex';
+
+    const content = document.createElement('div');
+    content.className = 'modal-content';
+
+    const title = document.createElement('h2');
+    title.textContent = '🎉 Parabéns!';
+
+    const message = document.createElement('p');
+    message.textContent = 'Você abriu todos os baús!';
+
+    const restartBtn = document.createElement('button');
+    restartBtn.id = 'restartBtn';
+    restartBtn.textContent = 'Reiniciar';
+
+    // Ação do botão: resetar jogo
+    restartBtn.onclick = () => {
+        // Remove modal
+        endModal.remove();
+
+        // Resetar mapa (exemplo: se você tem o layout inicial salvo em mapOriginal)
+        mapData = JSON.parse(JSON.stringify(mapOriginal)); 
+
+        // Resetar posição do personagem
+        character = { row: startRow, col: startCol };
+
+        // Limpar chests e personagem da tela
+        gameContainer.innerHTML = '';
+
+        // Redesenhar
+        drawMap();
+        character();
+    };
+
+    // Monta estrutura
+    content.appendChild(title);
+    content.appendChild(message);
+    content.appendChild(restartBtn);
+    endModal.appendChild(content);
+
+    document.body.appendChild(endModal);
+}
 
 // Reconstrói mapa ao carregar e ao redimensionar a janela
 window.addEventListener('resize', buildMap);
