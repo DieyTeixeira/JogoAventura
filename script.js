@@ -280,7 +280,6 @@ function showMessage(chestNumber) {
     const modalText = document.getElementById('modalText');
     const modalImage = document.getElementById('modalImage');
     const closeModal = document.getElementById('closeModal');
-    const closeChestModal = document.getElementById('closeChestModal');
     const lottieContainer = document.getElementById('lottieContainer');
 
     modalText.innerHTML = '';
@@ -288,6 +287,8 @@ function showMessage(chestNumber) {
     lottieContainer.style.display = 'block';
     lottieAnimation.play();
     modal.style.display = 'flex';
+
+    closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };
 
     // Encontra o baú na posição do player ou adjacente
     const chestElements = document.querySelectorAll('.chest');
@@ -301,10 +302,6 @@ function showMessage(chestNumber) {
             chestPos = { row, col };
         }
     });
-
-    closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };
-
-    closeModal.onclick = closeChestModal;
 
     setTimeout(()=>{
         lottieAnimation.stop();
@@ -326,6 +323,7 @@ function showMessage(chestNumber) {
             // Depois de 2 segundos mostra a descrição
             setTimeout(()=>{
                 modalImage.style.display = 'none';
+
                 const info = getMonumentInfo(chestNumber);
                 modalText.innerHTML = `
                     <div class="fade-in">
@@ -343,7 +341,7 @@ function showMessage(chestNumber) {
         if (interactedChest && chestNumber % 2 === 0) {
             interactedChest.classList.remove('closed');
             
-            let openClass, newSize, deslocX, deslocY;
+            let openClass;
             switch (chestNumber) {
                 case 2:
                     openClass = 'opened'; // baú vazio aberto
@@ -393,8 +391,6 @@ function showMessage(chestNumber) {
             if (chestsOpenedWithItem === 3) {
                 const originalClose = closeModal.onclick; // guarda função original
                 closeModal.onclick = () => {
-                    closeChestModal();
-                    
                     modalText.innerHTML = `
                         <div style="text-align:center; padding:20px;">
                             <h2>🎉 Parabéns!</h2>
