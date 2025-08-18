@@ -24,6 +24,26 @@ const mapData = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
+const originalMap = [
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,1,1,2,0,0,0,0,0,0,2,0,0,0,0],
+    [0,0,0,1,0,0,0,0,1,1,1,1,1,0,0,0,0],
+    [0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,0,0],
+    [0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0],
+    [0,2,1,1,1,1,1,0,1,0,1,1,1,1,1,0,0],
+    [0,0,1,0,0,0,1,0,1,1,1,0,0,0,0,0,0],
+    [0,0,1,0,0,0,1,0,1,0,0,0,1,1,1,0,0],
+    [0,0,1,0,1,1,1,1,1,0,0,0,1,0,1,0,0],
+    [0,0,1,0,1,0,0,0,1,1,1,1,1,0,1,2,0],
+    [0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0],
+    [0,0,0,0,0,1,0,2,1,1,1,1,1,1,1,0,0],
+    [0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0],
+    [0,0,2,1,1,1,1,1,1,1,1,1,1,0,1,0,0],
+    [0,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0,0],
+    [0,0,0,0,1,1,1,1,1,0,0,2,1,1,1,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+];
+
 // Variáveis globais que vamos precisar
 let tileSize;
 let offsetX;
@@ -489,10 +509,18 @@ document.querySelectorAll('.joy-btn').forEach(btn => {
 // Botão de ação
 document.querySelector('.action-btn').addEventListener('click', checkInteraction);
 
+function resetMap() {
+    for (let r = 0; r < mapData.length; r++) {
+        for (let c = 0; c < mapData[r].length; c++) {
+            mapData[r][c] = originalMap[r][c];
+        }
+    }
+}
+
 function restartGame() {
     chestsOpenedWithItem = 0; // zera contador
     player = { row: 5, col: 8 }; // volta posição inicial
+    resetMap();                  // volta mapa ao original
     randomizeChests();          // reembaralha baús
     buildMap();                 // redesenha mapa
-    updateCharacterPosition();  // reposiciona personagem
 }
