@@ -384,7 +384,7 @@ function showMessage(chestNumber) {
         }
 
         // Se for baú com item, incrementa contador
-        if (chestNumber === 4 || chestNumber === 6 || chestNumber === 8) {
+        /*if (chestNumber === 4 || chestNumber === 6 || chestNumber === 8) {
             chestsOpenedWithItem++;
 
             // Se já abriu 3, mostra modal final
@@ -411,7 +411,7 @@ function showMessage(chestNumber) {
                     if (originalClose) originalClose();
                 };
             }
-        }
+        }*/
 
     }, 2000);
 }
