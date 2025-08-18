@@ -123,7 +123,7 @@ function buildMap() {
     const containerWidth = gameElement.parentElement.clientWidth;
 
     // Tamanho do mapa será o menor entre largura do container e altura disponível
-    const maxMapSize = Math.min(containerWidth, vh - joystickHeight - 20); // 20px extra de folga
+    const maxMapSize = Math.min(containerWidth, vh - joystickHeight - 15); // 20px extra de folga
 
     // Define largura e altura do #game
     gameElement.style.width = maxMapSize + 'px';
