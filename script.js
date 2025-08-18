@@ -430,7 +430,7 @@ function showMessage(chestNumber) {
                                     Você encontrou os 3 artefatos escondidos!
                                 </p>
                                 <button id="restartBtn" class="joy-restart">
-                                    Reiniciar Jogo
+                                    Jogar Novamente
                                 </button>
                             </div>
                         `;
