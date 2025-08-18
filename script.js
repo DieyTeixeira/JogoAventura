@@ -288,43 +288,43 @@ function showMessage(chestNumber) {
     lottieAnimation.play();
     modal.style.display = 'flex';
 
-    /*closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };*/
-
-    // Encontra o baú na posição do player ou adjacente
+    // Encontrar o baú próximo
     const chestElements = document.querySelectorAll('.chest');
     let interactedChest = null;
     let chestPos = null;
     chestElements.forEach(chest => {
         const row = parseInt(chest.dataset.row);
         const col = parseInt(chest.dataset.col);
-        if((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1) { 
+        if ((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1) {
             interactedChest = chest;
             chestPos = { row, col };
         }
     });
 
-    // Função para fechar o modal do baú
     const closeChestModal = () => {
         lottieAnimation.stop();
         modal.style.display = 'none';
     };
 
-    // Função original de fechar, será sobrescrita se for o terceiro baú
     closeModal.onclick = closeChestModal;
 
-    setTimeout(()=>{
+    // Lottie finaliza
+    setTimeout(() => {
         lottieAnimation.stop();
-        lottieContainer.style.display='none';
+        lottieContainer.style.display = 'none';
 
-        if(chestNumber === 2 || chestNumber === 3){
+        if (chestNumber === 2 || chestNumber === 3) {
+            // Baú vazio
             modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;
-            setTimeout(()=>{ modal.style.display='none'; },2000);
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 2000);
         } else {
             // Baú com item
             const infoImg = getMonumentImage(chestNumber);
             const info = getMonumentInfo(chestNumber);
 
-            // Mostra imagem primeiro
+            // Mostra a imagem primeiro
             modalImage.src = infoImg.img;
             modalImage.style.display = 'block';
             modalImage.style.width = '80%';
@@ -334,7 +334,6 @@ function showMessage(chestNumber) {
 
             setTimeout(() => {
                 modalImage.style.display = 'none';
-
                 modalText.innerHTML = `
                     <div class="fade-in">
                         <img src="${info.img}" alt="${info.nome}" 
@@ -345,15 +344,13 @@ function showMessage(chestNumber) {
                     </div>
                 `;
 
-                // Sobrescreve onclick do fechar para processar baú com item
-                const originalClose = closeModal.onclick;
+                // O fechamento agora só dispara o modal final depois que o usuário clicar
                 closeModal.onclick = () => {
                     closeChestModal();
 
                     // Marca o baú como aberto
                     if (interactedChest) {
                         interactedChest.classList.remove('closed');
-
                         let openClass, newSize, deslocX, deslocY;
                         switch (chestNumber) {
                             case 4:
@@ -384,14 +381,13 @@ function showMessage(chestNumber) {
                         const col = parseInt(interactedChest.dataset.col);
                         interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + deslocX + 'px';
                         interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - deslocY + 'px';
-
                         mapData[chestPos.row][chestPos.col] = chestNumber + 1;
                     }
 
                     // Incrementa contador de baús com item
                     chestsOpenedWithItem++;
 
-                    // Se abriu todos os 3 baús, mostra modal final
+                    // Mostra modal final somente se abriu todos os 3 baús com item
                     if (chestsOpenedWithItem === 3) {
                         modalText.innerHTML = `
                             <div style="text-align:center; padding:20px;">
@@ -409,14 +405,12 @@ function showMessage(chestNumber) {
                             restartGame();
                         };
                     }
-
-                    if (originalClose) originalClose();
                 };
 
-            }, 2000); // espera 2s para mostrar descrição
+            }, 2000); // tempo para mostrar imagem antes do texto
         }
 
-    }, 2000); // espera Lottie terminar
+    }, 2000); // tempo do Lottie
 }
 
 function getMonumentImage(num) {
