@@ -324,7 +324,7 @@ function showMessage(chestNumber) {
                         style="width:80%; height:auto; display:block; margin:0 auto 10px;" 
                         alt="Baú vazio">
                     <p style="font-size:1.2em; margin-top:10px;">
-                        ⚠️ Que pena, este baú está vazio!
+                        Que pena, este baú está vazio!
                     </p>
                 </div>
             `;
@@ -419,8 +419,13 @@ function showMessage(chestNumber) {
                     if (chestsOpenedWithItem === 3) {
                         modalText.innerHTML = `
                             <div style="text-align:center; padding:20px;">
-                                <h2>🎉 Parabéns!</h2>
-                                <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.2em;">Você encontrou os 3 artefatos escondidos!</p>
+                                <img src="avatar-vitoria.png" 
+                                    alt="Imagem de celebração" 
+                                    style="width:80px; height:auto; display:block; margin:0 auto 15px;">
+                                <h2>Parabéns!</h2>
+                                <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.2em;">
+                                    Você encontrou os 3 artefatos escondidos!
+                                </p>
                                 <button id="restartBtn" class="joy-restart">
                                     Reiniciar Jogo
                                 </button>
