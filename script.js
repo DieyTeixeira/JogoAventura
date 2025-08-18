@@ -71,7 +71,7 @@ const messageBox = document.createElement('div');
 messageBox.classList.add('message');
 gameContainer.appendChild(messageBox);
 
-// Pré-carregar imagens dos baús
+// Pré-carregar imagens dos elementos
 const monumentImages = ['meu-mapa.png', 'avatar.png', 'avatar-vitoria.png',
                         'bau-aberto.png', 'bau-fechado.png',
                         'bau-aberto-trem.png', 'bau-aberto-flechas.png', 'bau-aberto-casa-artes.png',
