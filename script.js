@@ -280,6 +280,7 @@ function showMessage(chestNumber) {
     const modalText = document.getElementById('modalText');
     const modalImage = document.getElementById('modalImage');
     const closeModal = document.getElementById('closeModal');
+    const closeChestModal = document.getElementById('closeChestModal');
     const lottieContainer = document.getElementById('lottieContainer');
 
     modalText.innerHTML = '';
@@ -303,7 +304,7 @@ function showMessage(chestNumber) {
 
     closeModal.onclick = () => { lottieAnimation.stop(); modal.style.display = 'none'; };
 
-    closeModal.onclick = closeModal;
+    closeModal.onclick = closeChestModal;
 
     setTimeout(()=>{
         lottieAnimation.stop();
@@ -392,8 +393,8 @@ function showMessage(chestNumber) {
             if (chestsOpenedWithItem === 3) {
                 const originalClose = closeModal.onclick; // guarda função original
                 closeModal.onclick = () => {
-                    closeModal();
-
+                    closeChestModal();
+                    
                     modalText.innerHTML = `
                         <div style="text-align:center; padding:20px;">
                             <h2>🎉 Parabéns!</h2>
