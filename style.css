@@ -12,7 +12,7 @@ body {
     align-items: center;
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Share Tech', sans-serif;
 }
 
 .game-container {
@@ -169,4 +169,19 @@ body {
     .joystick-container {
         display: flex;
     }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.share-tech-regular {
+  font-family: "Share Tech", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }

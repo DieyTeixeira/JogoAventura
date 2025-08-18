@@ -10,15 +10,15 @@ const mapData = [
     [0,0,0,1,0,0,0,0,1,1,1,1,1,0,0,0,0],
     [0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,0,0],
     [0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0],
-    [0,4,1,1,1,1,1,0,1,0,1,1,1,1,1,0,0],
+    [0,2,1,1,1,1,1,0,1,0,1,1,1,1,1,0,0],
     [0,0,1,0,0,0,1,0,1,1,1,0,0,0,0,0,0],
     [0,0,1,0,0,0,1,0,1,0,0,0,1,1,1,0,0],
     [0,0,1,0,1,1,1,1,1,0,0,0,1,0,1,0,0],
-    [0,0,1,0,1,0,0,0,1,1,1,1,1,0,1,6,0],
+    [0,0,1,0,1,0,0,0,1,1,1,1,1,0,1,2,0],
     [0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0],
     [0,0,0,0,0,1,0,2,1,1,1,1,1,1,1,0,0],
     [0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0],
-    [0,0,8,1,1,1,1,1,1,1,1,1,1,0,1,0,0],
+    [0,0,2,1,1,1,1,1,1,1,1,1,1,0,1,0,0],
     [0,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0,0],
     [0,0,0,0,1,1,1,1,1,0,0,2,1,1,1,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -49,6 +49,29 @@ const lottieAnimation = lottie.loadAnimation({
 const messageBox = document.createElement('div');
 messageBox.classList.add('message');
 gameContainer.appendChild(messageBox);
+
+function randomizeChests() {
+    // Pega todas as posições onde tem baú "2"
+    let chestPositions = [];
+    for (let r = 0; r < mapData.length; r++) {
+        for (let c = 0; c < mapData[r].length; c++) {
+            if (mapData[r][c] === 2) {
+                chestPositions.push({ row: r, col: c });
+            }
+        }
+    }
+
+    // Embaralha a lista de baús
+    chestPositions.sort(() => Math.random() - 0.5);
+
+    // Garante que existem pelo menos 3 baús
+    if (chestPositions.length >= 3) {
+        // Define 1 para cada tipo especial
+        mapData[chestPositions[0].row][chestPositions[0].col] = 4;
+        mapData[chestPositions[1].row][chestPositions[1].col] = 6;
+        mapData[chestPositions[2].row][chestPositions[2].col] = 8;
+    }
+}
 
 // Função para criar os elementos do mapa
 function buildMap() {
@@ -258,10 +281,30 @@ function showMessage(chestNumber) {
             modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;
             setTimeout(()=>{ modal.style.display='none'; },2000);
         } else {
-            const info = getMonumentInfo(chestNumber);
-            modalText.innerHTML = `<h2>${info.nome}</h2><p>${info.desc}</p>`;
-            modalImage.src = info.img;
+            // Primeiro mostra a imagem
+            const infoImg = getMonumentImage(chestNumber);
+            modalImage.src = infoImg.img;
             modalImage.style.display='block';
+            modalImage.style.width = '80%';      // largura ajustada
+            modalImage.style.height = 'auto';    // mantém proporção
+            modalImage.style.margin = '0 auto';  // centraliza horizontalmente
+            modalText.innerHTML = '';
+
+            // Depois de 2 segundos mostra a descrição
+            setTimeout(()=>{
+                modalImage.style.display = 'none';
+
+                const info = getMonumentInfo(chestNumber);
+                modalText.innerHTML = `
+                    <div class="fade-in">
+                        <img src="${info.img}" alt="${info.nome}" 
+                            style="width: 80%; display:block; margin:0 auto 10px;">
+                        <h2 style="font-size: 2em;">${info.nome}</h2>
+                        <p>${info.desc}</p>
+                        <p style="margin-top: 1em; font-size: 1.2em;">${info.text}</p>
+                    </div>
+                `;
+            }, 2000);
         }
 
         // Marca o baú como aberto **independentemente do tipo**
@@ -279,19 +322,19 @@ function showMessage(chestNumber) {
                 case 4:
                     openClass = 'openedtrem';
                     newSize = interactedChest.dataset.openedItemSize;
-                    deslocX = tileSize * 0.1;
+                    deslocX = tileSize * 0.2;
                     deslocY = tileSize * 0.6;
                     break;
                 case 6:
                     openClass = 'openedflechas';
                     newSize = interactedChest.dataset.openedItemSize;
-                    deslocX = tileSize * 0.1;
+                    deslocX = tileSize * 0.2;
                     deslocY = tileSize * 0.6;
                     break;
                 case 8:
                     openClass = 'openedcasa';
                     newSize = interactedChest.dataset.openedItemSize;
-                    deslocX = tileSize * 0.1;
+                    deslocX = tileSize * 0.2;
                     deslocY = tileSize * 0.6;
                     break;
             }
@@ -313,26 +356,46 @@ function showMessage(chestNumber) {
     }, 2000);
 }
 
+function getMonumentImage(num) {
+    switch(num) {
+        case 4:
+            return {
+                img: 'bau-trem.png'
+            };
+        case 6:
+            return {
+                img: 'bau-flechas.png'
+            };
+        case 8:
+            return {
+                img: 'bau-casa-artes.png'
+            };
+    }
+}
+
 // Função com dados dos monumentos
 function getMonumentInfo(num) {
     switch(num) {
         case 4:
             return {
-                nome: 'Tesouro 1',
-                desc: 'Descrição do tesouro 1.',
-                img: 'tesouro1.jpg'
+                img: 'image-trem.png',
+                nome: 'Antiga Estação Férrea',
+                desc: 'Monumento. Arqueologia Histórica.',
+                text: 'A Antiga Estação Férrea de Santa Cruz do Sul é como uma pista arqueológica viva: ainda podemos observar e imaginar como as pessoas viajavam, trabalhavam e se comunicavam há décadas. Esse espaço é fundamental para a Arqueologia Histórica, pois preserva vestígios do cotidiano da cidade, mostrando como o trem transformou a vida das pessoas e impulsionou o crescimento da região.'
             };
         case 6:
             return {
-                nome: 'Tesouro 2',
-                desc: 'Descrição do tesouro 2.',
-                img: 'tesouro2.jpg'
+                img: 'image-flechas.png',
+                nome: 'Pontas de Flechas',
+                desc: 'Artefatos arquelógicos. Arqueologia Pré-histórica.',
+                text: 'As pontas de flechas encontradas em Santa Cruz do Sul são provas de como os grupos indígenas caçavam, se defendiam e organizavam sua vida. É como se o solo da cidade guardasse segredos de quem passou por aqui muito antes de nós, e cada descoberta ajuda a revelar capítulos esquecidos da nossa história. Preservar essas pontas de flechas é garantir que essa memória continue viva para as futuras gerações.'
             };
         case 8:
             return {
-                nome: 'Tesouro 3',
-                desc: 'Descrição do tesouro 3.',
-                img: 'tesouro3.jpg'
+                img: 'image-casa-artes.png',
+                nome: 'Casa de Artes Regina Simonis',
+                desc: 'Monumento tombado. Arquelogia Histórica.',
+                text: 'Imagine um baú do tesouro repleto de histórias: é exatamente isso que a Casa das Artes Regina Simonis representa para Santa Cruz do Sul! Assim como arqueólogos desenterram vestígios do passado para compreendê-lo, a Casa preserva e exibe memórias da cidade — desde sua arquitetura única até obras de arte e exposições. É como uma verdadeira “máquina do tempo cultural”, permitindo que todos viajem pelo passado, conheçam suas raízes e aprendam a valorizar e proteger nossa história para o futuro.'
             };
     }
 }
@@ -358,6 +421,7 @@ document.addEventListener('keydown', e => {
 
 // Reconstrói mapa ao carregar e ao redimensionar a janela
 window.addEventListener('resize', buildMap);
+randomizeChests();
 buildMap();
 
 // Função para movimentar via joystick
