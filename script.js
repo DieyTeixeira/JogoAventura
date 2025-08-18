@@ -317,9 +317,16 @@ function showMessage(chestNumber) {
 
         if (chestNumber === 2) {
             // Baú vazio
-            /*modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;*/
-            const infoImgVazio = getMonumentImage(chestNumber);
-            modalImage.src = infoImgVazio.img;
+            const infoImg = getMonumentImage(chestNumber);
+            modalImage.src = infoImg.img;
+            modalImage.style.display = 'block';
+            modalImage.style.width = '80%';
+            modalImage.style.height = 'auto';
+            modalImage.style.margin = '0 auto 10px';
+
+            modalText.innerHTML = `<p style="text-align:center; font-size:1.2em; margin-top:10px;">
+                ⚠️ Que pena, este baú está vazio!
+            </p>`;
 
             // Marca o baú como aberto
             interactedChest.classList.remove('closed');
@@ -336,7 +343,9 @@ function showMessage(chestNumber) {
             mapData[chestPos.row][chestPos.col] = chestNumber + 1;    
 
             // Fecha automaticamente após 2s
-            setTimeout(closeChestModal, 2000);
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 2000);
 
         } else {
             // Baú com item
