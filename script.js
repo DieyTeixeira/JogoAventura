@@ -406,8 +406,8 @@ function showMessage(chestNumber) {
                         modalText.innerHTML = `
                             <div style="text-align:center; padding:20px;">
                                 <h2>🎉 Parabéns!</h2>
-                                <p>Você encontrou todos os 3 tesouros escondidos!</p>
-                                <button id="restartBtn" class="joy-btn">
+                                <p style="margin-top: 1em; margin-down: 1em; font-size: 1.2em;">Você encontrou os 3 artefatos escondidos!</p>
+                                <button id="restartBtn" class="joy-restart">
                                     Reiniciar Jogo
                                 </button>
                             </div>
