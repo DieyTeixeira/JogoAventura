@@ -317,7 +317,14 @@ function showMessage(chestNumber) {
 
         if (chestNumber === 2 || chestNumber === 3) {
             // Baú vazio
-            modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;
+            const infoImg = getBauVazioImage(chestNumber);
+            modalText.innerHTML = `
+                <div class="fade-in">
+                    <img src="${info.img}" alt="${info.nome}"
+                        style="width: 80%; display:block; margin:0 auto 10px;">
+                    <p style="margin-top: 1em; font-size: 1.2em;">${info.text}</p>
+                </div>
+            `;
 
             // Marca o baú como aberto
             interactedChest.classList.remove('closed');
@@ -425,6 +432,16 @@ function showMessage(chestNumber) {
         }
 
     }, 2000); // tempo do Lottie
+}
+
+function getBauVazioImage(num) {
+    switch(num) {
+        case 2:
+            return {
+                img: 'bau-vazio-teias.png',
+                text: '⚠️ Que pena, este baú está vazio!'
+            };
+    }
 }
 
 function getMonumentImage(num) {
