@@ -315,35 +315,6 @@ function showMessage(chestNumber) {
 
         if (!interactedChest) return;
 
-        if (chestNumber === 2 || chestNumber === 3) {
-            // Baú vazio
-            const infoImg = getBauVazioImage(chestNumber);
-            modalText.innerHTML = `
-                <div class="fade-in">
-                    <img src="${info.img}" alt="${info.nome}"
-                        style="width: 80%; display:block; margin:0 auto 10px;">
-                    <p style="margin-top: 1em; font-size: 1.2em;">${info.text}</p>
-                </div>
-            `;
-
-            // Marca o baú como aberto
-            interactedChest.classList.remove('closed');
-            interactedChest.classList.add('opened'); // ou 'openedEmpty' se quiser diferenciar
-            const newSize = interactedChest.dataset.openedSize;
-            const row = parseInt(interactedChest.dataset.row);
-            const col = parseInt(interactedChest.dataset.col);
-            interactedChest.style.width = newSize + 'px';
-            interactedChest.style.height = newSize + 'px';
-            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
-            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.4) + 'px';
-                
-            // Atualiza o mapa para não interagir novamente
-            mapData[chestPos.row][chestPos.col] = chestNumber + 1;    
-
-            // Fecha automaticamente após 2s
-            setTimeout(closeChestModal, 2000);
-
-        } else {
             // Baú com item
             const infoImg = getMonumentImage(chestNumber);
             const info = getMonumentInfo(chestNumber);
@@ -376,6 +347,12 @@ function showMessage(chestNumber) {
                      interactedChest.classList.remove('closed');
                     let openClass, newSize, deslocX, deslocY;
                     switch (chestNumber) {
+                        case 2:
+                            openClass = 'opened';
+                            newSize = interactedChest.dataset.openedSize;
+                            deslocX = tileSize * 0.1;
+                            deslocY = tileSize * 0.4;
+                            break;
                         case 4:
                             openClass = 'openedtrem';
                             newSize = interactedChest.dataset.openedItemSize;
@@ -429,23 +406,16 @@ function showMessage(chestNumber) {
                 };
 
             }, 2000); // tempo para mostrar imagem antes do texto
-        }
 
     }, 2000); // tempo do Lottie
 }
 
-function getBauVazioImage(num) {
+function getMonumentImage(num) {
     switch(num) {
         case 2:
             return {
-                img: 'bau-vazio-teias.png',
-                text: '⚠️ Que pena, este baú está vazio!'
-            };
-    }
-}
-
-function getMonumentImage(num) {
-    switch(num) {
+                img: 'bau-vazio-teias.png'
+            }
         case 4:
             return {
                 img: 'bau-trem.png'
