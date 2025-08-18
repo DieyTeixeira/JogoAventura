@@ -352,7 +352,7 @@ function showMessage(chestNumber) {
                     if (interactedChest && chestNumber % 2 === 0) {
                         interactedChest.classList.remove('closed');
 
-                        let openClass, newSize, deslocX, deslocY;
+                        let openClass;
                         switch (chestNumber) {
                             case 2:
                                 openClass = 'opened';
