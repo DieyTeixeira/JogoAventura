@@ -421,7 +421,7 @@ function showMessage(chestNumber) {
                             <div style="text-align:center; padding:20px;">
                                 <img src="avatar-vitoria.png" 
                                     alt="Imagem de celebração" 
-                                    style="width:80px; height:auto; display:block; margin:0 auto 15px;">
+                                    style="width:120px; height:auto; display:block; margin:0 auto 15px;">
                                 <h2>Parabéns!</h2>
                                 <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.2em;">
                                     Você encontrou os 3 artefatos escondidos!
