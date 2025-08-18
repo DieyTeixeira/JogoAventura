@@ -407,7 +407,7 @@ function showMessage(chestNumber) {
                             <div style="text-align:center; padding:20px;">
                                 <h2>🎉 Parabéns!</h2>
                                 <p>Você encontrou todos os 3 tesouros escondidos!</p>
-                                <button id="restartBtn" style="margin-top:20px; padding:10px 20px; font-size:1.2em; cursor:pointer;">
+                                <button id="restartBtn" class="joy-btn">
                                     Reiniciar Jogo
                                 </button>
                             </div>
@@ -532,9 +532,9 @@ function resetMap() {
 }
 
 function restartGame() {
-    chestsOpenedWithItem = 0; // zera contador
-    player = { row: 5, col: 8 }; // volta posição inicial
-    resetMap();                  // volta mapa ao original
-    randomizeChests();          // reembaralha baús
-    buildMap();                 // redesenha mapa
+    chestsOpenedWithItem = 0;
+    player = { row: 5, col: 8 };
+    resetMap();
+    randomizeChests();
+    buildMap();
 }
