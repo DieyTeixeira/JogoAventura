@@ -29,6 +29,7 @@ let tileSize;
 let offsetX;
 let offsetY;
 let player = { row: 5, col: 8 };
+let chestsOpenedWithItem = 0; // contador de baús com item
 
 // Criar personagem
 const character = document.createElement('div');
@@ -360,12 +361,32 @@ function showMessage(chestNumber) {
             interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - deslocY + 'px';
         
             mapData[chestPos.row][chestPos.col] = chestNumber + 1;
+        }
 
-            if (checkAllChestsOpened()) {
+        // Se for baú com item, incrementa contador
+        if (chestNumber === 4 || chestNumber === 6 || chestNumber === 8) {
+            chestsOpenedWithItem++;
+
+            // Se já abriu 3, mostra modal final
+            if (chestsOpenedWithItem === 3) {
                 setTimeout(() => {
-                    document.getElementById('gameModal').style.display = 'none';
-                    showEndModal();
-                }, 2000); // espera fechar o último modal
+                    modalText.innerHTML = `
+                        <div style="text-align:center; padding:20px;">
+                            <h2>🎉 Parabéns!</h2>
+                            <p>Você encontrou todos os 3 tesouros escondidos!</p>
+                            <button id="restartBtn" style="margin-top:20px; padding:10px 20px; font-size:1.2em; cursor:pointer;">
+                                Reiniciar Jogo
+                            </button>
+                        </div>
+                    `;
+                    modal.style.display = 'flex';
+
+                    // Ao fechar ou clicar reinicia
+                    document.getElementById('restartBtn').onclick = () => {
+                        modal.style.display = 'none';
+                        restartGame();
+                    };
+                }, 2500); // espera terminar o baú antes de mostrar final
             }
         }
 
@@ -435,57 +456,6 @@ document.addEventListener('keydown', e => {
     if(e.code === 'Space') checkInteraction();
 });
 
-function checkAllChestsOpened() {
-    return document.querySelectorAll('.chest.closed').length === 0;
-}
-
-function showEndModal() {
-    const endModal = document.createElement('div');
-    endModal.id = 'endModal';
-    endModal.className = 'modal';
-    endModal.style.display = 'flex';
-
-    const content = document.createElement('div');
-    content.className = 'modal-content';
-
-    const title = document.createElement('h2');
-    title.textContent = '🎉 Parabéns!';
-
-    const message = document.createElement('p');
-    message.textContent = 'Você abriu todos os baús!';
-
-    const restartBtn = document.createElement('button');
-    restartBtn.id = 'restartBtn';
-    restartBtn.textContent = 'Reiniciar';
-
-    // Ação do botão: resetar jogo
-    restartBtn.onclick = () => {
-        // Remove modal
-        endModal.remove();
-
-        // Resetar mapa (exemplo: se você tem o layout inicial salvo em mapOriginal)
-        mapData = JSON.parse(JSON.stringify(mapOriginal)); 
-
-        // Resetar posição do personagem
-        character = { row: startRow, col: startCol };
-
-        // Limpar chests e personagem da tela
-        gameContainer.innerHTML = '';
-
-        // Redesenhar
-        drawMap();
-        character();
-    };
-
-    // Monta estrutura
-    content.appendChild(title);
-    content.appendChild(message);
-    content.appendChild(restartBtn);
-    endModal.appendChild(content);
-
-    document.body.appendChild(endModal);
-}
-
 // Reconstrói mapa ao carregar e ao redimensionar a janela
 window.addEventListener('resize', buildMap);
 randomizeChests();
@@ -518,3 +488,11 @@ document.querySelectorAll('.joy-btn').forEach(btn => {
 
 // Botão de ação
 document.querySelector('.action-btn').addEventListener('click', checkInteraction);
+
+function restartGame() {
+    chestsOpenedWithItem = 0; // zera contador
+    player = { row: 5, col: 8 }; // volta posição inicial
+    randomizeChests();          // reembaralha baús
+    buildMap();                 // redesenha mapa
+    updateCharacterPosition();  // reposiciona personagem
+}
