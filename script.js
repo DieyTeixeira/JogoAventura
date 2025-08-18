@@ -351,6 +351,7 @@ function showMessage(chestNumber) {
                     // Marca o baú como aberto
                     if (interactedChest) {
                         interactedChest.classList.remove('closed');
+
                         let openClass, newSize, deslocX, deslocY;
                         switch (chestNumber) {
                             case 2:
