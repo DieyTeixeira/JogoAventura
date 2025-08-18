@@ -315,11 +315,11 @@ function showMessage(chestNumber) {
 
         if (!interactedChest) return;
 
-        if (chestNumber === 2 || chestNumber === 3) {
+        if (chestNumber === 2) {
             // Baú vazio
             /*modalText.innerHTML = `⚠️ Que pena, este baú está vazio!`;*/
-            const infoImg = getMonumentImage(chestNumber);
-            modalImage.src = infoImg.img;
+            const infoImgVazio = getMonumentImage(chestNumber);
+            modalImage.src = infoImgVazio.img;
 
             // Marca o baú como aberto
             interactedChest.classList.remove('closed');
