@@ -140,6 +140,22 @@ body {
     box-shadow: 0 2px 0 #222;
 }
 
+/* Remove o 'flash' azul/cinza de toque em dispositivos móveis */
+.joy-btn,
+.action-btn,
+.joy-restart,
+.joy-ok {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove a borda azul que aparece quando o botão está em foco (após o clique) */
+.joy-btn:focus,
+.action-btn:focus,
+.joy-restart:focus,
+.joy-ok:focus {
+    outline: none;
+}
+
 .action-btn {
     height: 80px;
     width: 80px;
