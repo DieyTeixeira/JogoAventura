@@ -209,3 +209,17 @@ body {
     font-weight: 400;
     font-style: normal;
 }
+
+#keyboard-legend {
+    text-align: center; /* Centraliza o texto */
+    margin-top: 1px; /* Dá um espaço abaixo do mapa */
+    margin-bottom: 15px; /* Dá um espaço acima do joystick */
+    color: #FFFFFF; /* Cor do texto */
+    font-size: 0.9em;
+}
+
+@media (max-width: 767px) {
+    #keyboard-legend {
+        display: none;
+    }
+}
