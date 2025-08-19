@@ -621,13 +621,41 @@ function resetMap() {
 }
 
 function restartGame() {
-    document.body.classList.remove('mobile-close-needed');
+    // Pega os elementos da tela de carregamento que já existem na página
+    const loadingScreen = document.getElementById('loading-screen');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('loading-progress-text');
+
+    // 1. Fecha o modal de "Parabéns" e exibe a tela de carregamento
     document.getElementById('gameModal').style.display = 'none';
-    chestsOpenedWithItem = 0;
-    player = { row: 5, col: 8 };
-    resetMap();
-    randomizeChests();
-    buildMap();
-    isModalOpen = false;
-    modalCloseAction = null;
+    loadingScreen.style.display = 'flex';
+    loadingScreen.style.opacity = '1';
+    progressBar.style.width = '0%';
+    progressText.innerText = '0%';
+
+    // 2. Usa um pequeno timeout para garantir que o navegador tenha tempo de renderizar a tela de carregamento
+    setTimeout(() => {
+        // Reseta todas as variáveis e o estado do jogo
+        chestsOpenedWithItem = 0;
+        player = { row: 5, col: 8 };
+        isModalOpen = false;
+        modalCloseAction = null;
+        document.body.classList.remove('mobile-close-needed');
+        resetMap();
+        randomizeChests();
+        buildMap(); // Constrói o novo mapa "em segundo plano"
+
+        // 3. Simula o carregamento rápido (já que as imagens estão em cache)
+        progressBar.style.width = '100%';
+        progressText.innerText = '100%';
+
+        // 4. Espera um momento com a barra em 100% e depois esconde a tela de carregamento
+        setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500); // Duração da transição do CSS
+        }, 400); // Pequena pausa para o usuário ver o 100%
+
+    }, 100); // Delay mínimo para garantir a exibição da tela antes de começar a resetar
 }
