@@ -80,15 +80,23 @@ const monumentImages = ['meu-mapa.png', 'avatar.png', 'avatar-vitoria.png',
                         'image-trem.png', 'image-flechas.png', 'image-casa-artes.png'];
 
 /**
- * Função que pré-carrega uma lista de imagens e só continua quando todas estiverem prontas.
- * @param {string[]} urls - Um array com os caminhos das imagens.
+ * Função que pré-carrega imagens e reporta o progresso.
+ * @param {string[]} urls - Array com os caminhos das imagens.
+ * @param {(loaded: number, total: number) => void} onProgress - Função chamada a cada imagem carregada.
  * @returns {Promise<HTMLImageElement[]>}
  */
-function preloadImages(urls) {
+function preloadImages(urls, onProgress) {
+    let loadedCount = 0;
     const promises = urls.map(url => {
         return new Promise((resolve, reject) => {
             const img = new Image();
-            img.onload = () => resolve(img);
+            img.onload = () => {
+                loadedCount++;
+                if (onProgress) {
+                    onProgress(loadedCount, urls.length); // Chama o callback de progresso
+                }
+                resolve(img);
+            };
             img.onerror = () => reject(new Error(`Falha ao carregar a imagem em ${url}`));
             img.src = url;
         });
@@ -543,17 +551,39 @@ buildMap();*/
 // Adiciona o listener de redimensionamento da janela
 window.addEventListener('resize', buildMap);
 
-// Inicia o pré-carregamento das imagens
-preloadImages(monumentImages)
+// Pega os elementos da tela de carregamento
+const loadingScreen = document.getElementById('loading-screen');
+const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('loading-progress-text');
+
+// Função que será chamada a cada imagem carregada
+const updateProgress = (loaded, total) => {
+    const percent = Math.floor((loaded / total) * 100);
+    progressBar.style.width = `${percent}%`;
+    progressText.innerText = `${percent}%`;
+};
+
+// Adiciona o listener de redimensionamento da janela
+window.addEventListener('resize', buildMap);
+
+// Inicia o pré-carregamento das imagens, passando a função de progresso
+preloadImages(monumentImages, updateProgress)
     .then(images => {
         console.log('Todas as imagens foram pré-carregadas com sucesso!');
-        // Agora que as imagens estão no cache do navegador, inicie o jogo
+        
+        // Esconde a tela de carregamento com uma transição suave
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500); // Tempo igual à transição do CSS
+
+        // Agora que as imagens estão no cache, inicie o jogo
         randomizeChests();
         buildMap();
     })
     .catch(error => {
         console.error('Erro ao pré-carregar as imagens:', error);
-        // Opcional: mostrar uma mensagem de erro para o usuário
+        progressText.innerText = "ERRO";
         alert('Houve um erro ao carregar os recursos do jogo. Por favor, recarregue a página.');
     });
 
