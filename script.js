@@ -79,10 +79,22 @@ const monumentImages = ['meu-mapa.png', 'avatar.png', 'avatar-vitoria.png',
                         'bau-trem.png', 'bau-flechas.png', 'bau-casa-artes.png', 'bau-vazio-teias.png',
                         'image-trem.png', 'image-flechas.png', 'image-casa-artes.png'];
 
-monumentImages.forEach(src => {
-    const img = new Image();
-    img.src = src;
-});
+/**
+ * Função que pré-carrega uma lista de imagens e só continua quando todas estiverem prontas.
+ * @param {string[]} urls - Um array com os caminhos das imagens.
+ * @returns {Promise<HTMLImageElement[]>}
+ */
+function preloadImages(urls) {
+    const promises = urls.map(url => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error(`Falha ao carregar a imagem em ${url}`));
+            img.src = url;
+        });
+    });
+    return Promise.all(promises);
+}
 
 function randomizeChests() {
     // Pega todas as posições onde tem baú "2"
@@ -523,10 +535,27 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// Reconstrói mapa ao carregar e ao redimensionar a janela
+/*// Reconstrói mapa ao carregar e ao redimensionar a janela
 window.addEventListener('resize', buildMap);
 randomizeChests();
-buildMap();
+buildMap();*/
+
+// Adiciona o listener de redimensionamento da janela
+window.addEventListener('resize', buildMap);
+
+// Inicia o pré-carregamento das imagens
+preloadImages(monumentImages)
+    .then(images => {
+        console.log('Todas as imagens foram pré-carregadas com sucesso!');
+        // Agora que as imagens estão no cache do navegador, inicie o jogo
+        randomizeChests();
+        buildMap();
+    })
+    .catch(error => {
+        console.error('Erro ao pré-carregar as imagens:', error);
+        // Opcional: mostrar uma mensagem de erro para o usuário
+        alert('Houve um erro ao carregar os recursos do jogo. Por favor, recarregue a página.');
+    });
 
 // Função para movimentar via joystick
 function movePlayer(dir) {
