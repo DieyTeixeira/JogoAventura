@@ -125,7 +125,7 @@ function buildMap() {
     const containerWidth = gameElement.parentElement.clientWidth;
 
     // Tamanho do mapa será o menor entre largura do container e altura disponível
-    const maxMapSize = Math.min(containerWidth, vh - joystickHeight - 10); // 20px extra de folga
+    const maxMapSize = Math.min(containerWidth, vh - joystickHeight - 20); // 20px extra de folga
 
     // Define largura e altura do #game
     gameElement.style.width = maxMapSize + 'px';
@@ -165,9 +165,9 @@ function buildMap() {
                 let chestClass;
                 let size;
 
-                const closedSize = tileSize * 1.65;  // tamanho do baú fechado
-                const openedSize = tileSize * 1.98;  // tamanho do baú aberto
-                const openedItemSize = tileSize * 2.53;  // tamanho do baú aberto com item
+                const closedSize = tileSize * 1.5;  // tamanho do baú fechado
+                const openedSize = tileSize * 1.8;  // tamanho do baú aberto
+                const openedItemSize = tileSize * 2.3;  // tamanho do baú aberto com item
 
                 switch (val) {
                     case 2:
@@ -244,8 +244,8 @@ function buildMap() {
 }
 
 function updateCharacterPosition() {
-    const charHeight = tileSize * 3.52; // personagem 2x altura do tile
-    const charWidth = tileSize * 2.2; // largura proporcional
+    const charHeight = tileSize * 3.2; // personagem 2x altura do tile
+    const charWidth = tileSize * 2; // largura proporcional
 
     character.style.width = charWidth + 'px';
     character.style.height = charHeight + 'px';
