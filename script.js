@@ -3,7 +3,7 @@ const gameContainer = document.getElementById('game');
 // Configurações da grade
 const gridSize = 17;
 
-// Mapa 15x15 (0= vazio, 1= caminho, 2= baú com tesouro, 3= baú vazio)
+// Mapa 15x15 (0= vazio, 1= caminho, 2= baús)
 const mapData = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,1,1,1,2,0,0,0,0,0,0,2,0,0,0],
@@ -229,16 +229,6 @@ function buildMap() {
                 chest.className = 'chest ' + chestClass;
                 chest.dataset.row = r;
                 chest.dataset.col = c;
-
-                /*const isOpen = (val % 2 !== 0); // ímpares são abertos
-                chest.className = 'chest ' + (isOpen ? 'opened' : 'closed');
-                chest.dataset.row = r;
-                chest.dataset.col = c;
-
-                // Tamanho diferente para closed
-                const closedSize = tileSize * 1.5;  // tamanho do baú fechado
-                const openedSize = tileSize * 1.8;    // tamanho do baú aberto (quando interagido)
-                const size = isOpen ? openedSize : closedSize;*/
 
                 chest.style.width = size + 'px';
                 chest.style.height = size + 'px';
