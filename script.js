@@ -381,6 +381,8 @@ function showMessage(chestNumber) {
                     </div>
                 `;
 
+                document.getElementById('modalOkBtn').onclick = () => closeGenericModal();
+                
                 // O fechamento agora só dispara o modal final depois que o usuário clicar
                 modalCloseAction = () => {
                     closeGenericModal();
