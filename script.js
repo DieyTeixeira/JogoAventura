@@ -293,7 +293,6 @@ function showMessage(chestNumber) {
     lottieContainer.style.display = 'block';
     lottieAnimation.play();
     modal.style.display = 'flex';
-
     isModalOpen = true;
 
     // Encontrar o baú próximo
@@ -318,10 +317,7 @@ function showMessage(chestNumber) {
         lottieAnimation.stop();
         lottieContainer.style.display = 'none';
 
-        if (!interactedChest) {
-            closeGenericModal();
-            return;
-        }
+        if (!interactedChest) { closeGenericModal(); return; }
 
         if (chestNumber === 2) {
             document.body.classList.add('mobile-close-needed');
@@ -354,7 +350,6 @@ function showMessage(chestNumber) {
             modalCloseAction = () => closeGenericModal();
 
         } else {
-            document.body.classList.add('mobile-close-needed');
             // Baú com item
             const infoImg = getMonumentImage(chestNumber);
             const info = getMonumentInfo(chestNumber);
@@ -368,6 +363,8 @@ function showMessage(chestNumber) {
             modalText.innerHTML = '';
 
             setTimeout(() => {
+                document.body.classList.add('mobile-close-needed');
+                
                 modalImage.style.display = 'none';
                 modalText.innerHTML = `
                     <div class="fade-in">
