@@ -224,7 +224,7 @@ function buildMap() {
                 chest.style.width = size + 'px';
                 chest.style.height = size + 'px';
                 chest.style.left = offsetX + c * tileSize + (tileSize - size) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.22) + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.2) + 'px';
                 
                 // Salva os tamanhos no dataset para usar depois
                 chest.dataset.closedSize = closedSize;
@@ -388,19 +388,19 @@ function showMessage(chestNumber) {
                             openClass = 'openedtrem';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.74;
+                            deslocY = tileSize * 0.73;
                             break;
                         case 6:
                             openClass = 'openedflechas';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.72;
+                            deslocY = tileSize * 0.73;
                             break;
                         case 8:
                             openClass = 'openedcasa';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.68;
+                            deslocY = tileSize * 0.73;
                             break;
                     }
 
