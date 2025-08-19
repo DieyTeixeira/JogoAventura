@@ -251,7 +251,7 @@ function updateCharacterPosition() {
     character.style.height = charHeight + 'px';
 
     // Posicionar personagem alinhado pela base do tile
-    const left = offsetX + player.col * tileSize + tileSize - charWidth + (tileSize * 0.6);
+    const left = offsetX + player.col * tileSize + tileSize - charWidth + (tileSize * 0.65);
     const top = offsetY + player.row * tileSize + tileSize - charHeight + (tileSize * 0.1);
 
     character.style.left = left + 'px';
@@ -340,7 +340,7 @@ function showMessage(chestNumber) {
             const { row, col } = chestPos;
             interactedChest.style.width = `${newSize}px`;
             interactedChest.style.height = `${newSize}px`;
-            interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+(tileSize*0.1)}px`;
+            interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+(tileSize*0.15)}px`;
             interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-(tileSize*0.5)}px`;
                 
             // Atualiza o mapa para não interagir novamente
