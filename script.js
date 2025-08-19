@@ -372,7 +372,7 @@ function showMessage(chestNumber) {
                         
                         <div class="info-header">
                             <h2 style="font-size: 1.8em; margin: 0;">${info.nome}</h2>
-                            <p style="font-size: 0.9em; margin: 2px 0 0 0; opacity: 0.8;">${info.desc}</p>
+                            <p style="font-size: 0.9em; margin: 5px 0 0 0; opacity: 0.8;">${info.desc}</p>
                         </div>
                         
                         <div style="padding: 10px; text-align: justify; font-size: 1.1em;">
