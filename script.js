@@ -388,19 +388,19 @@ function showMessage(chestNumber) {
                             openClass = 'openedtrem';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.73;
+                            deslocY = tileSize * 0.75;
                             break;
                         case 6:
                             openClass = 'openedflechas';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.73;
+                            deslocY = tileSize * 0.75;
                             break;
                         case 8:
                             openClass = 'openedcasa';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.73;
+                            deslocY = tileSize * 0.75;
                             break;
                     }
 
