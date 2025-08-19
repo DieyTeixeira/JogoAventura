@@ -224,7 +224,7 @@ function buildMap() {
                 chest.style.width = size + 'px';
                 chest.style.height = size + 'px';
                 chest.style.left = offsetX + c * tileSize + (tileSize - size) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.25) + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.22) + 'px';
                 
                 // Salva os tamanhos no dataset para usar depois
                 chest.dataset.closedSize = closedSize;
@@ -251,7 +251,7 @@ function updateCharacterPosition() {
     character.style.height = charHeight + 'px';
 
     // Posicionar personagem alinhado pela base do tile
-    const left = offsetX + player.col * tileSize + tileSize - charWidth + (tileSize * 0.65);
+    const left = offsetX + player.col * tileSize + tileSize - charWidth + (tileSize * 0.7);
     const top = offsetY + player.row * tileSize + tileSize - charHeight + (tileSize * 0.1);
 
     character.style.left = left + 'px';
