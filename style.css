@@ -150,17 +150,23 @@ body {
 /* Conteúdo do modal */
 .modal-content {
     background: white;
-    padding: 20px;
+    padding: 0px;
     border-radius: 10px;
     width: 70vmin;   /* ocupa toda a largura do modal */
     aspect-ratio: 1 / 1.2; 
-    display: flex; 
     justify-content: center;       /* centraliza vertical */
     align-items: center;           /* centraliza horizontal */
     text-align: center;
     animation: fadeIn 0.3s ease;
     position: relative;
-    box-sizing: border-box; /* garante que padding não aumente o tamanho */
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.info-header {
+    background-color: #444444; /* Um cinza escuro para a tarja */
+    color: white; /* Cor da fonte branca */
+    padding: 20px; /* Espaçamento interno para o texto não colar nas bordas da tarja */
 }
 
 #closeModal {
