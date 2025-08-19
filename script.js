@@ -367,11 +367,10 @@ function showMessage(chestNumber) {
                 modalImage.style.display = 'none';
                 modalText.innerHTML = `
                     <div class="fade-in">
-                        <img src="${info.img}" alt="${info.nome}"
-                        style="width: 80%; display:block; margin:0 auto 10px;">
-                        <h2 style="font-size: 1.8em;">${info.nome}</h2>
-                        <p style="font-size: 0.9em;">${info.desc}</p>
-                        <p style="margin-top: 1em; font-size: 1.1em;">${info.text}</p>
+                        <img src="${info.img}" alt="${info.nome}" style="width: 80%;">
+                        <h2 style="font-size: 2em;">${info.nome}</h2>
+                        <p>${info.desc}</p>
+                        <p style="margin-top: 1em; font-size: 1em;">${info.text}</p>
                     </div>
                 `;
 
