@@ -216,7 +216,7 @@ body {
     margin-bottom: 5px; /* Dá um espaço acima do joystick */
     color: #FFFFFF; /* Cor do texto */
     font-size: 1.8em;
-    line-height: 1.4;
+    line-height: 1.2;
 
     position: relative; 
     z-index: 5;
