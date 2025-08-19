@@ -136,13 +136,14 @@ body {
 /* Modal fundo */
 .modal {
     display: none; /* invisível por padrão */
-    position: absolute;
+    position: fixed;
     z-index: 999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.6);
+    display: flex;
     justify-content: center;
     align-items: center;
 }
