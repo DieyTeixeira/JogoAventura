@@ -51,6 +51,10 @@ let offsetY;
 let player = { row: 5, col: 8 };
 let chestsOpenedWithItem = 0; // contador de baús com item
 
+// Variáveis para controlar o estado do modal
+let isModalOpen = false;
+let modalCloseAction = null;
+
 // Criar personagem
 const character = document.createElement('div');
 character.classList.add('character');
@@ -261,6 +265,8 @@ function isWalkable(row, col) {
 }
 
 function checkInteraction() {
+    if (isModalOpen) return;
+
     const row = player.row;
     const col = player.col;
 
@@ -291,6 +297,8 @@ function showMessage(chestNumber) {
     lottieAnimation.play();
     modal.style.display = 'flex';
 
+    isModalOpen = true;
+
     // Encontrar o baú próximo
     const chestElements = document.querySelectorAll('.chest');
     let interactedChest = null;
@@ -304,19 +312,22 @@ function showMessage(chestNumber) {
         }
     });
 
-    const closeChestModal = () => {
+    const closeGenericModal = () => {
         lottieAnimation.stop();
         modal.style.display = 'none';
+        isModalOpen = false; // --- ALTERAÇÃO ---
+        modalCloseAction = null; // --- ALTERAÇÃO ---
     };
-
-    closeModal.onclick = closeChestModal;
 
     // Lottie finaliza
     setTimeout(() => {
         lottieAnimation.stop();
         lottieContainer.style.display = 'none';
 
-        if (!interactedChest) return;
+        if (!interactedChest) {
+            closeGenericModal();
+            return;
+        }
 
         if (chestNumber === 2) {
             // Baú vazio
@@ -349,8 +360,8 @@ function showMessage(chestNumber) {
             mapData[chestPos.row][chestPos.col] = chestNumber + 1;    
 
             // Fecha apenas quando o usuário clicar no X
-            closeModal.onclick = () => {
-                modal.style.display = 'none';
+            modalCloseAction = () => {
+                closeGenericModal();
             };
 
         } else {
@@ -379,11 +390,11 @@ function showMessage(chestNumber) {
                 `;
 
                 // O fechamento agora só dispara o modal final depois que o usuário clicar
-                closeModal.onclick = () => {
-                    closeChestModal();
+                modalCloseAction = () => {
+                    closeGenericModal();
 
                     // Marca o baú como aberto
-                     interactedChest.classList.remove('closed');
+                    interactedChest.classList.remove('closed');
                     let openClass, newSize, deslocX, deslocY;
                     switch (chestNumber) {
                         case 4:
@@ -435,11 +446,14 @@ function showMessage(chestNumber) {
                             </div>
                         `;
                         modal.style.display = 'flex';
+                        isModalOpen = true;
 
                         document.getElementById('restartBtn').onclick = () => {
-                            modal.style.display = 'none';
+                            closeGenericModal();
                             restartGame();
                         };
+
+                        modalCloseAction = null;
                     }
                 };
 
