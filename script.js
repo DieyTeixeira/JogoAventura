@@ -283,12 +283,9 @@ function checkInteraction() {
 
 function showMessage(chestNumber) {
     const modal = document.getElementById('gameModal');
-    const modalContent = document.getElementById('modalContent');
     const modalText = document.getElementById('modalText');
     const modalImage = document.getElementById('modalImage');
     const lottieContainer = document.getElementById('lottieContainer');
-
-    modalContent.className = 'modal-content';
 
     modalText.innerHTML = '';
     modalImage.style.display = 'none';
@@ -322,7 +319,6 @@ function showMessage(chestNumber) {
         if (!interactedChest) { closeGenericModal(); return; }
 
         if (chestNumber === 2) {
-            modalContent.classList.add('modal-content--centered');
             document.body.classList.add('mobile-close-needed');
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
@@ -353,7 +349,6 @@ function showMessage(chestNumber) {
             modalCloseAction = () => closeGenericModal();
 
         } else {
-            modalContent.classList.add('modal-content--structured');
             // Baú com item
             const infoImg = getMonumentImage(chestNumber);
             const info = getMonumentInfo(chestNumber);
@@ -428,7 +423,6 @@ function showMessage(chestNumber) {
 
                     // Mostra modal final somente se abriu todos os 3 baús com item
                     if (chestsOpenedWithItem === 3) {
-                        modalContent.className = 'modal-content modal-content--centered';
                         document.body.classList.remove('mobile-close-needed');
                         modalText.innerHTML = `
                             <div style="text-align:center; padding:20px;">
