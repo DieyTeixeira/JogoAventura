@@ -162,6 +162,10 @@ body {
     box-sizing: border-box; /* garante que padding não aumente o tamanho */
 }
 
+#closeModal {
+    display: none;
+}
+
 /* Botão fechar */
 .close {
     position: absolute;

@@ -499,21 +499,32 @@ function getMonumentInfo(num) {
 
 // Movimento do personagem
 document.addEventListener('keydown', e => {
-    let newRow = player.row;
-    let newCol = player.col;
-
-    if(e.key === 'ArrowUp') newRow--;
-    else if(e.key === 'ArrowDown') newRow++;
-    else if(e.key === 'ArrowLeft') newCol--;
-    else if(e.key === 'ArrowRight') newCol++;
-
-    if(isWalkable(newRow, newCol)) {
-        player.row = newRow;
-        player.col = newCol;
-        updateCharacterPosition();
+    if (isModalOpen && e.key === 'Enter') {
+        if (modalCloseAction) {
+            modalCloseAction();
+        }
+        return; // Impede o movimento do jogador enquanto o modal está aberto
     }
 
-    if(e.code === 'Space') checkInteraction();
+    if (!isModalOpen) {
+        let newRow = player.row;
+        let newCol = player.col;
+
+        if(e.key === 'ArrowUp') newRow--;
+        else if(e.key === 'ArrowDown') newRow++;
+        else if(e.key === 'ArrowLeft') newCol--;
+        else if(e.key === 'ArrowRight') newCol++;
+
+        if(isWalkable(newRow, newCol)) {
+            player.row = newRow;
+            player.col = newCol;
+            updateCharacterPosition();
+        }
+
+        if (e.key === 'Enter') {
+            checkInteraction();
+        }
+    }
 });
 
 // Reconstrói mapa ao carregar e ao redimensionar a janela
@@ -523,6 +534,7 @@ buildMap();
 
 // Função para movimentar via joystick
 function movePlayer(dir) {
+    if (isModalOpen) return;
     let newRow = player.row;
     let newCol = player.col;
 
@@ -547,7 +559,15 @@ document.querySelectorAll('.joy-btn').forEach(btn => {
 });
 
 // Botão de ação
-document.querySelector('.action-btn').addEventListener('click', checkInteraction);
+document.querySelector('.action-btn').addEventListener('click', () => {
+    if (isModalOpen) {
+        if (modalCloseAction) {
+            modalCloseAction();
+        }
+    } else {
+        checkInteraction();
+    }
+});
 
 function resetMap() {
     for (let r = 0; r < mapData.length; r++) {
@@ -563,4 +583,6 @@ function restartGame() {
     resetMap();
     randomizeChests();
     buildMap();
+    isModalOpen = false;
+    modalCloseAction = null;
 }
