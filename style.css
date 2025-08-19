@@ -215,7 +215,7 @@ body {
     margin-top: 1px; /* Dá um espaço abaixo do mapa */
     margin-bottom: 15px; /* Dá um espaço acima do joystick */
     color: #FFFFFF; /* Cor do texto */
-    font-size: 1em;
+    font-size: 1.2em;
 }
 
 @media (max-width: 767px) {
