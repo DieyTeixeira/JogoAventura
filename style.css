@@ -213,7 +213,7 @@ body {
 #keyboard-legend {
     text-align: center; /* Centraliza o texto */
     margin-top: 1px; /* Dá um espaço abaixo do mapa */
-    margin-bottom: 15px; /* Dá um espaço acima do joystick */
+    margin-bottom: 5px; /* Dá um espaço acima do joystick */
     color: #FFFFFF; /* Cor do texto */
     font-size: 1.2em;
 }
