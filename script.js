@@ -224,7 +224,7 @@ function buildMap() {
                 chest.style.width = size + 'px';
                 chest.style.height = size + 'px';
                 chest.style.left = offsetX + c * tileSize + (tileSize - size) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.1) + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.2) + 'px';
                 
                 // Salva os tamanhos no dataset para usar depois
                 chest.dataset.closedSize = closedSize;
@@ -244,8 +244,8 @@ function buildMap() {
 }
 
 function updateCharacterPosition() {
-    const charHeight = tileSize * 3.52; // personagem 2x altura do tile
-    const charWidth = tileSize * 2.2; // largura proporcional
+    const charHeight = tileSize * 3.62; // personagem 2x altura do tile
+    const charWidth = tileSize * 2.3; // largura proporcional
 
     character.style.width = charWidth + 'px';
     character.style.height = charHeight + 'px';
@@ -388,19 +388,19 @@ function showMessage(chestNumber) {
                             openClass = 'openedtrem';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.2;
-                            deslocY = tileSize * 0.75;
+                            deslocY = tileSize * 0.7;
                             break;
                         case 6:
                             openClass = 'openedflechas';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.2;
-                            deslocY = tileSize * 0.75;
+                            deslocY = tileSize * 0.7;
                             break;
                         case 8:
                             openClass = 'openedcasa';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.2;
-                            deslocY = tileSize * 0.75;
+                            deslocY = tileSize * 0.7;
                             break;
                     }
 
