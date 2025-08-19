@@ -495,7 +495,7 @@ function getMonumentInfo(num) {
                 img: 'image-casa-artes.png',
                 nome: 'Casa de Artes Regina Simonis',
                 desc: 'Monumento tombado. Arquelogia Histórica.',
-                text: 'Imagine um baú do tesouro repleto de histórias: é exatamente isso que a Casa das Artes Regina Simonis representa para Santa Cruz do Sul! Assim como arqueólogos desenterram vestígios do passado para compreendê-lo, a Casa preserva e exibe memórias da cidade — desde sua arquitetura única até obras de arte e exposições. É como uma verdadeira “máquina do tempo cultural”, permitindo que todos viajem pelo passado, conheçam suas raízes e aprendam a valorizar e proteger nossa história para o futuro.'
+                text: 'A Casa das Artes Regina Simonis é como um baú do tesouro repleto de histórias para Santa Cruz do Sul. Assim como arqueólogos revelam o passado, ela preserva e expõe memórias da cidade — desde sua arquitetura singular até obras de arte e exposições. Uma verdadeira “máquina do tempo cultural”, que permite viajar pelo passado, conhecer raízes e valorizar nossa história para o futuro.'
             };
     }
 }
