@@ -136,7 +136,7 @@ body {
 /* Modal fundo */
 .modal {
     display: none; /* invisível por padrão */
-    position: absolute;
+    position: fixed;
     z-index: 999;
     left: 0;
     top: 0;
