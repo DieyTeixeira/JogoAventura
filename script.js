@@ -330,13 +330,13 @@ function showMessage(chestNumber) {
                     <p style="font-size:1.2em; margin-top:10px;">
                         Que pena, este baú está vazio!
                     </p>
-                    <button id="modalOkBtn" class="joy-restart" style="margin-top: 20px;">
+                    <button id="modalOkBtn1" class="joy-restart" style="margin-top: 20px;">
                         OK
                     </button>
                 </div>
             `;
 
-            document.getElementById('modalOkBtn').onclick = () => closeGenericModal();
+            document.getElementById('modalOkBtn1').onclick = () => closeGenericModal();
 
             // Marca o baú como aberto
             interactedChest.classList.replace('closed', 'opened');
@@ -377,12 +377,12 @@ function showMessage(chestNumber) {
                         <h2 style="font-size: 1.8em;">${info.nome}</h2>
                         <p style="font-size: 0.9em;">${info.desc}</p>
                         <p style="margin-top: 1em; font-size: 1.1em;">${info.text}</p>
-                        <button id="modalOkBtn" class="joy-restart">OK</button>
+                        <button id="modalOkBtn2" class="joy-restart">OK</button>
                     </div>
                 `;
 
                 // O fechamento agora só dispara o modal final depois que o usuário clicar
-                document.getElementById('modalOkBtn').onclick = () => {
+                document.getElementById('modalOkBtn2').onclick = () => {
                     closeGenericModal();
 
                     // Marca o baú como aberto
