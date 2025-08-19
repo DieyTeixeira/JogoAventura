@@ -150,7 +150,7 @@ body {
 /* Conteúdo do modal */
 .modal-content {
     background: white;
-    padding: 0px;
+    padding: 2px;
     border-radius: 10px;
     width: 70vmin;   /* ocupa toda a largura do modal */
     aspect-ratio: 1 / 1.2; 
@@ -167,7 +167,7 @@ body {
 .info-header {
     background-color: #444444; /* Um cinza escuro para a tarja */
     color: white; /* Cor da fonte branca */
-    padding: 0px; /* Espaçamento interno para o texto não colar nas bordas da tarja */
+    padding: 2px; /* Espaçamento interno para o texto não colar nas bordas da tarja */
 }
 
 #closeModal {
