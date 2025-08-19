@@ -166,6 +166,12 @@ body {
     display: none;
 }
 
+@media (max-width: 767px) {
+    body.mobile-close-needed #closeModal {
+        display: block;
+    }
+}
+
 /* Botão fechar */
 .close {
     position: absolute;

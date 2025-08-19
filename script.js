@@ -45,9 +45,7 @@ const originalMap = [
 ];
 
 // Variáveis globais que vamos precisar
-let tileSize;
-let offsetX;
-let offsetY;
+let tileSize, offsetX, offsetY;
 let player = { row: 5, col: 8 };
 let chestsOpenedWithItem = 0; // contador de baús com item
 
@@ -288,7 +286,6 @@ function showMessage(chestNumber) {
     const modal = document.getElementById('gameModal');
     const modalText = document.getElementById('modalText');
     const modalImage = document.getElementById('modalImage');
-    const closeModal = document.getElementById('closeModal');
     const lottieContainer = document.getElementById('lottieContainer');
 
     modalText.innerHTML = '';
@@ -300,15 +297,11 @@ function showMessage(chestNumber) {
     isModalOpen = true;
 
     // Encontrar o baú próximo
-    const chestElements = document.querySelectorAll('.chest');
-    let interactedChest = null;
-    let chestPos = null;
-    chestElements.forEach(chest => {
-        const row = parseInt(chest.dataset.row);
-        const col = parseInt(chest.dataset.col);
-        if ((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1) {
-            interactedChest = chest;
-            chestPos = { row, col };
+    let interactedChest = null, chestPos = null;
+    document.querySelectorAll('.chest').forEach(chest => {
+        const row = parseInt(chest.dataset.row), col = parseInt(chest.dataset.col);
+        if ((Math.abs(row - player.row) + Math.abs(col - player.col)) === 1 && mapData[row][col] === chestNumber) {
+            interactedChest = chest; chestPos = { row, col };
         }
     });
 
@@ -317,6 +310,7 @@ function showMessage(chestNumber) {
         modal.style.display = 'none';
         isModalOpen = false; // --- ALTERAÇÃO ---
         modalCloseAction = null; // --- ALTERAÇÃO ---
+        document.body.classList.remove('mobile-close-needed');
     };
 
     // Lottie finaliza
@@ -330,6 +324,7 @@ function showMessage(chestNumber) {
         }
 
         if (chestNumber === 2) {
+            document.body.classList.add('mobile-close-needed');
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
             modalText.innerHTML = `
@@ -343,28 +338,23 @@ function showMessage(chestNumber) {
                 </div>
             `;
 
-            modalImage.style.display = 'none';
-
             // Marca o baú como aberto
-            interactedChest.classList.remove('closed');
-            interactedChest.classList.add('opened'); // ou 'openedEmpty' se quiser diferenciar
+            interactedChest.classList.replace('closed', 'opened');
             const newSize = interactedChest.dataset.openedSize;
-            const row = parseInt(interactedChest.dataset.row);
-            const col = parseInt(interactedChest.dataset.col);
-            interactedChest.style.width = newSize + 'px';
-            interactedChest.style.height = newSize + 'px';
-            interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + (tileSize * 0.1) + 'px';
-            interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - (tileSize * 0.4) + 'px';
+            const { row, col } = chestPos;
+            interactedChest.style.width = `${newSize}px`;
+            interactedChest.style.height = `${newSize}px`;
+            interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+(tileSize*0.1)}px`;
+            interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-(tileSize*0.4)}px`;
                 
             // Atualiza o mapa para não interagir novamente
-            mapData[chestPos.row][chestPos.col] = chestNumber + 1;    
+            mapData[row][col] = chestNumber + 1;    
 
             // Fecha apenas quando o usuário clicar no X
-            modalCloseAction = () => {
-                closeGenericModal();
-            };
+            modalCloseAction = () => closeGenericModal();
 
         } else {
+            document.body.classList.add('mobile-close-needed');
             // Baú com item
             const infoImg = getMonumentImage(chestNumber);
             const info = getMonumentInfo(chestNumber);
@@ -418,19 +408,19 @@ function showMessage(chestNumber) {
                     }
 
                     interactedChest.classList.add(openClass);
-                    interactedChest.style.width = newSize + 'px';
-                    interactedChest.style.height = newSize + 'px';
-                    const row = parseInt(interactedChest.dataset.row);
-                    const col = parseInt(interactedChest.dataset.col);
-                    interactedChest.style.left = offsetX + col * tileSize + (tileSize - newSize) / 2 + deslocX + 'px';
-                    interactedChest.style.top = offsetY + row * tileSize + (tileSize - newSize) / 2 - deslocY + 'px';
-                    mapData[chestPos.row][chestPos.col] = chestNumber + 1;
+                    const { row, col } = chestPos;
+                    interactedChest.style.width = `${newSize}px`;
+                    interactedChest.style.height = `${newSize}px`;
+                    interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+deslocX}px`;
+                    interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-deslocY}px`;
+                    mapData[row][col] = chestNumber + 1;
 
                     // Incrementa contador de baús com item
                     chestsOpenedWithItem++;
 
                     // Mostra modal final somente se abriu todos os 3 baús com item
                     if (chestsOpenedWithItem === 3) {
+                        document.body.classList.remove('mobile-close-needed');
                         modalText.innerHTML = `
                             <div style="text-align:center; padding:20px;">
                                 <h2>Parabéns!</h2>    
@@ -448,10 +438,7 @@ function showMessage(chestNumber) {
                         modal.style.display = 'flex';
                         isModalOpen = true;
 
-                        document.getElementById('restartBtn').onclick = () => {
-                            closeGenericModal();
-                            restartGame();
-                        };
+                        document.getElementById('restartBtn').onclick = () => restartGame();
 
                         modalCloseAction = null;
                     }
@@ -465,22 +452,10 @@ function showMessage(chestNumber) {
 
 function getMonumentImage(num) {
     switch(num) {
-        case 2:
-            return {
-                img: 'bau-vazio-teias.png'
-            }
-        case 4:
-            return {
-                img: 'bau-trem.png'
-            };
-        case 6:
-            return {
-                img: 'bau-flechas.png'
-            };
-        case 8:
-            return {
-                img: 'bau-casa-artes.png'
-            };
+        case 2: return { img: 'bau-vazio-teias.png' }
+        case 4: return { img: 'bau-trem.png' };
+        case 6: return { img: 'bau-flechas.png' };
+        case 8: return { img: 'bau-casa-artes.png' };
     }
 }
 
@@ -511,6 +486,12 @@ function getMonumentInfo(num) {
     }
 }
 
+document.getElementById('closeModal').addEventListener('click', () => {
+    if (isModalOpen && modalCloseAction) {
+        modalCloseAction();
+    }
+});
+
 // Movimento do personagem
 document.addEventListener('keydown', e => {
     if (isModalOpen && e.key === 'Enter') {
@@ -521,17 +502,16 @@ document.addEventListener('keydown', e => {
     }
 
     if (!isModalOpen) {
-        let newRow = player.row;
-        let newCol = player.col;
+        let { row, col } = player;
 
-        if(e.key === 'ArrowUp') newRow--;
-        else if(e.key === 'ArrowDown') newRow++;
-        else if(e.key === 'ArrowLeft') newCol--;
-        else if(e.key === 'ArrowRight') newCol++;
+        if(e.key === 'ArrowUp') row--;
+        else if(e.key === 'ArrowDown') row++;
+        else if(e.key === 'ArrowLeft') col--;
+        else if(e.key === 'ArrowRight') col++;
 
-        if(isWalkable(newRow, newCol)) {
-            player.row = newRow;
-            player.col = newCol;
+        if(isWalkable(row, col)) {
+            player.row = row;
+            player.col = col;
             updateCharacterPosition();
         }
 
@@ -549,17 +529,16 @@ buildMap();
 // Função para movimentar via joystick
 function movePlayer(dir) {
     if (isModalOpen) return;
-    let newRow = player.row;
-    let newCol = player.col;
+    let { row, col } = player;
 
-    if(dir === 'up') newRow--;
-    else if(dir === 'down') newRow++;
-    else if(dir === 'left') newCol--;
-    else if(dir === 'right') newCol++;
+    if(dir === 'up') row--;
+    else if(dir === 'down') row++;
+    else if(dir === 'left') col--;
+    else if(dir === 'right') col++;
 
-    if(isWalkable(newRow, newCol)) {
-        player.row = newRow;
-        player.col = newCol;
+    if(isWalkable(row, col)) {
+        player.row = row;
+        player.col = col;
         updateCharacterPosition();
     }
 }
@@ -567,8 +546,7 @@ function movePlayer(dir) {
 // Eventos dos botões de direção
 document.querySelectorAll('.joy-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-        const dir = btn.getAttribute('data-dir');
-        movePlayer(dir);
+        movePlayer(btn.getAttribute('data-dir'));
     });
 });
 
@@ -592,6 +570,8 @@ function resetMap() {
 }
 
 function restartGame() {
+    document.body.classList.remove('mobile-close-needed');
+    document.getElementById('gameModal').style.display = 'none';
     chestsOpenedWithItem = 0;
     player = { row: 5, col: 8 };
     resetMap();
