@@ -157,6 +157,7 @@ body {
     justify-content: center;       /* centraliza vertical */
     align-items: center;           /* centraliza horizontal */
     text-align: center;
+    display: flex;
     animation: fadeIn 0.3s ease;
     position: relative;
     box-sizing: border-box;
@@ -166,7 +167,7 @@ body {
 .info-header {
     background-color: #444444; /* Um cinza escuro para a tarja */
     color: white; /* Cor da fonte branca */
-    padding: 20px; /* Espaçamento interno para o texto não colar nas bordas da tarja */
+    padding: 5px; /* Espaçamento interno para o texto não colar nas bordas da tarja */
 }
 
 #closeModal {
