@@ -224,7 +224,7 @@ function buildMap() {
                 chest.style.width = size + 'px';
                 chest.style.height = size + 'px';
                 chest.style.left = offsetX + c * tileSize + (tileSize - size) / 2 + 'px';
-                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.1) + 'px';
+                chest.style.top = offsetY + r * tileSize + (tileSize - size) / 2 - (tileSize * 0.4) + 'px';
                 
                 // Salva os tamanhos no dataset para usar depois
                 chest.dataset.closedSize = closedSize;
@@ -341,7 +341,7 @@ function showMessage(chestNumber) {
             interactedChest.style.width = `${newSize}px`;
             interactedChest.style.height = `${newSize}px`;
             interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+(tileSize*0.1)}px`;
-            interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-(tileSize*0.4)}px`;
+            interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-(tileSize*0.6)}px`;
                 
             // Atualiza o mapa para não interagir novamente
             mapData[row][col] = chestNumber + 1;    
@@ -388,19 +388,19 @@ function showMessage(chestNumber) {
                             openClass = 'openedtrem';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.2;
-                            deslocY = tileSize * 0.6;
+                            deslocY = tileSize * 0.85;
                             break;
                         case 6:
                             openClass = 'openedflechas';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.2;
-                            deslocY = tileSize * 0.6;
+                            deslocY = tileSize * 0.85;
                             break;
                         case 8:
                             openClass = 'openedcasa';
                             newSize = interactedChest.dataset.openedItemSize;
                             deslocX = tileSize * 0.2;
-                            deslocY = tileSize * 0.6;
+                            deslocY = tileSize * 0.85;
                             break;
                     }
 
