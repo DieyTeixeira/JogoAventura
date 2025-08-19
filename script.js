@@ -374,7 +374,7 @@ function showMessage(chestNumber) {
                             style="width: 80%; display:block; margin:0 auto 10px;">
                         <h2 style="font-size: 2em;">${info.nome}</h2>
                         <p>${info.desc}</p>
-                        <p style="margin-top: 1em; font-size: 1.2em;">${info.text}</p>
+                        <p style="margin-top: 1em; font-size: 1em;">${info.text}</p>
                     </div>
                 `;
 
