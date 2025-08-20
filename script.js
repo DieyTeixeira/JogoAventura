@@ -116,35 +116,24 @@ function isMobile() {
 }
 
 /**
- * (NOVA FUNÇÃO) Cria e exibe um indicador na tela para mostrar se é mobile ou desktop.
+ * (FUNÇÃO ATUALIZADA) Encontra o indicador no HTML e atualiza seu texto.
  */
 function setupMobileIndicator() {
-    const indicator = document.createElement('div');
-    indicator.id = 'mobile-status-indicator';
+    // Encontra o elemento que já existe no HTML
+    const indicator = document.getElementById('device-indicator');
 
-    // Estilos para o indicador
-    indicator.style.position = 'fixed';
-    indicator.style.top = '0px';
-    indicator.style.left = '0px';
-    indicator.style.width = '100%';
-    indicator.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    indicator.style.color = 'white';
-    indicator.style.padding = '8px 0px';
-    indicator.style.fontSize = '14px';
-    indicator.style.fontFamily = 'sans-serif';
-    indicator.style.textAlign = 'center';
-    indicator.style.zIndex = '10000'; // Um z-index bem alto para ficar na frente
-    indicator.style.pointerEvents = 'none'; // Para não interferir com cliques
+    // Medida de segurança: se o elemento não for encontrado, não faz nada.
+    if (!indicator) {
+        console.error('Elemento #device-indicator não foi encontrado no HTML.');
+        return;
+    }
 
     // Verifica e define o texto
     if (isMobile()) {
-        indicator.textContent = 'Modo: Mobile';
+        indicator.textContent = 'Dispositivo: Mobile';
     } else {
-        indicator.textContent = 'Modo: Desktop';
+        indicator.textContent = 'Dispositivo: Desktop';
     }
-
-    // Adiciona o indicador ao corpo do documento
-    document.body.appendChild(indicator);
 }
 
 function randomizeChests() {
@@ -580,46 +569,41 @@ document.addEventListener('keydown', e => {
     }
 });
 
-window.addEventListener('DOMContentLoaded', () => {
-    // Pega os elementos da tela de carregamento
-    const loadingScreen = document.getElementById('loading-screen');
-    const progressBar = document.getElementById('progress-bar');
-    const progressText = document.getElementById('loading-progress-text');
+// Pega os elementos da tela de carregamento
+const loadingScreen = document.getElementById('loading-screen');
+const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('loading-progress-text');
 
-    // Função que será chamada a cada imagem carregada
-    const updateProgress = (loaded, total) => {
-        const percent = Math.floor((loaded / total) * 100);
-        progressBar.style.width = `${percent}%`;
-        progressText.innerText = `${percent}%`;
-    };
+// Função que será chamada a cada imagem carregada
+const updateProgress = (loaded, total) => {
+    const percent = Math.floor((loaded / total) * 100);
+    progressBar.style.width = `${percent}%`;
+    progressText.innerText = `${percent}%`;
+};
 
-    // Adiciona o listener de redimensionamento da janela
-    window.addEventListener('resize', buildMap);
+// Adiciona o listener de redimensionamento da janela
+window.addEventListener('resize', buildMap);
 
-    // --- MODIFICAÇÃO: CHAMA A FUNÇÃO DO INDICADOR AQUI ---
-    setupMobileIndicator();
+// Inicia o pré-carregamento das imagens, passando a função de progresso
+preloadImages(monumentImages, updateProgress)
+    .then(images => {
+        console.log('Todas as imagens foram pré-carregadas com sucesso!');
+        
+        // Esconde a tela de carregamento com uma transição suave
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500); // Tempo igual à transição do CSS
 
-    // Inicia o pré-carregamento das imagens, passando a função de progresso
-    preloadImages(monumentImages, updateProgress)
-        .then(images => {
-            console.log('Todas as imagens foram pré-carregadas com sucesso!');
-            
-            // Esconde a tela de carregamento com uma transição suave
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 500); // Tempo igual à transição do CSS
-
-            // Agora que as imagens estão no cache, inicie o jogo
-            randomizeChests();
-            buildMap();
-        })
-        .catch(error => {
-            console.error('Erro ao pré-carregar as imagens:', error);
-            progressText.innerText = "ERRO";
-            alert('Houve um erro ao carregar os recursos do jogo. Por favor, recarregue a página.');
-        });
-});
+        // Agora que as imagens estão no cache, inicie o jogo
+        randomizeChests();
+        buildMap();
+    })
+    .catch(error => {
+        console.error('Erro ao pré-carregar as imagens:', error);
+        progressText.innerText = "ERRO";
+        alert('Houve um erro ao carregar os recursos do jogo. Por favor, recarregue a página.');
+    });
 
 // Função para movimentar via joystick
 function movePlayer(dir) {

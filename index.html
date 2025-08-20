@@ -9,8 +9,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+    <style>
+        #device-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 0;
+            font-size: 14px;
+            font-family: sans-serif;
+            text-align: center;
+            z-index: 10000;
+            pointer-events: none; /* Para não atrapalhar cliques */
+        }
+    </style>
 </head>
-<body>
+<body> 
+    <div id="device-indicator"></div>
+
     <div id="loading-screen">
         <div class="loading-text">CARREGANDO JOGO...</div>
         <div class="progress-bar-container">
