@@ -338,11 +338,6 @@ function showMessage(chestNumber) {
 
         if (!interactedChest) { closeGenericModal(); return; }
 
-        const infoImg = getMonumentImage(chestNumber);
-        modalImage.src = infoImg.img;
-        modalImage.className = 'modal-chest-image'; // Aplica a nova classe CSS
-        modalImage.style.display = 'block';
-
         if (chestNumber === 2) {
             const okButtonHtml1 = isMobile()
                 ? `<button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>`
@@ -352,7 +347,9 @@ function showMessage(chestNumber) {
             const infoImg = getMonumentImage(chestNumber);
             modalText.innerHTML = `
                 <div style="text-align:center;">
-                    
+                    <img src="${infoImg.img}" 
+                        style="width:80%; height:auto; display:block; margin:0 auto 10px;" 
+                        alt="Baú vazio">
                     <p style="font-size:1.2em; margin-top:10px;">
                         Que pena, este baú está vazio!
                     </p>
