@@ -544,14 +544,6 @@ document.addEventListener('keydown', e => {
     }
 });
 
-/*// Reconstrói mapa ao carregar e ao redimensionar a janela
-window.addEventListener('resize', buildMap);
-randomizeChests();
-buildMap();*/
-
-// Adiciona o listener de redimensionamento da janela
-window.addEventListener('resize', buildMap);
-
 // Pega os elementos da tela de carregamento
 const loadingScreen = document.getElementById('loading-screen');
 const progressBar = document.getElementById('progress-bar');
