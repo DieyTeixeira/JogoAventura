@@ -115,6 +115,37 @@ function isMobile() {
     return mediaQuery.matches;
 }
 
+/**
+ * (NOVA FUNÇÃO) Cria e exibe um indicador na tela para mostrar se é mobile ou desktop.
+ */
+function setupMobileIndicator() {
+    const indicator = document.createElement('div');
+    indicator.id = 'mobile-status-indicator';
+
+    // Estilos para o indicador
+    indicator.style.position = 'fixed';
+    indicator.style.top = '10px';
+    indicator.style.left = '10px';
+    indicator.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    indicator.style.color = 'white';
+    indicator.style.padding = '5px 10px';
+    indicator.style.borderRadius = '5px';
+    indicator.style.fontSize = '14px';
+    indicator.style.fontFamily = 'sans-serif';
+    indicator.style.zIndex = '10000'; // Um z-index bem alto para ficar na frente
+    indicator.style.pointerEvents = 'none'; // Para não interferir com cliques
+
+    // Verifica e define o texto
+    if (isMobile()) {
+        indicator.textContent = 'Modo: Mobile';
+    } else {
+        indicator.textContent = 'Modo: Desktop';
+    }
+
+    // Adiciona o indicador ao corpo do documento
+    document.body.appendChild(indicator);
+}
+
 function randomizeChests() {
     // Pega todas as posições onde tem baú "2"
     let chestPositions = [];
@@ -562,6 +593,9 @@ const updateProgress = (loaded, total) => {
 
 // Adiciona o listener de redimensionamento da janela
 window.addEventListener('resize', buildMap);
+
+// --- MODIFICAÇÃO: CHAMA A FUNÇÃO DO INDICADOR AQUI ---
+setupMobileIndicator();
 
 // Inicia o pré-carregamento das imagens, passando a função de progresso
 preloadImages(monumentImages, updateProgress)
