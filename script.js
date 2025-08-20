@@ -303,9 +303,12 @@ function checkInteraction() {
 
 function showMessage(chestNumber) {
     const modal = document.getElementById('gameModal');
+    const modalContent = document.getElementById('modalContent');
     const modalText = document.getElementById('modalText');
     const modalImage = document.getElementById('modalImage');
     const lottieContainer = document.getElementById('lottieContainer');
+
+    modalContent.className = 'modal-content';
 
     modalText.innerHTML = '';
     modalImage.style.display = 'none';
@@ -328,7 +331,6 @@ function showMessage(chestNumber) {
         modal.style.display = 'none';
         isModalOpen = false; // --- ALTERAÇÃO ---
         modalCloseAction = null; // --- ALTERAÇÃO ---
-        document.body.classList.remove('mobile-close-needed');
     };
 
     // Lottie finaliza
@@ -339,10 +341,12 @@ function showMessage(chestNumber) {
         if (!interactedChest) { closeGenericModal(); return; }
 
         if (chestNumber === 2) {
-            document.body.classList.add('mobile-close-needed');
-            const okButtonHtml1 = isMobile() 
+            modalCloseAction = () => closeGenericModal();
+
+            const okButtonHtml = isMobile() 
                 ? `<button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>` 
                 : '';
+
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
             modalText.innerHTML = `
@@ -353,12 +357,12 @@ function showMessage(chestNumber) {
                     <p style="font-size:1.2em; margin-top:10px;">
                         Que pena, este baú está vazio!
                     </p>
-                    ${okButtonHtml1}
+                    ${okButtonHtml}
                 </div>
             `;
 
             if (isMobile()) {
-                document.getElementById('modalOkBtn1').onclick = () => closeGenericModal();
+                document.getElementById('modalOkBtn').onclick = () => modalCloseAction();
             }
 
             // Marca o baú como aberto
@@ -372,9 +376,6 @@ function showMessage(chestNumber) {
                 
             // Atualiza o mapa para não interagir novamente
             mapData[row][col] = chestNumber + 1;    
-
-            // Fecha apenas quando o usuário clicar no X
-            modalCloseAction = () => closeGenericModal();
 
         } else {
             // Baú com item
@@ -390,22 +391,7 @@ function showMessage(chestNumber) {
             modalText.innerHTML = '';
 
             setTimeout(() => {
-                document.body.classList.add('mobile-close-needed');
-                const okButtonHtml2 = isMobile()
-                    ? `<button id="modalOkBtn2" class="joy-ok">OK</button>`
-                    : '';
-
                 modalImage.style.display = 'none';
-                modalText.innerHTML = `
-                    <div class="fade-in">
-                        <img src="${info.img}" alt="${info.nome}" 
-                            style="width: 80%; display:block; margin:0 auto 10px;">
-                        <h2 style="font-size: 1.6em;">${info.nome}</h2>
-                        <p style="font-size: 0.9em;">${info.desc}</p>
-                        <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.1em;">${info.text}</p>
-                        ${okButtonHtml2}
-                    </div>
-                `;
 
                 // O fechamento agora só dispara o modal final depois que o usuário clicar
                 modalCloseAction = () => {
@@ -448,7 +434,6 @@ function showMessage(chestNumber) {
 
                     // Mostra modal final somente se abriu todos os 3 baús com item
                     if (chestsOpenedWithItem === 3) {
-                        document.body.classList.remove('mobile-close-needed');
                         modalText.innerHTML = `
                             <div style="text-align:center; padding:20px;">
                                 <h2>Parabéns!</h2>    
@@ -472,8 +457,23 @@ function showMessage(chestNumber) {
                     }
                 };
 
+                const okButtonHtml = isMobile()
+                    ? `<button id="modalOkBtn" class="joy-ok">OK</button>`
+                    : '';
+
+                modalText.innerHTML = `
+                    <div class="fade-in">
+                        <img src="${info.img}" alt="${info.nome}" 
+                            style="width: 80%; display:block; margin:0 auto 10px;">
+                        <h2 style="font-size: 1.6em;">${info.nome}</h2>
+                        <p style="font-size: 0.9em;">${info.desc}</p>
+                        <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.1em;">${info.text}</p>
+                        ${okButtonHtml}
+                    </div>
+                `;
+
                 if (isMobile()) {
-                    document.getElementById('modalOkBtn2').onclick = modalCloseAction;
+                    document.getElementById('modalOkBtn').onclick = modalCloseAction;
                 }
 
             }, 2000); // tempo para mostrar imagem antes do texto
