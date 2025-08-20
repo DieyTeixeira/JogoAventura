@@ -580,44 +580,46 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// Pega os elementos da tela de carregamento
-const loadingScreen = document.getElementById('loading-screen');
-const progressBar = document.getElementById('progress-bar');
-const progressText = document.getElementById('loading-progress-text');
+window.addEventListener('DOMContentLoaded', () => {
+    // Pega os elementos da tela de carregamento
+    const loadingScreen = document.getElementById('loading-screen');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('loading-progress-text');
 
-// Função que será chamada a cada imagem carregada
-const updateProgress = (loaded, total) => {
-    const percent = Math.floor((loaded / total) * 100);
-    progressBar.style.width = `${percent}%`;
-    progressText.innerText = `${percent}%`;
-};
+    // Função que será chamada a cada imagem carregada
+    const updateProgress = (loaded, total) => {
+        const percent = Math.floor((loaded / total) * 100);
+        progressBar.style.width = `${percent}%`;
+        progressText.innerText = `${percent}%`;
+    };
 
-// Adiciona o listener de redimensionamento da janela
-window.addEventListener('resize', buildMap);
+    // Adiciona o listener de redimensionamento da janela
+    window.addEventListener('resize', buildMap);
 
-// --- MODIFICAÇÃO: CHAMA A FUNÇÃO DO INDICADOR AQUI ---
-setupMobileIndicator();
+    // --- MODIFICAÇÃO: CHAMA A FUNÇÃO DO INDICADOR AQUI ---
+    setupMobileIndicator();
 
-// Inicia o pré-carregamento das imagens, passando a função de progresso
-preloadImages(monumentImages, updateProgress)
-    .then(images => {
-        console.log('Todas as imagens foram pré-carregadas com sucesso!');
-        
-        // Esconde a tela de carregamento com uma transição suave
-        loadingScreen.style.opacity = '0';
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-        }, 500); // Tempo igual à transição do CSS
+    // Inicia o pré-carregamento das imagens, passando a função de progresso
+    preloadImages(monumentImages, updateProgress)
+        .then(images => {
+            console.log('Todas as imagens foram pré-carregadas com sucesso!');
+            
+            // Esconde a tela de carregamento com uma transição suave
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500); // Tempo igual à transição do CSS
 
-        // Agora que as imagens estão no cache, inicie o jogo
-        randomizeChests();
-        buildMap();
-    })
-    .catch(error => {
-        console.error('Erro ao pré-carregar as imagens:', error);
-        progressText.innerText = "ERRO";
-        alert('Houve um erro ao carregar os recursos do jogo. Por favor, recarregue a página.');
-    });
+            // Agora que as imagens estão no cache, inicie o jogo
+            randomizeChests();
+            buildMap();
+        })
+        .catch(error => {
+            console.error('Erro ao pré-carregar as imagens:', error);
+            progressText.innerText = "ERRO";
+            alert('Houve um erro ao carregar os recursos do jogo. Por favor, recarregue a página.');
+        });
+});
 
 // Função para movimentar via joystick
 function movePlayer(dir) {
