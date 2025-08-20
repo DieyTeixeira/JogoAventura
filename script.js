@@ -44,6 +44,27 @@ const originalMap = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
+/**
+ * (FUNÇÃO ATUALIZADA) Encontra o indicador no HTML e atualiza seu texto.
+ */
+function setupMobileIndicator() {
+    // Encontra o elemento que já existe no HTML
+    const indicator = document.getElementById('device-indicator');
+
+    // Medida de segurança: se o elemento não for encontrado, não faz nada.
+    if (!indicator) {
+        console.error('Elemento #device-indicator não foi encontrado no HTML.');
+        return;
+    }
+
+    // Verifica e define o texto
+    if (isMobile()) {
+        indicator.textContent = 'Dispositivo: Mobile';
+    } else {
+        indicator.textContent = 'Dispositivo: Desktop';
+    }
+}
+
 // Variáveis globais que vamos precisar
 let tileSize, offsetX, offsetY;
 let player = { row: 5, col: 8 };

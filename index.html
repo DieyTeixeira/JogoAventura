@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo Aventura Lego</title>
+    <style>
+        #device-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 0;
+            font-size: 14px;
+            font-family: sans-serif;
+            text-align: center;
+            z-index: 10000;
+            pointer-events: none; /* Para não atrapalhar cliques */
+        }
+    </style>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +28,8 @@
 </head>
 <body> 
 
+    <div id="device-indicator"></div>
+    
     <div id="loading-screen">
         <div class="loading-text">CARREGANDO JOGO...</div>
         <div class="progress-bar-container">
