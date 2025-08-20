@@ -340,9 +340,9 @@ function showMessage(chestNumber) {
         if (!interactedChest) { closeGenericModal(); return; }
 
         if (chestNumber === 2) {
-            const okButtonHtml = isMobile()
+            /*const okButtonHtml = isMobile()
                 ? `<button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>`
-                : '';
+                : '';*/
 
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
@@ -354,7 +354,7 @@ function showMessage(chestNumber) {
                     <p style="font-size:1.2em; margin-top:10px;">
                         Que pena, este baú está vazio!
                     </p>
-                    ${okButtonHtml}
+                    <button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>
                 </div>
             `;
 
