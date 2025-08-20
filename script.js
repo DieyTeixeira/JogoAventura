@@ -598,6 +598,7 @@ preloadImages(monumentImages, updateProgress)
         // Agora que as imagens estão no cache, inicie o jogo
         randomizeChests();
         buildMap();
+        setupMobileIndicator();
     })
     .catch(error => {
         console.error('Erro ao pré-carregar as imagens:', error);
