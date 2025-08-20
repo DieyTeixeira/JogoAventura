@@ -121,6 +121,7 @@ body {
 
 .joystick-container {
     display: none;
+    width: 100%;
     justify-content: center;
     align-items: center;
     gap: 50px;
@@ -190,6 +191,7 @@ body {
 
 .joy-ok-none,
 .action-btn {
+    display: none;
     width: 90px;
     height: 35px;
     font-size: 18px;
@@ -209,13 +211,6 @@ body {
 .joy-ok {
     -webkit-tap-highlight-color: transparent !important; /* Remove o flash de toque no mobile */
     outline: none !important; /* Remove a borda/contorno azul de foco */
-}
-
-.action-btn {
-    height: 80px;
-    width: 80px;
-    font-size: 18px;
-    border-radius: 50%;
 }
 
 /* Modal fundo */
