@@ -141,14 +141,26 @@ body {
     gap: 10px;
 }
 
-.joy-btn,
-.action-btn {
+.joy-btn {
     width: 45px;
     height: 45px;
     font-size: 18px;
     font-weight: bold;
     border: none;
     border-radius: 8px;
+    background: #444;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 0 #222;
+}
+
+.action-btn {
+    height: 80px;
+    width: 80px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
     background: #444;
     color: white;
     cursor: pointer;
