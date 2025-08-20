@@ -161,8 +161,7 @@ body {
     box-shadow: 0 1px 0 #222;
 }
 
-.joy-restart,
-.action-btn {
+.joy-restart {
     width: 160px;
     height: 45px;
     font-size: 18px;
@@ -175,8 +174,7 @@ body {
     box-shadow: 0 2px 0 #222;
 }
 
-.joy-ok,
-.action-btn {
+.joy-ok {
     width: 90px;
     height: 35px;
     font-size: 18px;
@@ -189,8 +187,7 @@ body {
     box-shadow: 0 2px 0 #222;
 }
 
-.joy-ok-none,
-.action-btn {
+.joy-ok-none {
     display: none;
     width: 90px;
     height: 35px;
