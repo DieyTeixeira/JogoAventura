@@ -104,6 +104,17 @@ function preloadImages(urls, onProgress) {
     return Promise.all(promises);
 }
 
+/**
+ * Verifica se o dispositivo é mobile com base nos recursos de toque.
+ * @returns {boolean} - True se for considerado móvel, false caso contrário.
+ */
+function isMobile() {
+    // Esta verificação é mais precisa, focando em telas de toque 
+    // e ponteiros imprecisos (dedos), em vez do tamanho da tela.
+    const mediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)');
+    return mediaQuery.matches;
+}
+
 function randomizeChests() {
     // Pega todas as posições onde tem baú "2"
     let chestPositions = [];
@@ -329,7 +340,10 @@ function showMessage(chestNumber) {
         if (!interactedChest) { closeGenericModal(); return; }
 
         if (chestNumber === 2) {
-            document.body.classList.add('mobile-close-needed');
+            const okButtonHtml = isMobile()
+                ? `<button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>`
+                : '';
+
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
             modalText.innerHTML = `
@@ -340,9 +354,7 @@ function showMessage(chestNumber) {
                     <p style="font-size:1.2em; margin-top:10px;">
                         Que pena, este baú está vazio!
                     </p>
-                    <button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">
-                        OK
-                    </button>
+                    ${okButtonHtml}
                 </div>
             `;
 
