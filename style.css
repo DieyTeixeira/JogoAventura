@@ -217,8 +217,7 @@ body {
 /* --- NOVA REGRA (MAIS FORTE) PARA REMOVER O DESTAQUE AZUL --- */
 .joy-btn,
 .action-btn
-.joy-restart,
-.joy-ok {
+.joy-restart {
     -webkit-tap-highlight-color: transparent !important; /* Remove o flash de toque no mobile */
     outline: none !important; /* Remove a borda/contorno azul de foco */
 }
