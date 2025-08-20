@@ -188,11 +188,27 @@ body {
     box-shadow: 0 2px 0 #222;
 }
 
+.joy-ok-none,
+.action-btn {
+    display: none;
+    width: 90px;
+    height: 35px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background: #444;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 0 #222;
+}
+
 /* --- NOVA REGRA (MAIS FORTE) PARA REMOVER O DESTAQUE AZUL --- */
 .joy-btn,
 .action-btn,
 .joy-restart,
-.joy-ok {
+.joy-ok,
+.joy-ok-none {
     -webkit-tap-highlight-color: transparent !important; /* Remove o flash de toque no mobile */
     outline: none !important; /* Remove a borda/contorno azul de foco */
 }
