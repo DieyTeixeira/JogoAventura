@@ -124,14 +124,15 @@ function setupMobileIndicator() {
 
     // Estilos para o indicador
     indicator.style.position = 'fixed';
-    indicator.style.top = '10px';
-    indicator.style.left = '10px';
+    indicator.style.top = '0px';
+    indicator.style.left = '0px';
+    indicator.style.width = '100%';
     indicator.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
     indicator.style.color = 'white';
-    indicator.style.padding = '5px 10px';
-    indicator.style.borderRadius = '5px';
+    indicator.style.padding = '8px 0px';
     indicator.style.fontSize = '14px';
     indicator.style.fontFamily = 'sans-serif';
+    indicator.style.textAlign = 'center';
     indicator.style.zIndex = '10000'; // Um z-index bem alto para ficar na frente
     indicator.style.pointerEvents = 'none'; // Para não interferir com cliques
 
