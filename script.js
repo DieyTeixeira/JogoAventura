@@ -516,11 +516,11 @@ function getMonumentInfo(num) {
     }
 }
 
-/*document.getElementById('closeModal').addEventListener('click', () => {
+document.getElementById('closeModal').addEventListener('click', () => {
     if (isModalOpen && modalCloseAction) {
         modalCloseAction();
     }
-});*/
+});
 
 // Movimento do personagem
 document.addEventListener('keydown', e => {
