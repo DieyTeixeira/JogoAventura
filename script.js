@@ -44,6 +44,41 @@ const originalMap = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
+/**
+ * Verifica se o dispositivo é móvel com base no tamanho da tela e recursos de toque.
+ * @returns {boolean} - True se for considerado móvel, false caso contrário.
+ */
+function isMobile() {
+    // Usa a mesma lógica do seu CSS para mostrar o joystick
+    const mediaQuery = window.matchMedia('(max-width: 600px), (hover: none) and (pointer: coarse)');
+    return mediaQuery.matches;
+}
+
+/**
+ * Função que pré-carrega imagens e reporta o progresso.
+ * @param {string[]} urls - Array com os caminhos das imagens.
+ * @param {(loaded: number, total: number) => void} onProgress - Função chamada a cada imagem carregada.
+ * @returns {Promise<HTMLImageElement[]>}
+ */
+function preloadImages(urls, onProgress) {
+    let loadedCount = 0;
+    const promises = urls.map(url => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                loadedCount++;
+                if (onProgress) {
+                    onProgress(loadedCount, urls.length); // Chama o callback de progresso
+                }
+                resolve(img);
+            };
+            img.onerror = () => reject(new Error(`Falha ao carregar a imagem em ${url}`));
+            img.src = url;
+        });
+    });
+    return Promise.all(promises);
+}
+
 // Variáveis globais que vamos precisar
 let tileSize, offsetX, offsetY;
 let player = { row: 5, col: 8 };
@@ -78,31 +113,6 @@ const monumentImages = ['meu-mapa.png', 'avatar.png', 'avatar-vitoria.png',
                         'bau-aberto-trem.png', 'bau-aberto-flechas.png', 'bau-aberto-casa-artes.png',
                         'bau-trem.png', 'bau-flechas.png', 'bau-casa-artes.png', 'bau-vazio-teias.png',
                         'image-trem.png', 'image-flechas.png', 'image-casa-artes.png'];
-
-/**
- * Função que pré-carrega imagens e reporta o progresso.
- * @param {string[]} urls - Array com os caminhos das imagens.
- * @param {(loaded: number, total: number) => void} onProgress - Função chamada a cada imagem carregada.
- * @returns {Promise<HTMLImageElement[]>}
- */
-function preloadImages(urls, onProgress) {
-    let loadedCount = 0;
-    const promises = urls.map(url => {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => {
-                loadedCount++;
-                if (onProgress) {
-                    onProgress(loadedCount, urls.length); // Chama o callback de progresso
-                }
-                resolve(img);
-            };
-            img.onerror = () => reject(new Error(`Falha ao carregar a imagem em ${url}`));
-            img.src = url;
-        });
-    });
-    return Promise.all(promises);
-}
 
 function randomizeChests() {
     // Pega todas as posições onde tem baú "2"
@@ -330,6 +340,9 @@ function showMessage(chestNumber) {
 
         if (chestNumber === 2) {
             document.body.classList.add('mobile-close-needed');
+            const okButtonHtml = isMobile() 
+                ? `<button id="modalOkBtn" class="joy-ok" style="margin-top: 20px;">OK</button>` 
+                : '';
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
             modalText.innerHTML = `
@@ -346,7 +359,9 @@ function showMessage(chestNumber) {
                 </div>
             `;
 
-            document.getElementById('modalOkBtn1').onclick = () => closeGenericModal();
+            if (isMobile()) {
+                document.getElementById('modalOkBtn').onclick = () => closeGenericModal();
+            }
 
             // Marca o baú como aberto
             interactedChest.classList.replace('closed', 'opened');
@@ -378,6 +393,9 @@ function showMessage(chestNumber) {
 
             setTimeout(() => {
                 document.body.classList.add('mobile-close-needed');
+                const okButtonHtml = isMobile()
+                    ? `<div style="padding: 15px; border-top: 1px solid #eee;"><button id="modalOkBtn" class="joy-ok">OK</button></div>`
+                    : '';
 
                 modalImage.style.display = 'none';
                 modalText.innerHTML = `
@@ -455,6 +473,10 @@ function showMessage(chestNumber) {
                         modalCloseAction = null;
                     }
                 };
+
+                if (isMobile()) {
+                    document.getElementById('modalOkBtn').onclick = modalCloseAction;
+                }
 
             }, 2000); // tempo para mostrar imagem antes do texto
         }
