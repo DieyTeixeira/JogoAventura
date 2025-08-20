@@ -340,7 +340,7 @@ function showMessage(chestNumber) {
         if (!interactedChest) { closeGenericModal(); return; }
 
         if (chestNumber === 2) {
-            const okButtonHtml = isMobile()
+            const okButtonHtml1 = isMobile()
                 ? `<button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>`
                 : `<button id="modalOkBtn1" class="joy-ok-none" style="margin-top: 20px;">OK</button>`;
 
@@ -354,7 +354,7 @@ function showMessage(chestNumber) {
                     <p style="font-size:1.2em; margin-top:10px;">
                         Que pena, este baú está vazio!
                     </p>
-                    ${okButtonHtml}
+                    ${okButtonHtml1}
                 </div>
             `;
 
@@ -389,7 +389,9 @@ function showMessage(chestNumber) {
             modalText.innerHTML = '';
 
             setTimeout(() => {
-                document.body.classList.add('mobile-close-needed');
+                const okButtonHtml2 = isMobile()
+                    ? `<button id="modalOkBtn2" class="joy-ok">OK</button>`
+                    : `<button id="modalOkBtn2" class="joy-ok-none">OK</button>`;
 
                 modalImage.style.display = 'none';
                 modalText.innerHTML = `
@@ -399,7 +401,7 @@ function showMessage(chestNumber) {
                         <h2 style="font-size: 1.6em;">${info.nome}</h2>
                         <p style="font-size: 0.9em;">${info.desc}</p>
                         <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.1em;">${info.text}</p>
-                        <button id="modalOkBtn2" class="joy-ok">OK</button>
+                        ${okButtonHtml2}
                     </div>
                 `;
 
