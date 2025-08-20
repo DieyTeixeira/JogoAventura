@@ -311,3 +311,11 @@ body {
         display: none;
     }
 }
+
+/* Estilo para padronizar o tamanho da imagem do baú dentro do modal */
+.modal-chest-image {
+    width: 60%;         /* Define a largura da "caixa" */
+    aspect-ratio: 1 / 1; /* Força a "caixa" a ser um quadrado */
+    object-fit: contain; /* Faz a imagem caber dentro da caixa sem distorcer */
+    margin: 0 auto 15px auto; /* Centraliza e dá um espaço abaixo */
+}
