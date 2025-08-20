@@ -278,7 +278,7 @@ body {
 }
 
 /* Mostrar controles somente no mobile */
-@media (max-width: 600px), (hover: none) and (pointer: coarse) {
+@media (max-width: 700px), (hover: none) and (pointer: coarse) {
     .joystick-container {
         display: flex;
     }

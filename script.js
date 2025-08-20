@@ -327,9 +327,8 @@ function showMessage(chestNumber) {
     const closeGenericModal = () => {
         lottieAnimation.stop();
         modal.style.display = 'none';
-        isModalOpen = false; // --- ALTERAÇÃO ---
-        modalCloseAction = null; // --- ALTERAÇÃO ---
-        document.body.classList.remove('mobile-close-needed');
+        isModalOpen = false;
+        modalCloseAction = null;
     };
 
     // Lottie finaliza
@@ -515,12 +514,6 @@ function getMonumentInfo(num) {
             };
     }
 }
-
-/*document.getElementById('closeModal').addEventListener('click', () => {
-    if (isModalOpen && modalCloseAction) {
-        modalCloseAction();
-    }
-});*/
 
 // Movimento do personagem
 document.addEventListener('keydown', e => {
