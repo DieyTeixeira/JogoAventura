@@ -392,7 +392,7 @@ function showMessage(chestNumber) {
                 `;
 
                 // O fechamento agora só dispara o modal final depois que o usuário clicar
-                document.getElementById('modalOkBtn2').onclick = () => {
+                modalCloseAction = () => {
                     closeGenericModal();
 
                     // Marca o baú como aberto
@@ -455,6 +455,10 @@ function showMessage(chestNumber) {
                         modalCloseAction = null;
                     }
                 };
+
+                if (document.getElementById('modalOkBtn2')) {
+                    document.getElementById('modalOkBtn2').onclick = modalCloseAction;
+                }
 
             }, 2000); // tempo para mostrar imagem antes do texto
         }

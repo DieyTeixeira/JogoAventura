@@ -238,7 +238,7 @@ body {
     display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 600px) {
     body.mobile-close-needed #closeModal {
         display: block;
     }
