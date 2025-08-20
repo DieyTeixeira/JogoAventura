@@ -340,8 +340,8 @@ function showMessage(chestNumber) {
 
         if (chestNumber === 2) {
             document.body.classList.add('mobile-close-needed');
-            const okButtonHtml = isMobile() 
-                ? `<button id="modalOkBtn" class="joy-ok" style="margin-top: 20px;">OK</button>` 
+            const okButtonHtml1 = isMobile() 
+                ? `<button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>` 
                 : '';
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
@@ -353,14 +353,12 @@ function showMessage(chestNumber) {
                     <p style="font-size:1.2em; margin-top:10px;">
                         Que pena, este baú está vazio!
                     </p>
-                    <button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">
-                        OK
-                    </button>
+                    ${okButtonHtml1}
                 </div>
             `;
 
             if (isMobile()) {
-                document.getElementById('modalOkBtn').onclick = () => closeGenericModal();
+                document.getElementById('modalOkBtn1').onclick = () => closeGenericModal();
             }
 
             // Marca o baú como aberto
@@ -393,8 +391,8 @@ function showMessage(chestNumber) {
 
             setTimeout(() => {
                 document.body.classList.add('mobile-close-needed');
-                const okButtonHtml = isMobile()
-                    ? `<div style="padding: 15px; border-top: 1px solid #eee;"><button id="modalOkBtn" class="joy-ok">OK</button></div>`
+                const okButtonHtml2 = isMobile()
+                    ? `<button id="modalOkBtn2" class="joy-ok">OK</button>`
                     : '';
 
                 modalImage.style.display = 'none';
@@ -405,12 +403,12 @@ function showMessage(chestNumber) {
                         <h2 style="font-size: 1.6em;">${info.nome}</h2>
                         <p style="font-size: 0.9em;">${info.desc}</p>
                         <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.1em;">${info.text}</p>
-                        <button id="modalOkBtn2" class="joy-ok">OK</button>
+                        ${okButtonHtml2}
                     </div>
                 `;
 
                 // O fechamento agora só dispara o modal final depois que o usuário clicar
-                document.getElementById('modalOkBtn2').onclick = () => {
+                modalCloseAction = () => {
                     closeGenericModal();
 
                     // Marca o baú como aberto
@@ -475,7 +473,7 @@ function showMessage(chestNumber) {
                 };
 
                 if (isMobile()) {
-                    document.getElementById('modalOkBtn').onclick = modalCloseAction;
+                    document.getElementById('modalOkBtn2').onclick = modalCloseAction;
                 }
 
             }, 2000); // tempo para mostrar imagem antes do texto
