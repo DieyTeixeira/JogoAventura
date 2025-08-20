@@ -44,31 +44,6 @@ const originalMap = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
-/**
- * Função que pré-carrega imagens e reporta o progresso.
- * @param {string[]} urls - Array com os caminhos das imagens.
- * @param {(loaded: number, total: number) => void} onProgress - Função chamada a cada imagem carregada.
- * @returns {Promise<HTMLImageElement[]>}
- */
-function preloadImages(urls, onProgress) {
-    let loadedCount = 0;
-    const promises = urls.map(url => {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => {
-                loadedCount++;
-                if (onProgress) {
-                    onProgress(loadedCount, urls.length); // Chama o callback de progresso
-                }
-                resolve(img);
-            };
-            img.onerror = () => reject(new Error(`Falha ao carregar a imagem em ${url}`));
-            img.src = url;
-        });
-    });
-    return Promise.all(promises);
-}
-
 // Variáveis globais que vamos precisar
 let tileSize, offsetX, offsetY;
 let player = { row: 5, col: 8 };
@@ -103,6 +78,31 @@ const monumentImages = ['meu-mapa.png', 'avatar.png', 'avatar-vitoria.png',
                         'bau-aberto-trem.png', 'bau-aberto-flechas.png', 'bau-aberto-casa-artes.png',
                         'bau-trem.png', 'bau-flechas.png', 'bau-casa-artes.png', 'bau-vazio-teias.png',
                         'image-trem.png', 'image-flechas.png', 'image-casa-artes.png'];
+
+/**
+ * Função que pré-carrega imagens e reporta o progresso.
+ * @param {string[]} urls - Array com os caminhos das imagens.
+ * @param {(loaded: number, total: number) => void} onProgress - Função chamada a cada imagem carregada.
+ * @returns {Promise<HTMLImageElement[]>}
+ */
+function preloadImages(urls, onProgress) {
+    let loadedCount = 0;
+    const promises = urls.map(url => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                loadedCount++;
+                if (onProgress) {
+                    onProgress(loadedCount, urls.length); // Chama o callback de progresso
+                }
+                resolve(img);
+            };
+            img.onerror = () => reject(new Error(`Falha ao carregar a imagem em ${url}`));
+            img.src = url;
+        });
+    });
+    return Promise.all(promises);
+}
 
 function randomizeChests() {
     // Pega todas as posições onde tem baú "2"
@@ -330,142 +330,136 @@ function showMessage(chestNumber) {
 
         if (chestNumber === 2) {
             document.body.classList.add('mobile-close-needed');
+            // Baú vazio
+            const infoImg = getMonumentImage(chestNumber);
+            modalText.innerHTML = `
+                <div style="text-align:center;">
+                    <img src="${infoImg.img}" 
+                        style="width:80%; height:auto; display:block; margin:0 auto 10px;" 
+                        alt="Baú vazio">
+                    <p style="font-size:1.2em; margin-top:10px;">
+                        Que pena, este baú está vazio!
+                    </p>
+                    <button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">
+                        OK
+                    </button>
+                </div>
+            `;
 
-            // Baú vazio
-            const infoImg = getMonumentImage(chestNumber);
-            modalText.innerHTML = `
-                <div style="text-align:center;">
-                    <img src="${infoImg.img}"
-                        style="width:80%; height:auto; display:block; margin:0 auto 10px;"
-                        alt="Baú vazio">
-                    <p style="font-size:1.2em; margin-top:10px;">
-                        Que pena, este baú está vazio!
-                    </p>
-                    <button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>
-                </div>
-            `;
+            document.getElementById('modalOkBtn1').onclick = () => closeGenericModal();
 
-            document.getElementById('modalOkBtn1').onclick = () => closeGenericModal();
+            // Marca o baú como aberto
+            interactedChest.classList.replace('closed', 'opened');
+            const newSize = interactedChest.dataset.openedSize;
+            const { row, col } = chestPos;
+            interactedChest.style.width = `${newSize}px`;
+            interactedChest.style.height = `${newSize}px`;
+            interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+(tileSize*0.15)}px`;
+            interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-(tileSize*0.5)}px`;
+                
+            // Atualiza o mapa para não interagir novamente
+            mapData[row][col] = chestNumber + 1;    
 
-            // Marca o baú como aberto
-            interactedChest.classList.replace('closed', 'opened');
-            const newSize = interactedChest.dataset.openedSize;
-            const { row, col } = chestPos;
-            interactedChest.style.width = `${newSize}px`;
-            interactedChest.style.height = `${newSize}px`;
-            interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+(tileSize*0.15)}px`;
-            interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-(tileSize*0.5)}px`;
-               
-            // Atualiza o mapa para não interagir novamente
-            mapData[row][col] = chestNumber + 1;    
+            // Fecha apenas quando o usuário clicar no X
+            modalCloseAction = () => closeGenericModal();
 
-            // Fecha apenas quando o usuário clicar no X
-            modalCloseAction = () => closeGenericModal();
+        } else {
+            // Baú com item
+            const infoImg = getMonumentImage(chestNumber);
+            const info = getMonumentInfo(chestNumber);
 
-        } else {
-            // Baú com item
-            const infoImg = getMonumentImage(chestNumber);
-            const info = getMonumentInfo(chestNumber);
+            // Mostra a imagem primeiro
+            modalImage.src = infoImg.img;
+            modalImage.style.display = 'block';
+            modalImage.style.width = '80%';
+            modalImage.style.height = 'auto';
+            modalImage.style.margin = '0 auto';
+            modalText.innerHTML = '';
 
-            // Mostra a imagem primeiro
-            modalImage.src = infoImg.img;
-            modalImage.style.display = 'block';
-            modalImage.style.width = '80%';
-            modalImage.style.height = 'auto';
-            modalImage.style.margin = '0 auto';
-            modalText.innerHTML = '';
+            setTimeout(() => {
+                document.body.classList.add('mobile-close-needed');
 
-            setTimeout(() => {
-                document.body.classList.add('mobile-close-needed');
-                const okButtonHtml2 = isMobile()
-                    ? `<button id="modalOkBtn2" class="joy-ok">OK</button>`
-                    : '';
+                modalImage.style.display = 'none';
+                modalText.innerHTML = `
+                    <div class="fade-in">
+                        <img src="${info.img}" alt="${info.nome}" 
+                            style="width: 80%; display:block; margin:0 auto 10px;">
+                        <h2 style="font-size: 1.6em;">${info.nome}</h2>
+                        <p style="font-size: 0.9em;">${info.desc}</p>
+                        <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.1em;">${info.text}</p>
+                        <button id="modalOkBtn2" class="joy-ok">OK</button>
+                    </div>
+                `;
 
-                modalImage.style.display = 'none';
-                modalText.innerHTML = `
-                    <div class="fade-in">
-                        <img src="${info.img}" alt="${info.nome}"
-                            style="width: 80%; display:block; margin:0 auto 10px;">
-                        <h2 style="font-size: 1.6em;">${info.nome}</h2>
-                        <p style="font-size: 0.9em;">${info.desc}</p>
-                        <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.1em;">${info.text}</p>
-                        ${okButtonHtml2}
-                    </div>
-                `;
+                // O fechamento agora só dispara o modal final depois que o usuário clicar
+                document.getElementById('modalOkBtn2').onclick = () => {
+                    closeGenericModal();
 
-                // O fechamento agora só dispara o modal final depois que o usuário clicar
-                modalCloseAction = () => {
-                    closeGenericModal();
+                    // Marca o baú como aberto
+                    interactedChest.classList.remove('closed');
+                    let openClass, newSize, deslocX, deslocY;
+                    switch (chestNumber) {
+                        case 4:
+                            openClass = 'openedtrem';
+                            newSize = interactedChest.dataset.openedItemSize;
+                            deslocX = tileSize * 0.15;
+                            deslocY = tileSize * 0.75;
+                            break;
+                        case 6:
+                            openClass = 'openedflechas';
+                            newSize = interactedChest.dataset.openedItemSize;
+                            deslocX = tileSize * 0.15;
+                            deslocY = tileSize * 0.75;
+                            break;
+                        case 8:
+                            openClass = 'openedcasa';
+                            newSize = interactedChest.dataset.openedItemSize;
+                            deslocX = tileSize * 0.15;
+                            deslocY = tileSize * 0.75;
+                            break;
+                    }
 
-                    // Marca o baú como aberto
-                    interactedChest.classList.remove('closed');
-                    let openClass, newSize, deslocX, deslocY;
-                    switch (chestNumber) {
-                        case 4:
-                            openClass = 'openedtrem';
-                            newSize = interactedChest.dataset.openedItemSize;
-                            deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.75;
-                            break;
-                        case 6:
-                            openClass = 'openedflechas';
-                            newSize = interactedChest.dataset.openedItemSize;
-                            deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.75;
-                            break;
-                        case 8:
-                            openClass = 'openedcasa';
-                            newSize = interactedChest.dataset.openedItemSize;
-                            deslocX = tileSize * 0.15;
-                            deslocY = tileSize * 0.75;
-                            break;
-                    }
+                    interactedChest.classList.add(openClass);
+                    const { row, col } = chestPos;
+                    interactedChest.style.width = `${newSize}px`;
+                    interactedChest.style.height = `${newSize}px`;
+                    interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+deslocX}px`;
+                    interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-deslocY}px`;
+                    mapData[row][col] = chestNumber + 1;
 
-                    interactedChest.classList.add(openClass);
-                    const { row, col } = chestPos;
-                    interactedChest.style.width = `${newSize}px`;
-                    interactedChest.style.height = `${newSize}px`;
-                    interactedChest.style.left = `${offsetX+col*tileSize+(tileSize-newSize)/2+deslocX}px`;
-                    interactedChest.style.top = `${offsetY+row*tileSize+(tileSize-newSize)/2-deslocY}px`;
-                    mapData[row][col] = chestNumber + 1;
+                    // Incrementa contador de baús com item
+                    chestsOpenedWithItem++;
 
-                    // Incrementa contador de baús com item
-                    chestsOpenedWithItem++;
+                    // Mostra modal final somente se abriu todos os 3 baús com item
+                    if (chestsOpenedWithItem === 3) {
+                        document.body.classList.remove('mobile-close-needed');
+                        modalText.innerHTML = `
+                            <div style="text-align:center; padding:20px;">
+                                <h2>Parabéns!</h2>    
+                                <img src="avatar-vitoria.png" 
+                                    alt="Imagem de celebração" 
+                                    style="width:120px; height:auto; display:block; margin:0 auto 15px;">
+                                <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.2em;">
+                                    Você encontrou os 3 artefatos escondidos!
+                                </p>
+                                <button id="restartBtn" class="joy-restart">
+                                    Jogar Novamente
+                                </button>
+                            </div>
+                        `;
+                        modal.style.display = 'flex';
+                        isModalOpen = true;
 
-                    // Mostra modal final somente se abriu todos os 3 baús com item
-                    if (chestsOpenedWithItem === 3) {
-                        document.body.classList.remove('mobile-close-needed');
-                        modalText.innerHTML = `
-                            <div style="text-align:center; padding:20px;">
-                                <h2>Parabéns!</h2>    
-                                <img src="avatar-vitoria.png"
-                                    alt="Imagem de celebração"
-                                    style="width:120px; height:auto; display:block; margin:0 auto 15px;">
-                                <p style="margin-top: 1em; margin-bottom: 1em; font-size: 1.2em;">
-                                    Você encontrou os 3 artefatos escondidos!
-                                </p>
-                                <button id="restartBtn" class="joy-restart">
-                                    Jogar Novamente
-                                </button>
-                            </div>
-                        `;
-                        modal.style.display = 'flex';
-                        isModalOpen = true;
+                        document.getElementById('restartBtn').onclick = () => restartGame();
 
-                        document.getElementById('restartBtn').onclick = () => restartGame();
+                        modalCloseAction = null;
+                    }
+                };
 
-                        modalCloseAction = null;
-                    }
-                };
+            }, 2000); // tempo para mostrar imagem antes do texto
+        }
 
-                if (isMobile()) {
-                    document.getElementById('modalOkBtn2').onclick = modalCloseAction;
-                }
-
-            }, 2000); // tempo para mostrar imagem antes do texto
-        }
-
-    }, 2000); // tempo do Lottie
+    }, 2000); // tempo do Lottie
 }
 
 function getMonumentImage(num) {
