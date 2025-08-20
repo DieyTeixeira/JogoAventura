@@ -187,6 +187,7 @@ body {
 }
 
 .joy-ok {
+    display: flex;
     width: 90px;
     height: 35px;
     font-size: 18px;
@@ -215,6 +216,7 @@ body {
 
 /* --- NOVA REGRA (MAIS FORTE) PARA REMOVER O DESTAQUE AZUL --- */
 .joy-btn,
+.action-btn
 .joy-restart,
 .joy-ok {
     -webkit-tap-highlight-color: transparent !important; /* Remove o flash de toque no mobile */
