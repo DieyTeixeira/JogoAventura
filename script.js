@@ -341,7 +341,7 @@ function showMessage(chestNumber) {
         if (chestNumber === 2) {
             const okButtonHtml1 = isMobile()
                 ? `<button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>`
-                : `<button id="modalOkBtn1" class="joy-ok-none" style="margin-top: 20px;">OK</button>`;
+                : '';
 
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
@@ -357,7 +357,11 @@ function showMessage(chestNumber) {
                 </div>
             `;
 
-            document.getElementById('modalOkBtn1').onclick = () => closeGenericModal();
+            modalCloseAction = () => closeGenericModal();
+
+            if (isMobile()) {
+                document.getElementById('modalOkBtn1').onclick = modalCloseAction;
+            }
 
             // Marca o baú como aberto
             interactedChest.classList.replace('closed', 'opened');
