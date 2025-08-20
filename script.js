@@ -544,9 +544,6 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// Adiciona o listener de redimensionamento da janela
-window.addEventListener('resize', buildMap);
-
 // Pega os elementos da tela de carregamento
 const loadingScreen = document.getElementById('loading-screen');
 const progressBar = document.getElementById('progress-bar');
