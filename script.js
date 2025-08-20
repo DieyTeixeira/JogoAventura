@@ -115,27 +115,6 @@ function isMobile() {
     return mediaQuery.matches;
 }
 
-/**
- * (FUNÇÃO ATUALIZADA) Encontra o indicador no HTML e atualiza seu texto.
- */
-function setupMobileIndicator() {
-    // Encontra o elemento que já existe no HTML
-    const indicator = document.getElementById('device-indicator');
-
-    // Medida de segurança: se o elemento não for encontrado, não faz nada.
-    if (!indicator) {
-        console.error('Elemento #device-indicator não foi encontrado no HTML.');
-        return;
-    }
-
-    // Verifica e define o texto
-    if (isMobile()) {
-        indicator.textContent = 'Dispositivo: Mobile';
-    } else {
-        indicator.textContent = 'Dispositivo: Desktop';
-    }
-}
-
 function randomizeChests() {
     // Pega todas as posições onde tem baú "2"
     let chestPositions = [];
@@ -363,6 +342,10 @@ function showMessage(chestNumber) {
             const okButtonHtml1 = isMobile()
                 ? `<button id="modalOkBtn1" class="joy-ok" style="margin-top: 20px;">OK</button>`
                 : '';
+            
+            const textMobile = isMobile()
+                ? `<p style="font-size:1.2em; margin-top:10px;">Mobile</p>`
+                : `<p style="font-size:1.2em; margin-top:10px;">Desktop</p>`;
 
             // Baú vazio
             const infoImg = getMonumentImage(chestNumber);
@@ -374,6 +357,7 @@ function showMessage(chestNumber) {
                     <p style="font-size:1.2em; margin-top:10px;">
                         Que pena, este baú está vazio!
                     </p>
+                    ${textMobile}
                     ${okButtonHtml1}
                 </div>
             `;
@@ -598,7 +582,6 @@ preloadImages(monumentImages, updateProgress)
         // Agora que as imagens estão no cache, inicie o jogo
         randomizeChests();
         buildMap();
-        setupMobileIndicator();
     })
     .catch(error => {
         console.error('Erro ao pré-carregar as imagens:', error);
