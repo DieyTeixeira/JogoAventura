@@ -116,7 +116,7 @@ function isMobile() {
 }
 
 function randomizeChests() {
-    // Pega todas as posições onde tem baú "2"
+    // Pega todas as posições onde tem baú "2" 
     let chestPositions = [];
     for (let r = 0; r < mapData.length; r++) {
         for (let c = 0; c < mapData[r].length; c++) {
